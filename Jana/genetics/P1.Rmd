@@ -1,0 +1,1138 @@
+---
+title: "**Estimation of genetic variation and testing HWE**<img src='https://www.construction21.org/espana/data/sources/users/8/images/logoesci-fons-blanc.png' style='position:absolute;top:0px;right:0px;' width='10%'/>"
+subtitle: Estimation of genetic variation from allozymic and nucleotide data and testing Hardy-Weinberg equilibrium
+author: "Marta Coronado Zamora and Marta Puig (current version 04/2023)<br>First version: Marta Coronado-Zamora and Antonio Barbadilla 03/2020"
+date: "8 April 2024"
+output:
+  html_document:
+    theme: yeti
+    css: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css
+    self_contained: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 6, fig.height = 4, fig.align = "center")
+library(ggplot2)
+```
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div><br>
+
+<div style = "background-color:#86CBBB">
+<i class="fa fa-bullseye"></i>  **Main goals of the session**<br>
+
+1. To understand (1) **how genetic variation is estimated** and (2) **how does random mating configure allele and genotype frequencies**
+
+2. To create **R scripts** from scratch to solve the previous objectives
+</div>
+
+## 1. Practicals organization
+In this practical, we are going to use the [**RStudio**](https://posit.co/products/open-source/rstudio/) integrated development environment (IDE) for R. R is a programming language for statistical computing and graphics.  
+
+<center>
+  <img src="https://d33wubrfki0l68.cloudfront.net/26639e1fec7fa314b8fe521d1e8f97de10ff12a8/66448/images/bandtwo2.png" width=80%>
+</center>
+
+The current document in which we are working is an **RMarkdown** document. RMarkdown documents are fully reproducible and allow you to combine text, images and code --this time, R programming language.  
+
+To **render** a R Markdown document to a HTML file, you just need to click the `Knit` button that you'll see in the RStudio bar. This HTML file can be shared as a report.
+
+You don't need to render the whole document every time you want to see the result of your R code. You can click in the `Run current chunk button` or use the keyboard shortcut `Ctrl`+`Alt`+`C` and the result of the code will appear below it.
+
+<center>
+  <img src="chunk2019_11_6D9_14_8.png" width=60%>
+</center>
+
+You will see different icons through the document, the meaning of which is:
+
+<i class="fas fa-info-circle"></i>: additional or useful information<br>
+<i class="fas fa-search"></i>: a worked example<br>
+<i class="fa fa-cogs"></i>: a practical exercise<br>
+<i class="fas fa-comment-dots"></i>: a space to answer the exercise<br>
+<i class="fa fa-key"></i>: a hint to solve an exercise<br>
+<i class="fa fa-rocket"></i>: a more challenging exercise<br><br>
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# 2. R scripts 
+
+Scripts which are going to be created in this session:
+
+- Estimation of genotype and allele frequencies from a genotyping survey
+
+- Compute the effect of random mating in a Mendelian population (Hardy-Weinberg equilibrium)
+
+- HWE χ2 test on counts from a genotyping survey
+
+- Estimation of allele and genotype frequencies from count of dominant and recessive phenotypes assuming HWE
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# 3. Quick introduction to R functions
+
+The R scripts that we are going to create will consist on **R functions** that will automatize the calculation of population genetics statistics, such as the genotype and allele frequencies, or testing HWE.
+
+An R function is created by using the keyword `function()`. The basic syntax of an R function definition is:
+
+```
+function_name <- function(arg_1,  arg_2, ...) {
+  # Function body code
+}
+```
+The different parts of a function are:
+
+- **Function name**: the name of the function you will use to invoke it
+- **Arguments**: when a function is invoked, you pass values to the argument. It can receive one, adetermined number of arguments, or an undetermined number of arguments
+- **Function body code**: contains the R code that defines what the function does
+- **Return value**: is the output of the function
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Script 1: Estimation of genotype and allele frequencies from a genotyping survey
+
+We have the following genotype information:
+
+| Genotypes             | MM   | MN   | NN   |
+|-----------------------|------|------|------|
+| Number of individuals | 1787 | 3037 | 1305 |
+
+We are going to create an **R script** to **estimate genotype and allele frequencies**. We will create a **function** that takes the information of the three genotypes and outputs the genotype and allele frequencies.
+
+```
+# ESTIMATION OF GENOTYPE AND ALLELE FREQUENCIES FROM A GENOTYPING SURVEY
+
+# One-gene two-alleles: X1 and X2
+# Three genotypes:  X11, X12 and X22
+# Sample size genotype ij -> Nij
+```
+
+### Estimating the allele frequency
+
+Allele frequency can be calculated from the allele count:
+
+$$p = f(A) = \frac{N_A}{2N}$$
+
+$$q = f(a) = \frac{N_a}{2N}$$
+
+Allele frequency can also be calculated from the genotype count:
+
+$$p = f(A) = \frac{N_{AA}+\frac{1}{2}N_{Aa}}{N} = \frac{1787 + \frac{1}{2}3037}{6129} = 0.539 $$
+
+$$q = f(a) = \frac{N_{aa}+\frac{1}{2}N_{Aa}}{N} = \frac{1305 + \frac{1}{2}3037}{6129} = 0.461 $$
+
+### Estimating the genotype frequency
+
+Genotype frequency is estimated from the genotype count:
+
+$$f(AA) = \frac{N_{AA}}{N} = \frac{1787}{6129} = 0.292$$
+
+$$f(Aa) = \frac{N_{Aa}}{N} = \frac{3037}{6129} = 0.496 $$
+
+$$f(aa) = \frac{N_{aa}}{N} = \frac{1305}{6129} = 0.213 $$
+
+Once we have clear the structure of a function, we can write the main body code that will perform the operations to calculate the allele frequencies and the genotype frequencies:
+
+```{r script1}
+# ESTIMATION OF GENOTYPE AND ALLELE FREQUENCIES FROM A GENOTYPING SURVEY
+# One-gene two-alleles: X1 and X2
+# Three genotypes:  X11, X12 and X22
+# Sample size genotype ij -> Nij
+
+# Create the function
+gene_freq <- function(N11, N12, N22) {
+   
+   N = N11 + N12 + N22 # N total sample
+   
+   # Allele frequencies estimation
+   p = (N11 + N12/2)/N # p is the frequency of X1 
+   q = 1 - p # q is the frequency of X2 
+   
+   # Genotype frequencies estimation
+   f11 = N11/N # frequency of X11 genotype 
+   f12 = N12/N # frequency of X12 genotype 
+   f22 = N22/N # frequency of X22 genotype 
+   
+   # Output
+   return (list("N" = N, "N11" = N11, "N12" = N12, "N22" = N22,
+                "p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22))
+}
+```
+
+<i class="fa fa-search"></i> Now, we are going to invoke the function with our genotype data:
+
+```{r script1-invoke}
+
+# Invoke the function
+results = gene_freq(1787, 3037, 1305)
+
+# Print results
+print(paste0("Sample size = ",results$N," -> N11 = ",results$N11,", N12 = ", results$N12," and N22 = ",results$N22))
+print(paste0("p = ", round(results$p,3)," and q = ",round(results$q,3)))
+print(paste0("f11 = ",round(results$f11,3), ", f12 = ",round(results$f12,3)," and f22 = ", round(results$f22,3)))
+```
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Script 2. Random mating in a Mendelian population and Hardy-Weinberg equilibrium (HWE)
+
+Random mating describes an ideal situation in which all individuals of one sex are **equally potential partners** of all members of the opposite sex. Random mating is also referred as **panmixia**. 
+
+Random mating is one of the requirements for the **Hardy–Weinberg law** to hold.
+
+## Demonstration of the Hardy-Weinberg law for one gene with two alleles
+
+The genotypic frequencies in the initial generation are:
+
+$$P = f(AA)$$
+$$Q = f(Aa)$$
+$$R = f(aa)$$
+
+Table with all possible crosses:
+
+| Cross | Cross frequency | AA | Aa | aa |
+|--------------|-----------------|----|----|----|
+| AA$\times$AA | P<sup>2</sup> | 1 | 0 | 0 |
+| AA$\times$Aa | 2PQ | ½ | ½ | 0 |
+| AA$\times$aa | 2PR | 0 | 1 | 0 |
+| Aa$\times$Aa | Q<sup>2</sup> | ¼ | ½ | ¼ |
+| Aa$\times$aa | 2QR | 0 | ½ | ½ |
+| aa$\times$aa | R<sup>2</sup> | 0 | 0 | 1 |
+
+The next generation genotypic frequencies are:
+
+$$P' = f'(AA)$$
+$$Q' = f'(Aa)$$
+$$R' = f'(aa)$$
+
+And can be calculated as:
+
+$$P' = P^2 + \frac{2PQ}{2} + \frac{Q^2}{4} = (P + \frac{Q}{2})^2 = p^2$$
+$$Q' = PQ + 2PR + \frac{Q^2}{2} + QR = 2pq$$
+
+$$R' = R^2 + \frac{2QR}{2} + \frac{Q^2}{4} = (R + \frac{Q}{2})^2 = q^2$$
+
+We are going to create a function that calculate the mating pairs (frequencies probabilities), the genotype probabilities of the progeny and the allele probabilities of progeny from the initial genotype frequencies (f11, f12 and f22).
+
+```{r script2}
+# MENDELIAN POPULATION
+# RANDOM MATING - HWE
+
+# One-gene two-alleles: X1 and X2
+# Three initial genotypes:  X11, X12 and X22
+# Initial genotype frequencies: f11, f12, f22
+
+# Create the function
+random_mating <- function(f11, f12, f22) {
+   
+   p = f11 + f12/2 # allele frequency of X1
+   q = 1 - p # allele frequency of X2
+   
+   # Mating pairs (frequencies) probabilities
+   f11_11 = f11 * f11
+   f11_12 = 2 * f11 * f12
+   f11_22 = 2 * f11 * f22
+   f12_12 = f12 * f12
+   f12_22 = 2 * f12 * f22
+   f22_22 = f22 * f22
+   # Genotype probabilities of progeny (offspring) f11_, f12_, f22_
+   f11_ = f11_11 + f11_12/2 + f12_12/4
+   f12_ = f11_12/2 + f11_22 + f12_12/2 + f12_22/2
+   f22_ = f12_12/4 + f12_22/2 + f22_22
+   # Allele probability of progeny p_ and q_
+   p_ = f11_ + f12_/2
+   q_ = 1 - p_
+   # Output
+   return (list("p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "p_" = p_, "q_" = q_,
+                "f11_" = f11_, "f12_" = f12_, "f22_" = f22_))
+}
+```
+
+<i class="fa fa-search"></i> Now, we are going to invoke the function with the initial genotypes frequencies P = 0.5, Q = 0, R = 0.5:
+
+```{r script2-invoke}
+# Invoke the function
+result <- random_mating(0.5, 0, 0.5)
+
+# Print results
+print(paste0("Allele prob. initial generation (p and q) ",result$p, result$q))
+print(paste("Genotype prob. initial generation (f11, f12, f22) ",result$f11, result$f12,result$f22))
+print(paste("Allele prob. next generation (p' and q') ",result$p_, result$q_))
+print(paste("Genotype prob. next generation (f'11, f'12, f'22) ",result$f11_, result$f12_,result$f22_))
+print(paste("Genotype prob. next generation according HWE ", result$p_ * result$p_, 2*result$p_ * result$q_,result$q_ * result$q_))
+```
+
+<div  style = "background-color:#FFDAA120">
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 1 | Genotypic frequencies of two populations </h3>
+</div>
+
+Two populations start with the following genotypic frequencies:
+
+- **Population 1**: P1 = f(AA) = 0.24, Q1 = f(Aa) = 0.32, R1 = f(aa) = 0.44
+- **Population 2**: P2 = f(AA) = 0.33, Q2 = f(Aa) = 0.14, R2 = f(aa) = 0.53
+
+Use the previous script (`random_mating`) to calculate the genotypic frequencies of the next generation (P’1, Q’1, R’1 and P’2, Q’2, R’2) if random mating exist.
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-exercise-1}
+#POPULATION 1
+# Invoke the function
+result_1 <- random_mating(0.24, 0.32, 0.44)
+
+# Print results
+print(paste("Genotype prob. next generation (f'11, f'12, f'22), for population 1, are: ",result_1$f11_, result_1$f12_,result_1$f22_))
+
+
+#POPULATION 2
+# Invoke the function
+result_2 <- random_mating(0.33,0.14,0.53)
+
+# Print results
+print(paste("Genotype prob. next generation (f'11, f'12, f'22), for population 2, are: ",result_2$f11_, result_2$f12_,result_2$f22_))
+
+
+```
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 2 | Impact of assortative mating on genotype and allele frequencies </h3>
+</div>
+
+Modify the previous script to compute the impact of assortative mating on the genotype and allele frequencies. Consider the following scenarios:
+
+- **Complete assortative positive mating among genotypes** (a given genotype only mates with its same genotype)
+- **Complete assortative positive mating among phenotypes** (a given genotype only mates with its same phenotype)
+- **Complete assortative negative mating among genotypes** (a given genotype never mates with its same genotype and mate at random with other genotypes)
+- **Complete assortative negative mating among phenotypes** (a given phenotype never mates with its same phenotype)
+
+<i class="fa fa-key"></i> **Hint:** Consider that individuals AA and Aa have the same phenotype, while individuals aa have a different one (A is dominant over a).
+
+
+<i class="fa fa-key"></i> **Hint:** To take into account assortative mating, change the mating pairs probabilities. Here you have solved the first scenario as an example:
+
+```
+# Mating pairs (frequencies) probabilities
+ProbAllMatings= f11*f11 + f12*f12 + f22*f22
+f11_11 = f11*f11/ProbAllMatings
+f11_12 = 0
+f11_22 = 0
+f12_12 = f12*f12/ProbAllMatings
+f12_22 = 0
+f22_22 = f22*f22/ProbAllMatings
+```
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-exercise-2}
+# Complete assortative positive mating among phenotypes (a given genotype only mates with its same phenotype)
+random_mating_1 <- function(f11, f12, f22) {
+   
+   p = f11 + f12/2 # allele frequency of X1
+   q = 1 - p # allele frequency of X2
+   
+   # Mating pairs (frequencies) probabilities
+   ProbAllMatings= f11*f11 + (2 * f11 * f12) + f12*f12 + f22*f22
+   f11_11 = f11 * f11/ProbAllMatings
+   f11_12 = 2 * f11 * f12/ProbAllMatings
+   f11_22 = 0
+   f12_12 = f12 * f12/ProbAllMatings
+   f12_22 = 0
+   f22_22 = f22 * f22/ProbAllMatings
+   # Genotype probabilities of progeny (offspring) f11_, f12_, f22_
+   f11_ = f11_11 + f11_12/2 + f12_12/4
+   f12_ = f11_12/2 + f11_22 + f12_12/2 + f12_22/2
+   f22_ = f12_12/4 + f12_22/2 + f22_22
+   # Allele probability of progeny p_ and q_
+   p_ = f11_ + f12_/2
+   q_ = 1 - p_
+   # Output
+   return (list("p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "p_" = p_, "q_" = q_,
+                "f11_" = f11_, "f12_" = f12_, "f22_" = f22_))
+}
+
+# Complete assortative negative mating among genotypes (a given genotype never mates with its same genotype and mate at random with other genotypes)
+random_mating_2 <- function(f11, f12, f22) {
+   
+   p = f11 + f12/2 # allele frequency of X1
+   q = 1 - p # allele frequency of X2
+   
+   # Mating pairs (frequencies) probabilities
+   ProbAllMatings= (2 * f11 * f12) + (2 * f11 * f22) + (2 * f12 * f22)
+   f11_11 = 0
+   f11_12 = 2 * f11 * f12/ProbAllMatings
+   f11_22 = 2 * f11 * f22/ProbAllMatings
+   f12_12 = 0
+   f12_22 = 2 * f12 * f22/ProbAllMatings
+   f22_22 = 0
+   # Genotype probabilities of progeny (offspring) f11_, f12_, f22_
+   f11_ = f11_11 + f11_12/2 + f12_12/4
+   f12_ = f11_12/2 + f11_22 + f12_12/2 + f12_22/2
+   f22_ = f12_12/4 + f12_22/2 + f22_22
+   # Allele probability of progeny p_ and q_
+   p_ = f11_ + f12_/2
+   q_ = 1 - p_
+   # Output
+   return (list("p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "p_" = p_, "q_" = q_,
+                "f11_" = f11_, "f12_" = f12_, "f22_" = f22_))
+}
+
+# Complete assortative negative mating among phenotypes (a given phenotype never mates with its same phenotype)
+random_mating_3 <- function(f11, f12, f22) {
+   
+   p = f11 + f12/2 # allele frequency of X1
+   q = 1 - p # allele frequency of X2
+   
+   # Mating pairs (frequencies) probabilities
+   ProbAllMatings = (2 * f11 * f22) + (2 * f12 * f22)
+   f11_11 = 0
+   f11_12 = 0
+   f11_22 = 2 * f11 * f22/ProbAllMatings
+   f12_12 = 0
+   f12_22 = 2 * f12 * f22/ProbAllMatings
+   f22_22 = 0
+   # Genotype probabilities of progeny (offspring) f11_, f12_, f22_
+   f11_ = f11_11 + f11_12/2 + f12_12/4
+   f12_ = f11_12/2 + f11_22 + f12_12/2 + f12_22/2
+   f22_ = f12_12/4 + f12_22/2 + f22_22
+   # Allele probability of progeny p_ and q_
+   p_ = f11_ + f12_/2
+   q_ = 1 - p_
+   # Output
+   return (list("p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "p_" = p_, "q_" = q_,
+                "f11_" = f11_, "f12_" = f12_, "f22_" = f22_))
+}
+
+result_1<- random_mating_1(0.24, 0.32, 0.44)
+result_2<- random_mating_2(0.24, 0.32, 0.44)
+result_3<- random_mating_3(0.24, 0.32, 0.44)
+
+# We output the genotypic frequencies of the progeny for the 1st scenario
+print(paste("In the 1st escenario, the genotypic frequencies of the next generation, are: f11 =", result_1$f11_, "f12 =", result_1$f12_, "f22 =", result_1$f22_))
+# We output the genotypic frequencies of the progeny for the 2nd scenario
+print(paste("In the 2nd escenario, the genotypic frequencies of the next generation, are: f11 =", result_2$f11_, "f12 =", result_2$f12_, "f22 =", result_2$f22_))
+# We output the genotypic frequencies of the progeny for the 3rd scenario
+print(paste("In the 3rd escenario, the genotypic frequencies of the next generation, are: f11 =", result_3$f11_, "f12 =", result_3$f12_, "f22 =", result_3$f22_))
+```
+
+
+</div>
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Script 3: HWE χ2 test on counts from a genotyping survey
+
+Deviations from Hardy-Weinberg equilibrium for a genetic variant can be calculated using the χ2 test, using the **observed genotype frequencies** obtained from the empirical data and the **expected genotype frequencies obtained using the Hardy-Weinberg proportions (HWP)**. The null hypothesis is that the population is in HWP, and the alternative hypothesis is that the population is not in HWP.
+
+| Genotype | MM | MN | NN | Total |
+|-----------------------|------|------|------|-------|
+| Number of individuals | 1787 | 3037 | 1305 | 6129 |
+| Number of alleles M | 3574 | 3037 | 0 | 6611 |
+| Number of alleles N | 0 | 3037 | 2610 | 5647 |
+| Number of alleles M+N | 3574 | 6074 | 2610 | 12258 |
+
+First, we calculate the allele frequency of both alleles:
+
+$$p = \frac{N_M}{2N} =  \frac{6611}{12258} = 0.539$$
+$$p = \frac{N_N}{2N} =  \frac{5647}{12258} = 0.461$$
+
+Then the HWE expected frequency is estimated as:
+
+$$E(AA) = p^2 \times N = 0.539^2 \times 6129 = 1782.7$$
+
+$$E(Aa) = 2pq \times N = 2 \times 0.539 \times 0.461 \times 6129 = 33045.6$$
+$$E(aa) = q^2 \times N = 0.461^2 \times 6129 = 1300.7$$
+
+The χ2 test formula is:
+
+$$ \chi^2 = \sum{\frac{(Expected \;  number - Observed \; number)^2}{Expected \; number}} = $$
+$$ \frac{(1782.7 – 1787)^2}{1782.7} + \frac{(33045.6 – 3037)^2}{33045} + \frac{(1300.7 – 1305)^2}{1300} = 0.048$$
+
+We have to compare this value with the χ2 distribution to see if its significant. The probability of exceeding the critical χ2 with a 0.05 significance and 1 degree of freedom is χ2<sub>0.05;1</sub>= 3.841. Because the calculated χ2 value is lower than the critical value, the observed genotypes are in HWE. 
+
+### Performing a χ2 in R
+
+n R, the critical value can be obtained with the following function:
+
+```{r qchisq}
+qchisq(0.95, df = 1)
+```
+
+The probability of your value (`Chi_value` = 0.048) can be obtained with:
+
+
+```{r prob}
+pchisq(0.048, df = 1, lower = F)
+```
+
+```{r script3}
+# HWE CHI-SQUARE TEST ON COUNTS FROM A GENOTYPING SURVEY 
+
+# One-gene two-alleles: X1 and X2
+# Three initial genotypes:  X11, X12 and X22
+# Sample size genotype ij -> Nij 
+
+# Create the function
+HWE_test <- function(N11, N12, N22) {
+
+   N = N11 + N12 + N22 # N total sample
+   
+   # Allele frequencies estimation
+   p = (N11 + N12/2)/N # p is the frequency of X1 
+   q = 1 - p # q is the frequency of X2 
+   
+   #Genotype frequencies
+   f11 = N11/N # frequency of X11 genotype
+   f12 = N12/N # frequency of X12 genotype
+   f22 = N22/N # frequency of X22 genotype
+
+   # Expected HWE
+   E11 = N*p^2 
+   E12 = N*2*p*q
+   E22 = N-E11-E12
+   
+   # Chi-square value and probability
+   Chi_value = (N11-E11)^2/E11 + (N12-E12)^2/E12 + (N22-E22)^2/E22
+   prob = pchisq(Chi_value, df = 1, lower = F)
+
+   # Output
+   return (list("N" = N, "N11" = N11, "N12" = N12, "N22" = N22,
+                "p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "Chi_value" = Chi_value, "prob" = prob))
+}
+```
+
+<i class="fa fa-search"></i> Now, we are going to invoke the function with our genotype data:
+
+```{r script3-invoke}
+# Invoke the function
+results <- HWE_test(1787,3037,1305)
+
+# Print results
+print(paste("Sample size = ", results$N," -> N11 = ", results$N11,", N12 = ", results$N12,",N22 = ", results$N22))
+print(paste("p = ",round(results$p,digits=3)," and q = ", round(results$q,digits=3) ))
+print(paste("f11 = ",round(results$f11,digits=3),", f12 = ",round(results$f12,digits=3)," and f22 = ", round(results$f22,digits=3)))
+print(paste("Chi-square value = ",round(results$Chi_value,3),"; Prob. = ",  round(results$prob,3)))
+```
+
+<div  style = "background-color:#FFDAA120">
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 3 | Analysis of a Navajo population </h3>
+</div>
+
+361 Navajo individuals were analyzed in New Mexico for the MN locus: 305 MM types, 52 MN and 4 NN. Use the previous script to answer the next questions:
+
+- Test for the deviation from HWE and its significance.
+- What proportion of children of women of phenotype N are expected to present the maternal phenotype?
+- What proportion of children of heterozygous MN women are expected to have the maternal phenotype?
+
+**Note**: M and N are codominant.
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-exercise-3}
+#Test:
+HWE_test_1 <- function(N11, N12, N22) {
+   N = N11 + N12 + N22 # N total sample
+   
+   # Allele frequencies estimation
+   p = (N11 + N12/2)/N # p is the frequency of X1 
+   q = 1 - p # q is the frequency of X2 
+   
+   #Genotype frequencies
+   f11 = N11/N # frequency of X11 genotype
+   f12 = N12/N # frequency of X12 genotype
+   f22 = N22/N # frequency of X22 genotype
+   
+   # Expected HWE
+   E11 = N*p^2 
+   E12 = N*2*p*q
+   E22 = N-E11-E12
+   
+   # Chi-square value and probability
+   Chi_value = (N11-E11)^2/E11 + (N12-E12)^2/E12 + (N22-E22)^2/E22
+   prob = pchisq(Chi_value, df = 1, lower = F)
+
+   # Output
+   return (list("N" = N, "N11" = N11, "N12" = N12, "N22" = N22,
+                "p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "Chi_value" = Chi_value, "prob" = prob))
+}
+
+result_test <- HWE_test_1(305, 52, 4)
+print(paste("Deviation =", result_test$Chi_value, "Significance =", result_test$prob))
+
+#Proportion of children of women of phenotype N expected to present the maternal phenotype
+random_mating_Women_N <- function(f11, f12, f22) {
+   
+   # Mating pairs (frequencies) probabilities
+   ProbAllMatings = (f11 * f22) + (f12 * f22) + (f22 * f22)
+   f11_22 = f11 * f22 / ProbAllMatings
+   f12_22 = f12 * f22 / ProbAllMatings
+   f22_22 = f22 * f22 / ProbAllMatings
+
+   # Genotype probabilities of progeny (offspring) f22_
+   f22_ = f12_22/2 + f22_22
+
+   # Output
+   return (list("f22_" = f22_))
+}
+
+result_Women_N <- random_mating_Women_N(result_test$f11, result_test$f12, result_test$f22)
+print(paste("Expected proportion of children of women of phenotype N that present the maternal phenotype  =", result_Women_N$f22_))
+
+#Proportion of children of heterozygous MN women expected to have maternal phenotype.
+random_mating_Women_MN <- function(f11, f12, f22) {
+
+   # Mating pairs (frequencies) probabilities
+   ProbAllMatings = (f11 * f12) + (f12 * f12) + (f12 * f22)
+   f11_12 = f11 * f12 / ProbAllMatings
+   f12_12 = f12 * f12 / ProbAllMatings
+   f22_12 = f12 * f22 / ProbAllMatings
+   
+   # Genotype probabilities of progeny (offspring) f12_
+   f12_ = f11_12/2 + f12_12/2 + f22_12/2
+   
+   # Output
+   return (list("f12_" = f12_))
+}
+
+result_Women_MN <- random_mating_Women_MN(result_test$f11, result_test$f12, result_test$f22)
+print(paste("Expected proportion of children of women of phenotype MN that present the maternal phenotype  =", result_Women_MN$f12_))
+
+```
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 4 |Analysis of three alleles </h3>
+</div>
+
+Three alleles A, B, anc C of the red cell acid phosphatase locus were found in a simple of 178 English individuals. The number of individuals found with six possible genotypes are given below.
+
+| Genotype | AA | AB | AC | BB | BC | CC |
+|----------|----|----|----|----|----|----|
+| Number | 17 | 86 | 5 | 61 | 9 | 0 |
+
+Modify the previous script to do the following:
+
+- Estimate the frequencies of alleles A, B, and C
+- Use a χ2 test to examine whether these data are consistent with HWE
+
+<i class="fa fa-key"></i> **Hint:**  Modify the code to take into account three alleles (and six genotypes) instead of two alleles (and three genotypes)
+
+```
+# One-gene  3-alleles: X1, X2, X3
+# Genotypes:  X11, X12, X13, X22, X23, X33
+# Sample size genotype ij -> Nij
+# The input data are the counts of each genotype ordered
+```
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-exercise-4}
+# Observed genotype counts
+#AA <- 17
+#AB <- 86
+#AC <- 5
+#BB <- 61
+#BC <- 9
+#CC <- 0
+#total <- 178
+
+# Create the function
+HWE_test_ABC <- function(AA, AB, AC, BB, BC, CC) { #in this case we have six genotypes and three alleles
+
+   total <- AA + AB + AC + BB + BC + CC # total sample
+   
+   # Allele frequencies estimation
+   p = (AA + AB/2 + AC/2) / total  #frequency of allele A
+   q = (BB + AB/2 + BC/2) / total  # frequency of allele B
+   r = 1 - p - q  # frequency of allele C
+   
+   # Expected genotype frequencies under HWE
+   E_AA <- p^2 * total
+   E_AB <- 2 * p * q * total
+   E_AC <- 2 * p * r * total
+   E_BB <- q^2 * total
+   E_BC <- 2 * q * r * total
+   E_CC <- r^2 * total
+   SUM = (E_AA + E_AB + E_AC + E_BB + E_BC + E_CC) /total
+   
+   # Chi-square value and probability
+   Chi_value = (AA-E_AA)^2/E_AA + (AB-E_AB)^2/E_AB + (AC-E_AC)^2/E_AC + (BB-E_BB)^2/E_BB + (BC-E_BC)^2/E_BC + (CC-E_CC)^2/E_CC 
+   
+   prob = pchisq(Chi_value, df = 4, lower = F)
+
+   # Output
+   return (list("total" = total, "p" = p, "q" = q, "SUM" = SUM,
+                "Chi_value" = Chi_value, "prob" = prob))
+}
+
+# Invoke the function
+results4 <- HWE_test_ABC(17,86,5,61,9,0)
+
+# Print results
+print(paste("Frequency of allele A =", results4$p, ", frequency of allele B =", results4$q, ", frequency of allele C =", results4$r))
+print(paste("Deviation =", results4$Chi_value, " and significance =", results4$prob))
+print("The data is not consistent with the HWE")
+
+```
+
+</div>
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Script 4. Estimation of allele and genotype frequencies from counts of dominant and recessive phenotypes assuming HWE
+
+Consider an allele A which is totally dominate over a. That means that the dominant phenotype will show  if either the homozygous AA or heterozygous Aa genotypes occur. This type of inheritance occurs with the Rh human blood types, for example. There are two alleles: D and d. Individuals who are homozygous dominant (DD) or heterozygous (Dd) are Rh<sub>+</sub>, and therefore, have Rh antigens). Those who are homozygous recessive (dd) are   Rh<sub>-</sub> (they don't have Rh antigens).
+
+To calculate genotype frequencies from counts of dominant (or recessive) phenotypes, we have to consider the following. The recessive phenotype is controlled by the homozygous aa genotype, while the frequency of the dominant phenotype equals the sum of the frequencies of AA and Aa. Therefore, the recessive phenotype is simply the frequency of aa:
+
+| Phenotype | Genotype | Number of individuals |
+|----------------|----------|-----------------------|
+| Rh<sup>+</sup> | AA or Aa | 170 |
+| Rh<sup>-</sup> | aa | 30 |
+
+From the phenotypic frequencies we know that:
+
+$$f(AA) + f(Aa) = \frac{N{A\_}}{N} = \frac{170}{200} = 0.8 $$
+
+$$ f(aa) = \frac{N{aa}}{N} = \frac{30}{200} = 0.15 $$
+
+We use the frequency of the recessive genotype to estimate q:
+
+$$ q = \sqrt{f(aa)} = \sqrt{0.15} = 0.387 $$
+$$ p = 1 - q = 0.613 $$
+
+Then, the genotype frequencies can be estimated according to the HWE:
+
+$$ f(AA) = p^2 = 0.613^2 = 0.375 $$
+$$ f(Aa) = 2pq = 2 \times 0.613 \times 0.387 = 0.475 $$
+
+$$ f(aa) = q^2 = 0.387^2 = 0.15 $$
+
+Some examples of Mendelian recessive phenotypes in humans:
+
+- Red hair
+- Albinism
+- Blood groups
+- Tongue rolling
+- Dimples of the cheek 
+- Ear lobes
+- Freckles in the face
+
+```{r script4}
+# ESTIMATION OF ALLELE AND GENOTYPE FREQUENCIES FROM COUNTS OF DOMINANT AND
+# RECESSIVE PHENOTYPES ASSUMING HWE
+# One-gene two-alleles with dominance: X1 > X2
+# Three genotypes:  X11, X12 and X22
+# Two phenotypes: N1_ and N22
+# Sample size genotype ij -> Nij
+
+# Create the function
+freq_dominance <- function(NA_, Naa) {
+    
+    N = NA_ + Naa # N total sample
+    
+    # Phenotypic frequencies
+    faa = Naa/N # Frequency genotype aa
+    
+    # Allele frequency
+    q = sqrt(faa)
+    p = 1 - q;
+    
+    # Genotype frequencies according HWE
+    f11 = p^2 
+    f12 = 2*p*q
+    f22 = q^2
+    
+    # Output
+   return (list("N" = N, "NA_" = NA_, "Naa" = Naa, 
+                "p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22))
+}
+```
+
+<i class="fa fa-search"></i> Now, we are going to invoke the function with our genotype data:
+
+```{r script4-invoke}
+
+# Invoke the function
+results <- freq_dominance(170, 30)
+
+# Print results
+print(paste("Sample size = ", results$N," -> NA_ = ",results$NA_,",Naa = ", results$Naa))
+print(paste("p = ",round(results$p,digits=3)," and q = ", round(results$q,digits=3) ))
+print(paste("fAA = ",round(results$f11,digits=3),", fAa = ",
+round(results$f12,digits=3)," and faa = ", round(results$f22,digits=3) ))
+
+```
+
+<div  style = "background-color:#FFDAA120">
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 5 | Solve with the previous script </h3>
+</div>
+
+What is the frequency of heterozygotes Aa in a population with random mating in which the frequency of the dominant phenotype is 0.19?
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-exercise-5}
+# What is the frequency of heterozygotes Aa in a population with random mating in which the frequency of the dominant phenotype is 0.19?
+# Create the function
+freq_heterozygotes <- function(NA_, Naa) {
+    
+    # Allele frequency
+    q = sqrt(Naa)
+    p = 1 - q;
+    
+    # Genotype frequencies according HWE, heterozygotes
+    f12 = 2*p*q
+    
+    # Output
+   return (f12)
+}
+NA_ = 0.19
+Naa = 1 - NA_
+result_ex5 <- freq_heterozygotes(NA_, Naa)
+print(paste("The frequency of heterozygotes is", result_ex5))
+```
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 6 | Solve with the previous script </h3>
+</div>
+
+What is the frequency of heterozygotes Aa in a population with random mating if the frequency of the recessive phenotype aa is 0.09?
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-exercise-6}
+#What is the frequency of heterozygotes Aa in a population with random mating if the frequency of the recessive phenotype aa is 0.09?
+# Create the function
+freq_heterozygotes <- function(NA_, Naa) {
+    
+    # Allele frequency
+    q = sqrt(Naa)
+    p = 1 - q;
+    
+    # Genotype frequencies according HWE, heterozygotes
+    f12 = 2*p*q
+    
+    # Output
+   return (f12)
+}
+NA_ = 1 - Naa
+Naa = 0.09
+result_ex6 <- freq_heterozygotes(NA_, Naa)
+print(paste("The frequency of heterozygotes is", result_ex6))
+```
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 7 | Frequency of cystic fibrosis </h3> </div>
+
+1 in 1700 US Caucasian newborns have cystic fibrosis. C is the normal allele, dominant over the recessive c. Individuals must be homozygous for the recessive allele to have the disease. Calculate the following, using the previous script:
+
+- The percent of the above population have cystic fibrosis.
+- The frequency of the recessive allele in the population.
+- The frequency of the dominant allele in the population.
+- The percentage of heterozygous individuals (carriers) in the population
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-exercise-7}
+result_ex7 <- freq_dominance(1699, 1)
+print(paste("The percent of cystic fibrosis is", (result_ex7$f22)*100, "%.", "The frequency of the recessive allele is", result_ex7$q, ".", "The frequency of the dominant allele is", result_ex7$p, ".", "The percentage of carriers is", (result_ex7$f12)*100, "%."))
+```
+ 
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 8 | Albino frequency </h3> </div>
+  
+In the human population, one in every 10,000 babies is albino. Using the previous script, calculate the approximate frequency of the allele produced by albinism, knowing that it is autosomal and recessive. What proportion of non-albino individuals are carriers? 
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-exercise-8}
+#What proportion of non-albino individuals are carriers?
+results_ex8 <- freq_dominance(9999, 1)
+print(paste("The frequency of the allele a is", results_ex8$q, "and the proportion carriers out of non-albino individuals is", ((results_ex8$f12)*10000)/9999))
+```
+  
+</div>
+
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Final problems
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Problem 1 | Impact of deviation of Mendelian segregation 1:1 on HWE </h3>
+</div>
+
+The HWE is a characteristic of a **random mating population**, if no external evolutionary forces are acting on it (for example, natural selection, migration or mutation). We are going to study what happens when the Mendelian law of equal segregation is not met.
+
+Consider that the heterozygote "Aa" segregates in proportion 2(A):1(a), instead of an equal proportion (1)A:(1)a. 
+
+- Fill the table with the new frequency of zygotes according to the new segregation proportions.
+
+| Cross   | Cross frequency | AA | Aa | aa |
+|---------|-----------------|----|----|----|
+| AA × AA | P²              | 1  |  0 | 0  |
+| AA × Aa | 2PQ             |2/3 |1/3 | 0  |
+| AA × aa | 2PR             | 0  | 1  | 0  |
+| Aa × Aa | Q²              |4/9 |4/9 |1/9 |
+| Aa × aa | 2QR             | 0  |2/3 |1/3 |
+| aa × aa | R²              | 0  | 0  | 1  |
+
+- What are the new next-generation genotypic frequencies? (use the formulas of **Demonstration of the Hardy-Weinberg law for one gene with two alleles** of P1, but with the new proportions)
+
+$$ P' = P² + 4PQ/3 + 4Q²/9  $$
+$$ Q' = 2PQ/3 + 2PR + 4Q²/9 + 4QR/3 $$
+$$ R' = Q²/9 + 2QR/3 + R²  $$
+
+Modify the `random_mating()` function with these new probabilities and answer these questions:
+
+- What allele and genotype frequencies are expected after one generation of random  mating? Modify the `random_mating()` function with the new crossing probabilities and the next-generation genotypic frequencies that you calculated. Use the following initial frequencies: `f11=0.5`, `f12=0`, `f22=0.5`.
+
+```{r}
+random_mating <- function(f11, f12, f22) {
+   
+   p = f11 + f12/2 # allele frequency of X1
+   q = 1 - p # allele frequency of X2
+   
+   # Mating pairs (frequencies) probabilities
+   f11_11 = f11 * f11
+   f11_12 = 2 * f11 * f12
+   f11_22 = 2 * f11 * f22
+   f12_12 = f12 * f12
+   f12_22 = 2 * f12 * f22
+   f22_22 = f22 * f22
+   # Genotype probabilities of progeny (offspring) f11_, f12_, f22_
+   f11_ = f11_11 + 2*f11_12/3 + 4*f12_12/9
+   f12_ = f11_12/3 + f11_22 + 4*f12_12/9 + 2*f12_22/3
+   f22_ = f12_12/9 + f12_22/3 + f22_22
+   # Allele probability of progeny p_ and q_
+   p_ = f11_ + f12_/2
+   q_ = 1 - p_
+   # Output
+   return (list("p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "p_" = p_, "q_" = q_,
+                "f11_" = f11_, "f12_" = f12_, "f22_" = f22_))
+}
+
+result_final1 <- random_mating(0.5, 0, 0.5)
+print(paste("Allele frequencies:", result_final1$p_, result_final1$q_, "Genotype frequencies:", result_final1$f11_, result_final1$f12_, result_final1$f22_))
+
+```
+
+- What allele and genotype frequencies are expected over 25 generations? For example, create a for loop where the output frequencies are the input frequencies of the next run:
+
+```{r}
+f11 <- 0.5
+f12 <- 0
+f22 <- 0.5
+for (i in 1:25) {
+result_9 <- random_mating(f11, f12, f22)
+f11 <- result_9$f11_
+f12 <- result_9$f12_
+f22 <- result_9$f22_
+}
+print("Expected allele and generotype frequencies over 25 generations:")
+print(paste("f11:", f11, "f12:", f12, "f22:", f22))
+print(paste("p_:", result_9$p_, "q_:", result_9$q_))
+
+```
+
+
+To better understand whats happening with the allele frequencies, we are going to plot how the allele frequency of A changes over generations. To do that, we are going to create an empty vector and we will store the values of `p` to generate the plot.
+
+```
+p <- vector()
+
+for (i in 1:25) {
+  # call the function
+  result <- random_mating ...
+  p[i] <- result$p
+}
+
+```
+```{r}
+#Generate a plot
+p <- vector()
+generations <- 1:25
+f11 <- 0.5
+f12 <- 0
+f22 <- 0.5
+
+for (i in 1:25) {
+  result_10 <- random_mating(f11, f12, f22)
+  f11 <- result_10$f11_
+  f12 <- result_10$f12_
+  f22 <- result_10$f22_
+  
+  p[i] <- result_10$p
+}
+
+plot(generations, p)
+```
+
+
+- Perform the same  but using the original `random_mating()` function, that assumes that alleles equally segregate, using the same initial frequencies: `f11=0.5`, `f12=0`, `f22=0.5`. What pattern do you observe? Is it the same as before?
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-problem-1}
+random_mating <- function(f11, f12, f22) {
+   
+   p = f11 + f12/2 # allele frequency of X1
+   q = 1 - p # allele frequency of X2
+   
+   # Mating pairs (frequencies) probabilities
+   f11_11 = f11 * f11
+   f11_12 = 2 * f11 * f12
+   f11_22 = 2 * f11 * f22
+   f12_12 = f12 * f12
+   f12_22 = 2 * f12 * f22
+   f22_22 = f22 * f22
+   # Genotype probabilities of progeny (offspring) f11_, f12_, f22_
+   f11_ = f11_11 + f11_12/2 + f12_12/4
+   f12_ = f11_12/2 + f11_22 + f12_12/2 + f12_22/2
+   f22_ = f12_12/4 + f12_22/2 + f22_22
+   # Allele probability of progeny p_ and q_
+   p_ = f11_ + f12_/2
+   q_ = 1 - p_
+   # Output
+   return (list("p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "p_" = p_, "q_" = q_,
+                "f11_" = f11_, "f12_" = f12_, "f22_" = f22_))
+}
+
+p <- vector()
+generations <- 1:25
+f11 <- 0.5
+f12 <- 0
+f22 <- 0.5
+
+for (i in 1:25) {
+  result <- random_mating(f11, f12, f22)
+  f11 <- result$f11_
+  f12 <- result$f12_
+  f22 <- result$f22_
+  
+  p[i] <- result$p
+}
+
+plot(generations, p)
+#We can observe that the result is very different to the previously one, this is because we are in hwe, and the frequencies are equal than the previously analysis.
+
+```
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Problem 2 | Random mating and HWE for a X-linked gene </h3>
+</div>
+
+Modify the function `random_mating()` to compute the genotype and allele frequencies for the case of a X-linked gene.
+
+<i class="fa fa-key"></i> **Hint:** To consider an X-linked loci, you have to take into account that males are hemizygous for the locus, so simply count males as having only one allele for each frequency calculation.
+
+```  
+P = f(AA)       R = f(A)
+H = f(Aa)       S = f(a)
+Q = f(aa)
+```
+
+- Study the evolutionary dynamics:  suppose that we have the extreme initial case `pm(0) = 1` and `pf(0) = 0`. Plot how `pm` and `pf` changes over 25 generations. What pattern do you observe?
+
+
+- What equilibrium is eventually reached?
+
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r answer-problem-2}
+random_mating <- function(f11, f12, f22, f1, f2) {
+   
+   p = f11 + f12/2 + f1/2# allele frequency of X1
+   q = 1 - p # allele frequency of X2
+   
+   # Mating pairs (frequencies) probabilities
+   all_prob = (f1 * f11) + (2 * f1 * f12) + (f1 * f22) + (2* f2 * f12) + (f2 * f22) + (f2 * f11)
+   f1_11 = f1 * f11 / all_prob
+   f1_12 = 2 * f1 * f12 / all_prob
+   f1_22 = f1 * f22 / all_prob
+   f2_12 = 2* f2 * f12 / all_prob
+   f2_22 = f2 * f22 / all_prob
+   f2_11 = f2 * f11 / all_prob
+   # Genotype probabilities of progeny (offspring) f11_, f12_, f22_
+   f11_ = f1_11/2 + f1_12/4
+   f12_ = f1_12/4 + f1_22/2 + f2_12/4 + f2_11/2
+   f22_ = f2_12/4 + f2_22/2 
+   f1_ = f1_12/4 + f1_11/2 + f2_12/4 + f2_11/2
+   f2_ = f1_12/4 + f1_22/2 + f2_12/4 + f2_22/2
+   # Allele probability of progeny p_ and q_
+   p_ = f11_ + f12_/2 + f1_/2
+   q_ = 1 - p_
+   # Output
+   return (list("p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "p_" = p_, "q_" = q_,
+                "f11_" = f11_, "f12_" = f12_, "f22_" = f22_, "f1_" = f1_, "f2_" = f2_))
+}
+
+
+p <- vector()
+q <- vector()
+generations <- 1:25
+f11 <- 0
+f12 <- 0
+f22 <- 1
+f1 <- 1
+f2 <- 0
+
+for (i in 1:25) {
+  result_final2 <- random_mating(f11, f12, f22, f1, f2)
+  f11 <- result_final2$f11_
+  f12 <- result_final2$f12_
+  f22 <- result_final2$f22_
+  f1 <- result_final2$f1_
+  f2 <- result_final2$f2_
+  
+  p[i] <- result_final2$p
+  q[i] <- result_final2$q
+}
+
+plot(generations, p)
+plot(generations, q)
+p[25]
+q[25]
+
+# We can clearly see that both frequencies tend to a certain equilibrium. 
+#   - p = 0.3746532
+#   - q = 0.6253468
+```
+
+<br>
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Deliver the RMarkdown in [Aul@-ESCI](https://aula.esci.upf.edu/course/view.php?id=7762)
+
+<i class="fa fa-upload"></i> **Deliver this document in [Aul@-ESCI](https://aula.esci.upf.edu/course/view.php?id=7762) with your answers**
+
+<i class="fa fa-clock"></i> **Deadline**: 14 April 2024
+
+<i class="fa fa-envelope"></i> **Doubts?**  marta.coronado@csic.es and olga.dolgova@crg.es.
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+<br>
