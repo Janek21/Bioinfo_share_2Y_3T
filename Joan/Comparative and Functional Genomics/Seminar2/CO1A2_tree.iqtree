@@ -1,0 +1,243 @@
+IQ-TREE 2.1.4-beta COVID-edition built Jun 24 2021
+
+Input file name: CO1A2_trim.fa
+Type of analysis: tree reconstruction + ultrafast bootstrap (1000 replicates)
+Random seed number: 989269
+
+REFERENCES
+----------
+
+To cite IQ-TREE please use:
+
+Bui Quang Minh, Heiko A. Schmidt, Olga Chernomor, Dominik Schrempf,
+Michael D. Woodhams, Arndt von Haeseler, and Robert Lanfear (2020)
+IQ-TREE 2: New models and efficient methods for phylogenetic inference
+in the genomic era. Mol. Biol. Evol., in press.
+https://doi.org/10.1093/molbev/msaa015
+
+Since you used ultrafast bootstrap (UFBoot) please also cite: 
+
+Diep Thi Hoang, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh,
+and Le Sy Vinh (2018) UFBoot2: Improving the ultrafast bootstrap
+approximation. Mol. Biol. Evol., 35:518–522.
+https://doi.org/10.1093/molbev/msx281
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 38 sequences with 1147 amino-acid sites
+Number of constant sites: 396 (= 34.5248% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 396 (= 34.5248% of all sites)
+Number of parsimony informative sites: 612
+Number of distinct site patterns: 771
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: LG+G4
+
+State frequencies: (model)
+
+Model of rate heterogeneity: Gamma with 4 categories
+Gamma shape alpha: 0.6134
+
+ Category  Relative_rate  Proportion
+  1         0.0559         0.2500
+  2         0.3197         0.2500
+  3         0.8880         0.2500
+  4         2.7364         0.2500
+Relative rates are computed as MEAN of the portion of the Gamma distribution falling in the category.
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -24960.0685 (s.e. 632.0505)
+Unconstrained log-likelihood (without tree): -6707.7206
+Number of free parameters (#branches + #model parameters): 72
+Akaike information criterion (AIC) score: 50064.1369
+Corrected Akaike information criterion (AICc) score: 50073.9247
+Bayesian information criterion (BIC) score: 50427.3701
+
+Total tree length (sum of branch lengths): 5.0409
+Sum of internal branch lengths: 2.0671 (41.0070% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'CO1A2|Homo_sapiens' is drawn at root
+Numbers in parentheses are  ultrafast bootstrap support (%)
+
++--CO1A2|Homo_sapiens
+|
+|                 +**NP_031769.2|Mus_musculus
+|              +--| (100)
+|              |  +**QTG40775.1|Cloning_vector_pRP-mChery-col1a2
+|           +--| (99)
+|           |  +--XP_051007948.1|Acomys_russatus
+|        +--| (100)
+|        |  +--XP_029414203.1|Nannospalax_galili
+|     +--| (94)
+|     |  +--KFO23903.1|Fukomys_damarensis
+|  +--| (51)
+|  |  +--C0HLJ6.1|Megatherium_americanum
++--| (100)
+|  |        +--NP_001003187.1|Canis_lupus_familiaris
+|  |     +--| (91)
+|  |     |  |  +--XP_040328586.1|Puma_yagouaroundi
+|  |     |  +--| (82)
+|  |     |     +--EFB18514.1|Ailuropoda_melanoleuca
+|  |  +--| (52)
+|  |  |  |  +--TEA24756.1|Sousa_chinensis
+|  |  |  +--| (100)
+|  |  |     +--------MXQ83349.1|Bos_mutus
+|  +--| (52)
+|     |  +--XP_049641154.1|Suncus_etruscus
+|     +--| (84)
+|        |     +--XP_028926373.1|Ornithorhynchus_anatinus
+|        |  +--| (100)
+|        |  |  |                 +----NP_001080727.1|Xenopus_laevis
+|        |  |  |              +--| (99)
+|        |  |  |              |  +--KAG8443132.1|Hymenochirus_boettgeri
+|        |  |  |          +---| (100)
+|        |  |  |          |   |     +----XP_053322408.1|Spea_bombifrons
+|        |  |  |          |   |  +--| (38)
+|        |  |  |          |   |  |  +----XP_053570034.1|Bombina_bombina
+|        |  |  |          |   +--| (95)
+|        |  |  |          |      |        +---KAG9472320.1|Eleutherodactylus_coqui
+|        |  |  |          |      |     +--| (66)
+|        |  |  |          |      |     |  +--XP_040289994.1|Bufo_bufo
+|        |  |  |          |      |  +--| (84)
+|        |  |  |          |      |  |  +---KAG8548509.1|Engystomops_pustulosus
+|        |  |  |          |      +--| (100)
+|        |  |  |          |         +-----XP_018416270.1|Nanorana_parkeri
+|        |  |  |       +--| (91)
+|        |  |  |       |  +------ADZ04657.1|Ambystoma_mexicanum
+|        |  |  |    +--| (96)
+|        |  |  |    |  |  +---XP_029444760.1|Rhinatrema_bivittatum
+|        |  |  |    |  +--| (100)
+|        |  |  |    |     +-------XP_030056470.1|Microcaecilia_unicolor
+|        |  |  +----| (100)
+|        |  |       |                          +------XP_041040372.1|Carcharodon_carcharias
+|        |  |       |          +---------------| (100)
+|        |  |       |          |               +----XP_020371053.1|Rhincodon_typus
+|        |  |       +----------| (100)
+|        |  |                  |                        +--XP_035510856.1|Morone_saxatilis
+|        |  |                  |                   +----| (100)
+|        |  |                  |                   |    +--XP_045926300.1|Micropterus_dolomieu
+|        |  |                  |                +--| (84)
+|        |  |                  |                |  +------------XP_043869618.1|Solea_senegalensis
+|        |  |                  |           +----| (100)
+|        |  |                  |           |    +-----TFK10573.1|Platysternon_megacephalum
+|        |  |                  +-----------| (100)
+|        |  |                              |       +--------UNJ97021.1|Eptatretus_burgeri
+|        |  |                              |    +--| (73)
+|        |  |                              |    |  +-----XP_032813113.1|Petromyzon_marinus
+|        |  |                              +----| (100)
+|        |  |                                   |    +--XP_053311794.1|Spea_bombifrons
+|        |  |                                   +----| (100)
+|        |  |                                        +--XP_033794799.1|Geotrypetes_seraphini
+|        +--| (100)
+|           +---XP_020855640.1|Phascolarctos_cinereus
+|
++--EAW76795.1|Homo_sapiens
+
+Tree in newick format:
+
+(CO1A2|Homo_sapiens:0.0012577301,((((((NP_031769.2|Mus_musculus:0.0000010000,QTG40775.1|Cloning_vector_pRP-mChery-col1a2:0.0000010000)100:0.0350354326,XP_051007948.1|Acomys_russatus:0.0441883556)99:0.0158151713,XP_029414203.1|Nannospalax_galili:0.0178064892)100:0.0232315157,KFO23903.1|Fukomys_damarensis:0.0603827391)94:0.0182784537,C0HLJ6.1|Megatherium_americanum:0.0630797845)51:0.0054914164,(((NP_001003187.1|Canis_lupus_familiaris:0.0125370438,(XP_040328586.1|Puma_yagouaroundi:0.0128690982,EFB18514.1|Ailuropoda_melanoleuca:0.0174333860)82:0.0028478752)91:0.0090453618,(TEA24756.1|Sousa_chinensis:0.0345610804,MXQ83349.1|Bos_mutus:0.1849560387)100:0.0304651272)52:0.0065076279,(XP_049641154.1|Suncus_etruscus:0.0638364083,((XP_028926373.1|Ornithorhynchus_anatinus:0.0692626553,(((((NP_001080727.1|Xenopus_laevis:0.1047000184,KAG8443132.1|Hymenochirus_boettgeri:0.0748483605)99:0.0414745449,((XP_053322408.1|Spea_bombifrons:0.1073224026,XP_053570034.1|Bombina_bombina:0.1005501278)38:0.0138711651,(((KAG9472320.1|Eleutherodactylus_coqui:0.0904819784,XP_040289994.1|Bufo_bufo:0.0749108401)66:0.0180429344,KAG8548509.1|Engystomops_pustulosus:0.0839603201)84:0.0228768737,XP_018416270.1|Nanorana_parkeri:0.1147931982)100:0.0387667871)95:0.0280057913)100:0.0814945269,ADZ04657.1|Ambystoma_mexicanum:0.1346565040)91:0.0303126148,(XP_029444760.1|Rhinatrema_bivittatum:0.0929000396,XP_030056470.1|Microcaecilia_unicolor:0.1632446222)100:0.0624912437)96:0.0638346418,((XP_041040372.1|Carcharodon_carcharias:0.1368434321,XP_020371053.1|Rhincodon_typus:0.1062641972)100:0.3108418255,((((XP_035510856.1|Morone_saxatilis:0.0409442929,XP_045926300.1|Micropterus_dolomieu:0.0404196568)100:0.1133350609,XP_043869618.1|Solea_senegalensis:0.2480636139)84:0.0458863895,TFK10573.1|Platysternon_megacephalum:0.1272636976)100:0.1083100205,((UNJ97021.1|Eptatretus_burgeri:0.1809234065,XP_032813113.1|Petromyzon_marinus:0.1270577680)73:0.0281422819,(XP_053311794.1|Spea_bombifrons:0.0495751447,XP_033794799.1|Geotrypetes_seraphini:0.0757603587)100:0.1007050090)100:0.1104938688)100:0.2462363103)100:0.2227068550)100:0.1084628769)100:0.0430985703,XP_020855640.1|Phascolarctos_cinereus:0.0785615795)100:0.0464154913)84:0.0257289378)52:0.0116309490)100:0.0322619431,EAW76795.1|Homo_sapiens:0.0025014173);
+
+CONSENSUS TREE
+--------------
+
+Consensus tree is constructed from 1000 bootstrap trees
+Log-likelihood of consensus tree: -24960.319669
+Robinson-Foulds distance between ML tree and consensus tree: 2
+
+Branches with support >0.000000% are kept (extended consensus)
+Branch lengths are optimized by maximum likelihood on original alignment
+Numbers in parentheses are bootstrap supports (%)
+
++--CO1A2|Homo_sapiens
+|
+|                    +**NP_031769.2|Mus_musculus
+|                 +--|
+|                 |  +**QXO37029.1|Mammalian_gene_expression_vector_pRP-EGFP-Col1a2
+|              +--| (100)
+|              |  +--QTG40775.1|Cloning_vector_pRP-mChery-col1a2
+|           +--| (99)
+|           |  +--XP_051007948.1|Acomys_russatus
+|        +--| (100)
+|        |  +--XP_029414203.1|Nannospalax_galili
+|     +--| (94)
+|     |  +--KFO23903.1|Fukomys_damarensis
+|  +--| (51)
+|  |  +--C0HLJ6.1|Megatherium_americanum
++--| (100)
+|  |        +--NP_001003187.1|Canis_lupus_familiaris
+|  |     +--| (91)
+|  |     |  |  +--XP_040328586.1|Puma_yagouaroundi
+|  |     |  +--| (82)
+|  |     |     +--EFB18514.1|Ailuropoda_melanoleuca
+|  |  +--| (52)
+|  |  |  |  +--TEA24756.1|Sousa_chinensis
+|  |  |  +--| (100)
+|  |  |     +--------MXQ83349.1|Bos_mutus
+|  +--| (52)
+|     |  +--XP_049641154.1|Suncus_etruscus
+|     +--| (84)
+|        |     +--XP_028926373.1|Ornithorhynchus_anatinus
+|        |  +--| (100)
+|        |  |  |                 +----NP_001080727.1|Xenopus_laevis
+|        |  |  |              +--| (99)
+|        |  |  |              |  +---KAG8443132.1|Hymenochirus_boettgeri
+|        |  |  |          +---| (100)
+|        |  |  |          |   |     +----XP_053322408.1|Spea_bombifrons
+|        |  |  |          |   |  +--| (48)
+|        |  |  |          |   |  |  |        +---KAG9472320.1|Eleutherodactylus_coqui
+|        |  |  |          |   |  |  |     +--| (66)
+|        |  |  |          |   |  |  |     |  +--XP_040289994.1|Bufo_bufo
+|        |  |  |          |   |  |  |  +--| (84)
+|        |  |  |          |   |  |  |  |  +---KAG8548509.1|Engystomops_pustulosus
+|        |  |  |          |   |  |  +--| (100)
+|        |  |  |          |   |  |     +-----XP_018416270.1|Nanorana_parkeri
+|        |  |  |          |   +--| (95)
+|        |  |  |          |      +----XP_053570034.1|Bombina_bombina
+|        |  |  |       +--| (91)
+|        |  |  |       |  +------ADZ04657.1|Ambystoma_mexicanum
+|        |  |  |    +--| (96)
+|        |  |  |    |  |  +---XP_029444760.1|Rhinatrema_bivittatum
+|        |  |  |    |  +--| (100)
+|        |  |  |    |     +-------XP_030056470.1|Microcaecilia_unicolor
+|        |  |  +----| (100)
+|        |  |       |                          +------XP_041040372.1|Carcharodon_carcharias
+|        |  |       |          +---------------| (100)
+|        |  |       |          |               +----XP_020371053.1|Rhincodon_typus
+|        |  |       +----------| (100)
+|        |  |                  |                        +--XP_035510856.1|Morone_saxatilis
+|        |  |                  |                   +----| (100)
+|        |  |                  |                   |    +--XP_045926300.1|Micropterus_dolomieu
+|        |  |                  |                +--| (84)
+|        |  |                  |                |  +------------XP_043869618.1|Solea_senegalensis
+|        |  |                  |           +----| (100)
+|        |  |                  |           |    +-----TFK10573.1|Platysternon_megacephalum
+|        |  |                  +-----------| (100)
+|        |  |                              |       +--------UNJ97021.1|Eptatretus_burgeri
+|        |  |                              |    +--| (73)
+|        |  |                              |    |  +-----XP_032813113.1|Petromyzon_marinus
+|        |  |                              +----| (100)
+|        |  |                                   |    +--XP_053311794.1|Spea_bombifrons
+|        |  |                                   +----| (100)
+|        |  |                                        +--XP_033794799.1|Geotrypetes_seraphini
+|        +--| (100)
+|           +---XP_020855640.1|Phascolarctos_cinereus
+|
++--EAW76795.1|Homo_sapiens
+
+
+Consensus tree in newick format: 
+
+(CO1A2|Homo_sapiens:0.0012566994,(((((((NP_031769.2|Mus_musculus:0.0000000000,QXO37029.1|Mammalian_gene_expression_vector_pRP-EGFP-Col1a2:0.0000000000):0.0000027029,QTG40775.1|Cloning_vector_pRP-mChery-col1a2:0.0000027029)100:0.0350053357,XP_051007948.1|Acomys_russatus:0.0441497306)99:0.0157943459,XP_029414203.1|Nannospalax_galili:0.0178241063)100:0.0232051503,KFO23903.1|Fukomys_damarensis:0.0603280561)94:0.0182554981,C0HLJ6.1|Megatherium_americanum:0.0630145775)51:0.0054852578,(((NP_001003187.1|Canis_lupus_familiaris:0.0125253456,(XP_040328586.1|Puma_yagouaroundi:0.0128585908,EFB18514.1|Ailuropoda_melanoleuca:0.0174289314)82:0.0028497891)91:0.0090280091,(TEA24756.1|Sousa_chinensis:0.0345662247,MXQ83349.1|Bos_mutus:0.1847825028)100:0.0304142506)52:0.0065105809,(XP_049641154.1|Suncus_etruscus:0.0638256071,((XP_028926373.1|Ornithorhynchus_anatinus:0.0690857912,(((((NP_001080727.1|Xenopus_laevis:0.1013381234,KAG8443132.1|Hymenochirus_boettgeri:0.0774935881)99:0.0389909457,((XP_053322408.1|Spea_bombifrons:0.1080771900,(((KAG9472320.1|Eleutherodactylus_coqui:0.0916728807,XP_040289994.1|Bufo_bufo:0.0737568710)66:0.0179201248,KAG8548509.1|Engystomops_pustulosus:0.0846535494)84:0.0214748872,XP_018416270.1|Nanorana_parkeri:0.1156336584)100:0.0365490034)48:0.0180870849,XP_053570034.1|Bombina_bombina:0.0989751093)95:0.0245602810)100:0.0826810996,ADZ04657.1|Ambystoma_mexicanum:0.1337205991)91:0.0308000432,(XP_029444760.1|Rhinatrema_bivittatum:0.0922533985,XP_030056470.1|Microcaecilia_unicolor:0.1638482714)100:0.0626142038)96:0.0642400500,((XP_041040372.1|Carcharodon_carcharias:0.1365266645,XP_020371053.1|Rhincodon_typus:0.1064948510)100:0.3100141727,((((XP_035510856.1|Morone_saxatilis:0.0409148706,XP_045926300.1|Micropterus_dolomieu:0.0403888095)100:0.1132112154,XP_043869618.1|Solea_senegalensis:0.2479772235)84:0.0458071143,TFK10573.1|Platysternon_megacephalum:0.1271601161)100:0.1083090640,((UNJ97021.1|Eptatretus_burgeri:0.1807195856,XP_032813113.1|Petromyzon_marinus:0.1269674489)73:0.0281333325,(XP_053311794.1|Spea_bombifrons:0.0495084610,XP_033794799.1|Geotrypetes_seraphini:0.0757746304)100:0.1005825925)100:0.1103177716)100:0.2463177450)100:0.2222428831)100:0.1079014261)100:0.0433103920,XP_020855640.1|Phascolarctos_cinereus:0.0784307202)100:0.0463600720)84:0.0256620647)52:0.0116202724)100:0.0322289679,EAW76795.1|Homo_sapiens:0.0024969675);
+
+TIME STAMP
+----------
+
+Date and time: Thu Apr 25 18:58:06 2024
+Total CPU time used: 175.356767 seconds (0h:2m:55s)
+Total wall-clock time used: 176.4646141 seconds (0h:2m:56s)
+
