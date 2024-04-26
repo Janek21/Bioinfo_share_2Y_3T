@@ -1,0 +1,594 @@
+---
+title: "**Simulation of genetic drift and mutation**<img src='https://www.construction21.org/espana/data/sources/users/8/images/logoesci-fons-blanc.png' style='position:absolute;top:0px;right:0px;' width='10%'/>"
+subtitle: Inferring the effect of genetic drift and mutation on the temporal dynamic of genetic variation by simulations
+author: "Marta Coronado-Zamora and Olga Dolgova (current version 04/2024)<br>First version: Marta Coronado-Zamora and Antonio Barbadilla 03/2020"
+date: "15 April 2024"
+output:
+  html_document:
+    theme: yeti
+    css: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css
+    self_contained: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 6, fig.height = 4, fig.align = "center")
+```
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div><br>
+
+<div style = "background-color:#86CBBB">
+<i class="fa fa-bullseye"></i>  **Main goals of the session**<br>
+
+1. Learn how to (1) **simulate genetic drift**, (2) to **infer the effect of genetic drift on the temporal dynamic of genetic variation} by simulation and** and (3) to **graph the the impact of mutation alone on allele frequency change**
+
+2. To create **R scripts** from scratch to solve the previous objectives
+</div>
+
+# 1. R scripts 
+
+Scripts which are going to be created in this session:
+
+- Simulate the Wright-Fisher model of genetic drift
+   - Single random walk
+   - Replicated random walks 
+   
+- Plotting the impact of mutation alone on allele frequency change
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Introduction: the Wright-Fisher model to describe the behaviour of genetic drift
+
+**Genetic drift** is the **change in the frequency of an existing allele in a population** due to **random sampling of organisms**.
+
+![](breeding2020_4_22D15_52_12.png)
+
+The **Wright-Fisher model** --named after early pioneers of theoretical population genetics, Sewall Wright and Ronald Fisher--  **describes the sampling of alleles** (A and a) **in a population** with **no selection**, **no mutation**, **no migration**, **non-overlapping generation times** and **random mating** in a **constant size population**.
+
+## 1. Random sampling in R
+
+R has a convenient function for handling **sample selection**: `sample()`. This function addresses common cases considered by the Wright-Fisher model, such as:
+
+- Picking from a finite set of values
+- Sampling with replacement
+
+The default setting of `sample()` is **randomly sorting the values of a vector**. These are returned to the user in random order. For example:
+
+```{r random-sample-1}
+# Random sampling of a vector
+sample(c(1:10))
+```
+
+We get the same vector, but shuffled into a different random order. But, what if a value can be **selected multiple times**? This is known as **sampling with replacement**. The `sample()` function  supports this using an additional parameter: `replace`. Replace can be `T` (`TRUE`) or `F` (`FALSE`). By default, it assumes no replacement. For example:
+ 
+```{r random-sample-2}
+# Random sampling of a vector with replacement
+sample(c(1:10), replace = T)
+```
+
+As you can see, we get the vector of the same size (10 values), in **random order**, and certain values are **repeatedly picked**.
+ 
+We can add the `size` parameter to **return only a few values**. For example, the following code will pick three values, with replacement:
+ 
+```{r random-sample-3}
+# Random sampling three elements of a vector with replacement
+sample(c(1:10), size = 3, replace = T)
+```
+ 
+If you run each command several times you'll get different results every time, and not exactly the ones that are shown here. You may be wondering: how can I make **reproducible results**? You can use the `set.seed(x)` function: it allows you to produce the same sample again and again by setting a seed (`x`, a number). For example: 
+ 
+```{r random-sample-4}
+# Random sampling three elements of a vector with replacement
+set.seed(4)
+sample(c(1:10), size = 3, replace = T)
+```
+ 
+The result of this sample will always be `8 3 3` when the `seed` is 4. 
+ 
+The prior examples assume that we are selecting values at random for a vector. But, what if there are some values which are more probable to be picked than others?  `sample()` allows to adjust the **probability of each item being selected**, using the  `prob` parameter.
+
+For example, imagine that we have developed a test to detect COVID-19 from saliva samples. Our quality isn't great, so there's a 25\% change of developing a defective test. We test 6 people. We can simulate this scenario using the following code:
+
+```{r random-sample-5}
+# Random sampling six elements of a vector with replacement with probabilities
+sample(c('Good', 'Defective'), size = 6, replace = T, prob = c(0.75, 0.25))
+```
+ 
+As we can see, the error rate is 33%, higher than we simulated, but we can get even higher error rates... maybe we should consider quitting developing COVID-19 tests! 
+ 
+### 1.1 DNA sequence generator
+
+Let's try the `sample()` function on more biological stuff: for example, let's simulate a DNA random sequence! Let's simulate a DNA sequence of a length 100 nucleotides, with a GC% content of 40\%.
+
+```{r dna-random}
+# Random DNA sequence generator taking into account GC content
+nucleotides = c("A", "T", "C", "G") 
+composition = c(0.3, 0.3, 0.2, 0.2)
+lengthSeq = 100
+seq100 <- sample(nucleotides, size = lengthSeq, prob = composition, replace = T)
+length(seq100)
+table(seq100)
+table(seq100)/lengthSeq
+```
+  
+The `table()` function is very useful in this situation because it performs **categorical tabulation of the data**, with the variable and its frequency. We can see how the  simulated DNA sequence, has a nucleotide composition according to the GC% we set. 
+ 
+### 1.2 Random sampling of alleles
+ 
+Finally, let's simulate the random sampling of alleles in a population of a given size, to get closer to our objective: simulate the Wright-Fisher model.
+
+For example, let's try the random sample of 20 alleles A and a, with a frequency p = 0.8 and q = 0.2, respectively, in a population of a given effective size N<sub>e</sub> of 10: 
+ 
+```{r allele-random}
+# 20 alleles
+# 10 Ne
+# allele A: p = 0.8
+# allele a q = 0.2
+alleles = c("A", "a") 
+freq = c(0.8, 0.2)
+Ne = 10
+sample_alleles = sample(alleles, size = 2*Ne, prob = freq, replace = T)
+table(sample_alleles)
+table(sample_alleles)/(2*Ne)
+```
+ 
+If we divide the allele count by 2$\times$N<sub>e</sub>, we get the allele frequency, in this case, slightly different from the initial frequency value.
+
+# Script 1: Simulation of the genetic drift (a linear random walk) using the `sample()` function
+
+The function will use the initial allele frequency of allele A (`p_0`), the effective population size (`Ne`) and the number of generations to be simulated (`tgen`).
+
+```{r script-1}
+# Genetic drift
+# Simulation of random drift trajectory of allele frequency for one locus with two alleles 
+# Ne = effective population size; tgen = number of generation simulated; p_0 = initial frequency of allele A)
+# A single trajectory (a linear random walk)
+
+genetic_drift <- function(p_0, Ne, tgen) {
+  alleles <- c(1, 0) # 1 A and 0 a (numerical for estimating frequency directly)
+  pvector <- c() # Store p allele frequency values over generations
+  pvector[1] <- p_0 # First value is initial p frequency
+  p_ = p_0
+  for (i in 2:(tgen+1)) {
+    p_ = sum(sample(alleles, size = 2*Ne, prob = c(p_, 1-p_), replace = T))/(2*Ne) ;
+    pvector[i] = p_ # Add new frequency 
+  }
+  plot(pvector, ylim = c(0, 1),
+       col="coral2", type = "l",lwd = 3,
+       main = paste("Genetic drift - Population size = ", Ne), 
+       xlab = "Generation", ylab = "Frequency of p")
+} 
+# Call the function
+genetic_drift(0.5, 100, 100)
+```
+ 
+The result of this function is a plot, describing the trajectory of an allele over 100 generations.
+
+In this simulation, the locus stays polymorphic after 100 generations. But can be the case that the allele gets fixed or lost due to genetic drift.
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# 2. The binomial distribution describes  the sampling process of genetic drift
+
+Genetic drift is a **stochastic process**, individual outcomes are dictated by chance, but a large number of outcomes can be modelled as a **probability distribution**.
+
+The **binomial formula** describes the probability distribution of `i` successes in `N` trails, where the probability of success is `p`: similar to sampling alleles from a population.  Consider a population of A and a alleles. If the frequencies of the A<sub>1</sub> and A<sub>2</sub> alleles in the population are p and q, in a 2N gametes sample, the probabilities of the different results are given by the development of (p + q)<sup>2N</sup>.
+
+Let `x` be the probability of obtaining `i` gametes A<sub>1</sub> and `2N-i` gametes A<sub>2</sub>:
+ 
+$$ p(i=A) = \binom{2N}{i} p^iq^{2N-i}$$
+
+where $\binom{2N}{i} = \frac{(2N)!}{i!(2N-i)!}$
+
+and $p^i$ is the probability of drawing $i$ alleles if the frequency is $p$, and $q^{2N-i}$ is the probability of the remainder of the drawn alleles being B given the frequency $q$. $\binom{2N}{i}$ represents the probability of the number of successes, $i$, given $2N$ trials.
+
+This process describes the binomial sampling of alleles each generation. For example, what is the probability of drawing 2 A alleles from in 4 
+trials (2N = 4), given that p = 0.5?
+
+$$ \binom{4}{2}=\frac{4!}{2!(4-2)!} = \frac{24}{4} = 6 $$
+
+2N actually refers to the number of draws you are making, so if you make 4 draws it is written as $\binom{4}{2}$ for example. The notation here is 2N because in a Wright-Fisher model of drift you are usually drawing two alleles from each individual, thus you make twice as many draws as there are individuals, hence 2N. Adding this into the equation we get:
+
+$$P_{(i=A)}=6 \times p^{i}q^{2N-i} = 6 \times 0.5^{2}0.5^{2}= 0.375$$
+
+![](gamet2020_4_22D16_23_1.png)
+ 
+## 2.1 Binomial distribution in R
+
+To perform a **random binomial simulation in R**, we can use the `rbinom()` function. This function needs three arguments: the **number of observations you want to get** (`n`), the **number of trials per observation** (`size`) and the **probability of success of each trial** (`prob`). 
+
+Coming back to our example of COVID-19 test. We make 150 tests per day and the defective ones must be repaired. We know that there is a 5% of error rate. To estimate the number of tests that we need to fix each day in a week is:
+
+```{r binom-distr-1}
+# Binomial simulation in r
+rbinom(n = 7, size = 150, prob = 0.05)
+```
+ 
+Everyday of the week we get a different number of test to repair, according to the error rate.
+
+## 2.2 Random sampling of alleles using the binomial distribution
+
+To demonstrate a simple case of drift, we’ll use the previous example. We have a population of 2N<sub>e</sub> = 4 individuals and we will focus on a single locus A with two alleles, A<sub>1</sub> and A<sub>2</sub>. We will assume both alleles are equally common in the population (p = 0.5 and q = 0.5). To achieve this in R:
+
+
+```{r binom-distr-2}
+N <- 4 # set population size
+p <- 0.5 # set allele frequency
+# Binomial sampling to get the new frequency of the A1 in the next generation 
+rbinom(n = 1, size = 2*N, prob = p)/(2*N)
+```
+ 
+You will see though that the new frequency is likely different to the initial frequency solely because of random sampling.
+
+# Script 2: Simulation of the genetic drift (a linear random walk) using the random binomial distribution function
+
+We are going to modify function 1 to implement a **random binomial distribution** function instead of a simply random sample function.
+
+```{r script-2}
+# Genetic drift
+# Simulation of random drift trajectory of allele frequency for one
+# locus with two alleles 
+# Ne = effective population size; tgen = number of generation simulated;
+# p_0 = initial frequency allele A)
+# A single trajectory (a linear random walk)
+# using random binomial distribution function
+
+genetic_drift <- function(p_0, Ne, tgen) {
+pvector <- c()
+pvector[1] <- p_0
+p_ = p_0
+
+for(i in 2:(tgen+1)) {
+    p_ = rbinom(1,2*Ne,p_)/(2*Ne) # Random binomial distribution
+	pvector[i] <- p_
+}
+plot(pvector, ylim = c(0,1), 
+    col="coral2", type = "l", lwd = 3,
+    main = paste("Genetic drift - Population size = ",Ne), xlab="Generations" , ylab = "Relative frequency")
+}
+# Call the function
+genetic_drift(0.7, 50, 100)
+```
+ 
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+ 
+# 3. Wright-Fisher model for *n* replicates (replicated random walks)
+
+Finally, we are going to simulate the trajectory of multiple replicates instead of just one.
+
+```{r script-3}
+genetic_drift <- function(p_0, Ne, tgen, nrepl) {
+  # Empty plot
+  plot(0,0, xlim=c(0,tgen+1), ylim = c(0,1), 
+      col="coral2", type = "l", lwd = 3,
+      main = paste("Genetic drift - Population size = ",Ne), xlab="Generations",
+      ylab = "Relative frequency")
+  # For to iterate over replicates
+  for (n in 1:nrepl) {
+    pvector <- c()
+    pvector[1] <- p_0
+    p_ = p_0
+    for(i in 2:(tgen+1)) {
+      p_ = rbinom(1,2*Ne,p_)/(2*Ne); 
+      pvector[i] <- p_
+    }
+    # Draw a line for each replicate
+    lines(pvector, type = "l", col = n, lwd = 2)
+  }
+}
+# Call the function
+genetic_drift(0.3, 100, 100, 10)
+```
+ 
+This graph represents the trajectory of the allele frequency in 10 replicates. 
+ 
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 1 | Effect of the genetic drift in a locus </h3> </div>
+  
+We will first analyze the stochastic effect of genetic drift in the absence of selection. Compare the proportion of populations (i) still polymorphic, (ii) that fix the A allele (p = 1), and (iii) that lose the A allele (p = 0), in populations of different sizes (500, 100 and 10) in 100 generations, starting at allele frequencies A p<sub>0</sub> = 0.5 and p<sub>0</sub> = 0.9. Make at least 20 replicates of each simulation and record the results in a table. How do the results differ according to the initial frequencies of allele A and according to population size? Give an explanation to your results.
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+| Simulation | A is lost (p=0) | Polymorphic |  A is fixed (p=1) |
+|---------------|-----------------|-------------|-------------------|
+| p0=0.5, N=500 | 0 | 20 | 0 |
+| p0=0.5, N=100 | 3 | 17 | 0 |
+| p0=0.5, N=10 | 9 | 0 | 11 |
+| p0=0.9, N=500 | 3 | 17 | 0 |
+| p0=0.9, N=100 | 5 | 14 | 1 |
+| p0=0.9, N=10 | 1 | 0 | 19 |
+
+
+```{r answer-exercise-1}
+genetic_drift(0.5, 500, 100, 20)
+genetic_drift(0.5, 100, 100, 20)
+genetic_drift(0.5, 10, 100, 20)
+genetic_drift(0.9, 500, 100, 20)
+genetic_drift(0.9, 100, 100, 20)
+genetic_drift(0.9, 10, 100, 20)
+
+#When the initial frequency is 0.9 the chances of the a allele disappearing are higher and it does it in earlier generations. This same thing happens with decreasing the population, where we can see that the graphs with population 10 don't conserve both alleles in any replicate. On the 100 population most have both alleles but as said before the one with the 0.9 frequency has more replicas with no a allele. And finally, on the 500 population, the frequency 0.5 will hardly have any replica with alleles disappearing and the one with the 0.5 is incredibly unlikely for a replica to go even below the 0.5 frequency mark
+
+```
+
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 2 | Allele frequency differences </h3> </div>
+  
+Consider the whole set of replicates of genetic drift for a given initial conditions. How do average allele frequencies and allele frequency differs among replicates change over generations? Add on the previous script the code to graph the average (mean) allele frequency. When is the maximum difference in allele frequencies among replicates reached? Which is its value?
+
+```{r script3-mean}
+genetic_drift <- function(p_0, Ne, tgen, nrepl) {
+  
+  plot(0,0, xlim=c(0,tgen+1), ylim = c(0,1), 
+       col="coral2", type = "l", lwd = 3,
+       main = paste("Genetic Drift - Population size = ",Ne), xlab="Generations" , ylab = "Relative frequency")
+  meanpvector <- 0*c(1:(tgen+1))
+  meanpvector[1] <- p_0
+  for (n in 1:nrepl) {
+    pvector <- c()
+    pvector[1] <- p_0
+    p_ = p_0
+    for(i in 2:(tgen+1)) {
+      p_ = rbinom(1,2*Ne,p_)/(2*Ne); 
+      pvector[i] <- p_
+      meanpvector[i]=meanpvector[i]+pvector[i]/nrepl
+    }
+    lines(pvector, type = "l", col = n, lwd = 2)
+  }
+  # Add mean
+  lines(meanpvector, type = "l",  col = "coral4",  lwd = 6)
+  legend("topleft", legend=paste("Mean = ", round(mean(meanpvector),3)),
+       col=c("coral4"), lty=1, lwd=3, cex=0.8)
+}
+genetic_drift(0.5, 500, 100, 10)
+```
+    
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+| Simulation | Mean | Allele difference |
+|:-----------:|:----:|:----------------:|
+| p0=0.5, N=500 | 0.482  | All polymorphic |
+| p0=0.2, N=500 | 0.2    | All polymorphic |
+| p0=0.9, N=500 | 0.876  | 9 polymorphic |
+| p0=0.5, N=100 | 0.458  | 9 polymorphic |
+| p0=0.2, N=100 | 0.122  | 4 polymorphic |
+| p0=0.9, N=100 | 0.877  | 4 polymorphic |
+| p0=0.5, N=10  | 0.747 | None polymorphic |
+| p0=0.2, N=10  | 0.126 | None polymorphic |
+| p0=0.9, N=10  | 0.921 | None polymorphic |
+
+```{r answer-exercise-2}
+genetic_drift(0.5, 500, 100, 10)
+genetic_drift(0.2, 500, 100, 10)
+genetic_drift(0.9, 500, 100, 10)
+genetic_drift(0.5, 100, 100, 10)
+genetic_drift(0.2, 100, 100, 10)
+genetic_drift(0.9, 100, 100, 10)
+genetic_drift(0.5, 10, 100, 10)
+genetic_drift(0.2, 10, 100, 10)
+genetic_drift(0.9, 10, 100, 10)
+
+#
+```
+  
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 3 | Simulating a bottleneck </h3> </div>
+  
+Simulate repeatedly a bottleneck at a given *t* generation and compares its impact with the same population without bottleneck. Initial conditions: p0=0.5, N=1000, 100 generations. At generation 50 the population decreases from 1000 to 10, and at generation 51 the population increases again to 1000. 
+
+<i class="fa fa-key"></i> **Hint:** To simulate a bottleneck, use a `if-else` statement.
+
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+| Simulation | A is lost (p=0) | Polymorphic |  A is fixed (p=1) |
+|:-------------:|:---------------:|:-----------:|:-----------------:|
+| p0=0.5, N=1000, with bottleneck | 0 | All are polymorphic | 0 |
+| p0=0.5, N=1000, without bottleneck | 0 | All are polymorphic | 0 |
+
+```{r answer-exercise-3}
+bottleneck <- function(p_0, Ne, tgen, nrepl) {
+  
+  plot(0,0, xlim=c(0,tgen+1), ylim = c(0,1), 
+       col="coral2", type = "l", lwd = 3,
+       main = paste("Bottleneck"), xlab="Generations" , ylab = "Relative frequency")
+  meanpvector <- 0*c(1:(tgen+1))
+  meanpvector[1] <- p_0
+  for (n in 1:nrepl) {
+    pvector <- c()
+    pvector[1] <- p_0
+    p_ = p_0
+    for(i in 2:(tgen+1)) {
+      if (i==50) {
+        Ne=10
+      }
+      else if (i==51) {
+        Ne=1000
+      }
+      p_ = rbinom(1,2*Ne,p_)/(2*Ne); 
+      pvector[i] <- p_
+      meanpvector[i]=meanpvector[i]+pvector[i]/nrepl
+    }
+    lines(pvector, type = "l", col = n, lwd = 2)
+  }
+  # Add mean
+  lines(meanpvector, type = "l",  col = "coral4",  lwd = 6)
+  legend("topleft", legend=paste("Mean = ", round(mean(meanpvector),3)),
+       col=c("coral4"), lty=1, lwd=3, cex=0.8)
+}
+
+bottleneck(0.5, 1000, 100, 20)
+genetic_drift(0.5, 1000, 100, 20)
+```
+  
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 4 | Population size vs. Effective population size </h3> </div>
+  
+Using the previous initial conditions: which population size better predict the bottleneck effects? the mean population size, or the harmonic mean? 
+
+<i class="fas fa-search"></i> Here you have a simple example on how to calculate the normal mean and the harmonic mean: 
+```{r example-mean-harmonic-mean}
+popSizes = c(500, 500, 500, 10, 500)
+mean(popSizes) # Mean
+1/mean(1/popSizes) # Harmonic mean
+```
+
+<i class="fa fa-info-circle"></i> The effective population size N<sub>e</sub> is approximately the number of individuals that contributes to the next generation. This is the size of a Wright-Fisher population that would produce the same magnitude of genetic drift (in this case a bottleneck).
+
+Which scenario is more similar to what you observed when there was a bottleneck? Simulate an scenario without a bottleneck, but considering the N as the mean or the harmonic mean.
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+| Simulation | A is lost (p=0) | Polymorphic |  A is fixed (p=1) |
+|:-------------:|:---------------:|:-----------:|:-----------------:|
+| p0=0.5, N=mean | 0 | 20 | 0 |
+| p0=0.5, N=harmonic mean | 0 | 20 | 0 |
+
+```{r answer-exercise-4}
+harmMean<-function(x){
+  m<-mean(1/x)
+  res<-1/m
+  return(res)
+}
+
+#previous initial conditions
+p_0=0.5
+Ne=1000
+tgen=100
+nrepl=20
+
+#Since the population was 1000 in all generations except the 50th one which was 10, so the vector should mirror it.
+popVector<-c(rep(Ne, 99), 10)
+popHarm<-round(harmMean(popVector))
+
+#harmonic drift
+genetic_drift(p_0, popHarm, tgen, nrepl)
+
+#generic drift
+genetic_drift(0.5, Ne, tgen, nrepl)
+
+```
+  
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# 4. Mutation as a population genetics force
+
+A mutation acts as a force that restores genetic variation eliminated by natural selection or that have been lost due to genetic drift. Mutations are the fundamental raw material of evolution.
+
+There are two types of mutation relative to population genetics:
+
+- **Recurrent**: mutations that occur repeatedly, generally at some characteristic frequency
+- **Non-recurrent**: mutations that arise only once in the history of a lineage
+
+In contrast to non-recurrent mutations, recurrent mutations will change gene (allele) frequencies, as a function of the rate at which such mutations arise (minus the frequency of reverse or *backward mutation*).  The spontaneous mutation rates are very low, typically between 10<sup>-7</sup> and  10<sup>-9</sup> for point mutations in higher organisms. 
+
+A *recurrent mutation* that changes the allele A to a, has a mutation rate of $\mu$:
+
+Generation 0: p<sub>0</sub> = 1; q<sub>0</sub> = 0
+
+Generation 1: q<sub>1</sub> = $\mu$p<sub>0</sub>
+
+Generation 2: q<sub>2</sub> = $\mu$p<sub>1</sub> + q<sub>1</sub>
+
+Generation n: q<sub>n</sub> = $\mu$p<sub>n-1</sub> + q<sub>n-1</sub>
+
+$$ q_n = 1-(1-\mu)^n \times p_0 $$
+
+$$ p_n = (1-\mu)^n \times p_0 $$
+
+Let's consider a "fight" between forward and backward mutation. **Forward mutation** changes the A allele to the a allele at a rate ($\mu$); **backward mutation** changes a to A at a rate ($\nu$). We can express the frequency (p) of the A allele in the next generation (p<sub>t</sub>+1) in terms of these opposing forward and reverse mutations: 
+
+$$ q_n = q_{n-1} + {\mu}p_{n-1}-{\nu}q_{n-1}$$
+$$ {\Delta}q = q_n - q_{n-1} = {\mu}p_{n-1}-{\nu}q_{n-1} $$
+$$ {\Delta}q = 0 $$
+$$ \hat{q} = \frac{\mu}{\mu + \nu} $$
+$$ \hat{p} = \frac{\nu}{\mu + \nu} $$
+
+Under this model allele frequencies will change each generation, eventually approaching and **equilibrium value**.
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Script 3: Simulation of mutation dynamics
+
+The following function plots the change in allele frequency q over generations considering a recurrent mutation with a $\mu$ of 0.0001.
+
+```{r script3-a}
+# Recurrent
+mut_dyn <- function(p0, mu, tgen) {
+    plot(0, 0, xlim = c(0,tgen), ylim = c(0,1), main = 
+    paste("Recurrent mutation – mu = ",mu),  xlab="Generation", ylab="q",
+    type="l")
+    freqvector <- c() 
+    freqvector[1] <- 1-p0
+    for (i in 1:tgen){
+        freqvector[i+1]<-1 - p0*(1- mu)^i
+    }
+    lines(freqvector, type = "l", lwd=3, col="coral4")
+}
+mut_dyn(1,0.0001,10000) 
+```
+  
+The following function plots the change in allele frequency q over generations considering a recurrent mutation with a $\mu$ of 0.0001 and a retromutation with a $\nu$ of 0.00001.
+
+
+```{r script3-b}
+# Recurrent retromutation
+mut_dyn_retro <- function(p0,mu,nu,tgen) {
+    plot(0,0,xlim = c(0,tgen),ylim = c(0,1),type = "l", main = 
+    paste("Mutation and retromutaion – mu = ",mu,"nu =",nu), xlab="Generation",
+    ylab="q")
+    freqvector <- c() 
+    freqvector[1]<- 1-p0
+    for (i in 1:tgen) {
+        freqvector[i+1]<-freqvector[i] + mu*(1-freqvector[i])- nu*freqvector[i]
+    }
+  lines(freqvector, type = "l",lwd=3, col="deepskyblue4")
+}
+mut_dyn_retro(1,0.0001,0.00001,10000)
+```
+  
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 5 | Exercise on mutation </h3> </div>
+  
+In a population, the D $\rightarrow$ d mutation rate is 4 $\times$ 10<sup>-6</sup>.  If p=0.8 today, what will p be after 50,000 generations? If there is a retromutation with rate 6 $\times$ 10<sup>-7</sup>, what  will be the allele frequency in the equilibrium?
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+
+```{r answer-exercise-5}
+
+# Recurrent
+mut_dyn <- function(p0, mu, tgen) {
+    plot(0, 0, xlim = c(0,tgen), ylim = c(0,1), main = 
+    paste("Recurrent mutation – mu = ",mu),  xlab="Generation", ylab="q",
+    type="l")
+    freqvector <- c() 
+    freqvector[1] <- 1-p0
+    for (i in 1:tgen){
+        freqvector[i+1]<-1 - p0*(1- mu)^i
+    }
+    cat("After 50000 generations p will be", 1-freqvector[i+1])
+    lines(freqvector, type = "l",lwd=3, col="deepskyblue4")
+
+}
+mut_dyn(0.8,0.000004,50000)
+
+
+equilibriumA<- 0.000004/(0.0000006+0.000004)
+
+cat("The allele frequency will be", equilibriumA, "for A and", 1-equilibriumA, "for a" )
+```
+  
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Deliver the R Markdown in [Aul@-ESCI](https://aula.esci.upf.edu/course/view.php?id=7762)
+
+<i class="fa fa-upload"></i> **Deliver this document in [Aul@-ESCI](https://aula.esci.upf.edu/course/view.php?id=7762) with your answers**
+
+<i class="fa fa-clock"></i> **Deadline**: 22 April 2024
+
+<i class="fa fa-envelope"></i> **Doubts?**  marta.coronado@csic.es and olga.dolgova@crg.es.
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+<br>
