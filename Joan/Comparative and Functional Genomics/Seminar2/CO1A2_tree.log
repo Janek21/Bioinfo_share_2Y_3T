@@ -1,0 +1,151 @@
+IQ-TREE multicore version 2.1.4-beta COVID-edition for Linux 64-bit built Jun 24 2021
+Developed by Bui Quang Minh, James Barbetti, Nguyen Lam Tung,
+Olga Chernomor, Heiko Schmidt, Dominik Schrempf, Michael Woodhams.
+
+Host:    JLL (AVX2, FMA3, 7 GB RAM)
+Command: iqtree2 -s CO1A2_trim.fa -B 1000 -m LG+G4 --prefix CO1A2_tree
+Seed:    989269 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Thu Apr 25 18:55:09 2024
+Kernel:  AVX+FMA - 1 threads (12 CPU cores detected)
+
+HINT: Use -nt option to specify number of threads because your CPU has 12 cores!
+HINT: -nt AUTO will automatically determine the best number of threads to use.
+
+Reading alignment file CO1A2_trim.fa ... Fasta format detected
+Alignment most likely contains protein sequences
+Alignment has 38 sequences with 1147 columns, 771 distinct patterns
+612 parsimony-informative, 139 singleton sites, 396 constant sites
+                                                             Gap/Ambiguity  Composition  p-value
+   1  CO1A2|Homo_sapiens                                             0.00%    passed     85.88%
+   2  NP_031769.2|Mus_musculus                                       0.00%    passed     99.08%
+   3  NP_001003187.1|Canis_lupus_familiaris                          0.00%    passed     95.94%
+   4  QTG40775.1|Cloning_vector_pRP-mChery-col1a2                    0.00%    passed     99.08%
+   5  QXO37029.1|Mammalian_gene_expression_vector_pRP-EGFP-Col1a2    0.00%    passed     99.08%
+   6  XP_051007948.1|Acomys_russatus                                 0.00%    passed     99.94%
+   7  XP_049641154.1|Suncus_etruscus                                 0.00%    passed     99.18%
+   8  EAW76795.1|Homo_sapiens                                       27.11%    failed      0.00%
+   9  XP_028926373.1|Ornithorhynchus_anatinus                        0.00%    passed     91.24%
+  10  XP_020855640.1|Phascolarctos_cinereus                          0.00%    passed     94.32%
+  11  KFO23903.1|Fukomys_damarensis                                  1.57%    passed    100.00%
+  12  TEA24756.1|Sousa_chinensis                                     1.05%    passed     98.81%
+  13  XP_040328586.1|Puma_yagouaroundi                              11.42%    passed     97.71%
+  14  NP_001080727.1|Xenopus_laevis                                  0.00%    passed     90.73%
+  15  EFB18514.1|Ailuropoda_melanoleuca                             13.95%    passed     94.41%
+  16  MXQ83349.1|Bos_mutus                                           0.96%    failed      0.03%
+  17  ADZ04657.1|Ambystoma_mexicanum                                 0.00%    passed     89.96%
+  18  XP_053322408.1|Spea_bombifrons                                 0.00%    passed     88.10%
+  19  KAG8443132.1|Hymenochirus_boettgeri                            0.00%    passed     89.58%
+  20  KAG9472320.1|Eleutherodactylus_coqui                           0.00%    passed     78.31%
+  21  XP_040289994.1|Bufo_bufo                                       0.00%    passed     33.93%
+  22  XP_053570034.1|Bombina_bombina                                 0.00%    passed     85.04%
+  23  C0HLJ6.1|Megatherium_americanum                               21.01%    failed      0.03%
+  24  XP_029444760.1|Rhinatrema_bivittatum                           0.00%    passed     57.40%
+  25  XP_030056470.1|Microcaecilia_unicolor                          0.17%    passed     40.53%
+  26  XP_029414203.1|Nannospalax_galili                             13.60%    passed     99.12%
+  27  XP_018416270.1|Nanorana_parkeri                                0.00%    passed     57.41%
+  28  KAG8548509.1|Engystomops_pustulosus                            0.00%    passed     97.03%
+  29  XP_041040372.1|Carcharodon_carcharias                          0.00%    passed     20.24%
+  30  XP_020371053.1|Rhincodon_typus                                 0.00%    passed     26.17%
+  31  XP_035510856.1|Morone_saxatilis                                0.00%    failed      0.12%
+  32  UNJ97021.1|Eptatretus_burgeri                                  0.09%    failed      0.50%
+  33  XP_032813113.1|Petromyzon_marinus                              0.00%    passed      9.42%
+  34  XP_053311794.1|Spea_bombifrons                                 0.00%    failed      1.53%
+  35  XP_045926300.1|Micropterus_dolomieu                            0.00%    failed      0.32%
+  36  XP_033794799.1|Geotrypetes_seraphini                           0.00%    passed     24.17%
+  37  TFK10573.1|Platysternon_megacephalum                           0.00%    passed     32.36%
+  38  XP_043869618.1|Solea_senegalensis                              0.00%    failed      0.07%
+****  TOTAL                                                          2.39%  8 sequences failed composition chi2 test (p-value<5%; df=19)
+NOTE: QTG40775.1|Cloning_vector_pRP-mChery-col1a2 is identical to NP_031769.2|Mus_musculus but kept for subsequent analysis
+NOTE: 1 identical sequences (see below) will be ignored for subsequent analysis
+NOTE: QXO37029.1|Mammalian_gene_expression_vector_pRP-EGFP-Col1a2 (identical to NP_031769.2|Mus_musculus) is ignored but added at the end
+Alignment was printed to CO1A2_tree.uniqueseq.phy
+
+For your convenience alignment with unique sequences printed to CO1A2_tree.uniqueseq.phy
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 0.010 seconds
+Generating 1000 samples for ultrafast bootstrap (seed: 989269)...
+
+NOTE: 21 MB RAM (0 GB) is required!
+Estimate model parameters (epsilon = 0.100)
+1. Initial log-likelihood: -25183.318
+2. Current log-likelihood: -24982.358
+3. Current log-likelihood: -24980.625
+Optimal log-likelihood: -24980.576
+Gamma shape alpha: 0.618
+Parameters optimization took 3 rounds (0.724 sec)
+Computing ML distances based on estimated model parameters...
+Computing ML distances took 0.058821 sec (of wall-clock time) 0.057922 sec(of CPU time)
+Computing RapidNJ tree took 0.000113 sec (of wall-clock time) 0.000110 sec (of CPU time)
+Log-likelihood of RapidNJ tree: -25056.807
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Generating 98 parsimony trees... 0.536 second
+Computing log-likelihood of 98 initial trees ... 5.820 seconds
+Current best score: -24980.576
+
+Do NNI search on 20 best initial trees
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 1: -24960.315
+Iteration 10 / LogL: -24971.371 / Time: 0h:0m:12s
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 17: -24960.068
+Iteration 20 / LogL: -24961.044 / Time: 0h:0m:21s
+Finish initializing candidate tree set (10)
+Current best tree score: -24960.068 / CPU time: 20.525
+Number of iterations: 20
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Iteration 30 / LogL: -24960.722 / Time: 0h:0m:31s (0h:1m:35s left)
+Iteration 40 / LogL: -24960.546 / Time: 0h:0m:42s (0h:1m:24s left)
+Iteration 50 / LogL: -24960.407 / Time: 0h:0m:54s (0h:1m:14s left)
+Log-likelihood cutoff on original alignment: -25032.706
+Iteration 60 / LogL: -24971.774 / Time: 0h:1m:7s (0h:1m:5s left)
+Iteration 70 / LogL: -24960.756 / Time: 0h:1m:25s (0h:0m:58s left)
+Iteration 80 / LogL: -24974.949 / Time: 0h:1m:44s (0h:0m:48s left)
+Iteration 90 / LogL: -24960.071 / Time: 0h:2m:2s (0h:0m:37s left)
+Iteration 100 / LogL: -24973.707 / Time: 0h:2m:21s (0h:0m:24s left)
+Log-likelihood cutoff on original alignment: -25032.706
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 0.999
+Iteration 110 / LogL: -24960.268 / Time: 0h:2m:39s (0h:2m:12s left)
+TREE SEARCH COMPLETED AFTER 118 ITERATIONS / Time: 0h:2m:55s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -24960.068
+Optimal log-likelihood: -24960.068
+Gamma shape alpha: 0.613
+Parameters optimization took 1 rounds (0.434 sec)
+BEST SCORE FOUND : -24960.068
+Creating bootstrap support values...
+Split supports printed to NEXUS file CO1A2_tree.splits.nex
+Total tree length: 5.041
+
+Total number of iterations: 118
+CPU time used for tree search: 173.590 sec (0h:2m:53s)
+Wall-clock time used for tree search: 174.049 sec (0h:2m:54s)
+Total CPU time used: 175.357 sec (0h:2m:55s)
+Total wall-clock time used: 175.825 sec (0h:2m:55s)
+
+Computing bootstrap consensus tree...
+Reading input file CO1A2_tree.splits.nex...
+37 taxa and 139 splits.
+Consensus tree written to CO1A2_tree.contree
+Reading input trees file CO1A2_tree.contree
+Log-likelihood of consensus tree: -24960.320
+
+Analysis results written to: 
+  IQ-TREE report:                CO1A2_tree.iqtree
+  Maximum-likelihood tree:       CO1A2_tree.treefile
+  Likelihood distances:          CO1A2_tree.mldist
+
+Ultrafast bootstrap approximation results written to:
+  Split support values:          CO1A2_tree.splits.nex
+  Consensus tree:                CO1A2_tree.contree
+  Screen log file:               CO1A2_tree.log
+
+Date and Time: Thu Apr 25 18:58:06 2024
