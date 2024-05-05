@@ -415,8 +415,18 @@ main (int argc, char *argv[])
 	    yMax = j;
 	  }
       }	// end for loop
-   if (rank != nprocs-1 ) MPI_Send( &h[nrows][jj], min(BS, dim2-jj+1), MPI_INT, rank+1, 0, MPI_COMM_WORLD); ///Tag could be 1 as well
-   /* Here we could use a non-blocking send. */ ///MPI_Isend+MPI_wait
+   ///if (rank != nprocs-1 ) MPI_Send( &h[nrows][jj], min(BS, dim2-jj+1), MPI_INT, rank+1, 0, MPI_COMM_WORLD); ///Tag could be 1 as well 
+   /* Here we could use a non-blocking send. */ ///Here i disabled the blocking send to use the non-blocking one
+   
+   ///Non-blocking approach
+   if (rank != nprocs-1 ){
+	   MPI_Request request; 
+	   
+	   MPI_Isend(&h[nrows][jj], min(BS, dim2-jj+1), MPI_INT, rank+1, 0, MPI_COMM_WORLD, &request); 
+	   MPI_Wait(&request, MPI_STATUS_IGNORE);
+   }
+   ///Non-blocking approach
+   
   }
 
 #if 1
