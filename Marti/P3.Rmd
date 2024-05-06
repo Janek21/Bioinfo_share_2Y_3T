@@ -1,0 +1,336 @@
+---
+title: "**Simulation of genetic drift and natural selection**<img src='https://www.construction21.org/espana/data/sources/users/8/images/logoesci-fons-blanc.png' style='position:absolute;top:0px;right:0px;' width='10%'/>"
+subtitle: Describing allele frequencies trajectories under the general viability selection model. Simulation of diploid selection with drift
+author: "Marta Coronado-Zamora (current version 04/2024)<br>First version: Marta Coronado-Zamora and Antonio Barbadilla 03/2020"
+date: "29 April 2024"
+output:
+  html_document:
+    theme: yeti
+    css: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css
+    self_contained: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 6, fig.height = 4, fig.align = "center")
+
+# install.packages("learnPopGen")
+library("learnPopGen")
+```
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div><br>
+
+<div style = "background-color:#86CBBB">
+<i class="fa fa-bullseye"></i>  **Main goals of the session**<br>
+
+1. Learn how to (1) **simulate genetic drift** and **natural selection** (2) to **infer the effect of genetic drift and natural selection on the temporal dynamic of genetic variation** by simulation
+
+2. To use **external R packages** to solve the previous objectives
+</div>
+
+# 1. R library: `learnPopGen`
+
+We are going to use the R library `learnPopGen` to simulates drift and natural selection at a single biallelic locus to study two classic evolution examples: the **evolution of the peppered moth** --an evolutionary instance of directional color change in the moth population as a consequence of air pollution during the Industrial Revolution-- and the case of **sickle cell anemia in humans** --an example of balancing selection, where the carriers of the sickle cell allele are resistant to malaria even though they have some anemia--. 
+
+We will use two functions: `selection()` --function that performs numerical analysis of a simple biallelic selection model-- and `drift.selection()` --simulates drift and natural selection at a single biallelic locus within one or various populations.
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# 2. Natural selection and genetic drift
+
+In this practical, we will see how natural selection acts in a finite size population. Both **genetic drift** and **natural selection** play an important role in determining how allelic frequencies evolve. By adjusting the population size and relative biological effectiveness of various genotypes, the interaction of these two evolutionary forces can be studied.
+
+Genetic drift tends to **eliminate genetic variation** by fixing one of the alleles to the detriment of the others. In any population of limited size, one allele will eventually increase to fixation at a rate dependent on population size.
+
+Selection can **maintain or eliminate genetic variation**. Selection in favor of heterozygous genotypes creates a **balanced polymorphism**, but selection in favor of one of the homozygotes eliminates variation in deterministic models (without genetic drift).
+
+When **genetic selection** and **drift operate together**, there is an opposition of evolutionary forces if the heterozygote is the fittest, with selection acting to maintain variation and genetic drift promoting its elimination. **The predominant force will depend on the relative strength of the genetic drift and natural selection**. Genetic drift is very strong when the population size is small, and weak if the population is large. Selection is strong if the parameters of fitness viability (w) differ considerably, and is weak if the values of w are similar to each other.
+
+![](figure2020_5_4D11_7_1.png)
+
+In this practical, we are going to study the effect of natural selection (without genetic drift) and directional selection with genetic drift with the case of the peppered moth (*Biston betularia*) and industrial melanism and balancing selection with genetic drift with the case of anemia and malaria resistance.
+ 
+## 2.1 General selection model in diploids
+
+The **general selection model** describes how a population's allele frequencies will change when acted upon by natural selection.
+
+|                                                   | AA | Aa | aa |   |
+|---------------------------------------------------|:--:|:--:|:--:|:--:|
+| Genotype frequency                                | p<sup>2</sup> | 2pq | q<sup>2</sup> | 1 |
+| Fitness viability                                 | w<sub>AA</sub> | w<sub>Aa</sub> | w<sub>aa</sub>  |  |
+| Proportion after selection                        |  p<sup>2</sup>w<sub>AA</sub> | 2pqw<sub>Aa</sub> |  q<sup>2</sup>w<sub>aa</sub> | w̄  |
+| Genotype frequencies after selection (normalized) | p<sup>2</sup>w<sub>AA</sub>/w̄ | 2pqw<sub>Aa</sub>/w̄ | q<sup>2</sup>w<sub>aa</sub>/w̄  |    1   |
+
+
+ The idea is that we start our genotypes in Hardy-Weinberg equilibrium in the offspring. each genotype has an associated fitness value, which is where selection enters the picture: multiply the fitness value by the genotype frequency to get the **relative contribution** of that genotype to the adults. We define the **average fitness of the population** (**\={w**}) to the be the sum of the relative contributions. Divide each relative contribution by the average fitness to get the **normalized frequency of each genotype** in the adults.
+ 
+ To formulate a general expression for genotype and allele frequency change under **directional selection**, we need to introduce two important parameters: **the selection coefficient** (**s**) and the **degree of dominance** (**h**). The selection  coefficient is the selective disadvantage of the disfavored allele and is calculated as one minus the relative fitness of the homozygote for the disfavored allele (w<sub>aa</sub> = 1-s). Because selection acts on phenotypes, we also need to account for the **level o dominance in the expression of the fitness**. When h = 0, relative fitness of AA, Aa and aa is 1, 1 and 1-s respectively, so that a is recessive and A is dominant. When h = 1, a is complete dominant over A, and the relative fitness of AA, Aa and aa is 1, 1-s and 1-s. When h = 1/2, there is no dominance in the expression of fitness.
+ 
+| **w<sub>AA</sub>** | **w<sub>Aa</sub>**  | **w<sub>aa</sub>** |
+|:------------------:|:-------------------:|:------------------:|
+|        1           |       1-hs          |       1-s          |
+
+
+![](image62020_5_4D9_17_32.png) 
+
+
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 1 </h3> </div>
+  
+Load the `learnPopGen` library. We are going to use the `selection()` function to study the expected theoretical behaviour of the selection model. This function takes three arguments: `p0` as the starting frequency for the A allele, `w` as a vector of the fitnesses for the three genotypes in the following order: AA, Aa, aa and `time` as the number of generations to run the analysis.
+Using `s` = 5\% and `p0` = 0.005, demonstrate if the following predictions are true or false:
+
+- If A rare and dominant, initial increase is rapid
+- If A rare and recessive, initial increase is very slow
+- Deleterious alleles are never completely eliminated
+
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+
+```{r answer-exercise-1}
+dominant_allele_selection <- selection(0.005, c(1, 1, 1-0.05), 5000)
+cat("If A is rare and dominant, the initial increase is rapid since we see an increase from the first generations, so this prediction is true.\n\n")
+
+recessive_allele_selection <- selection(0.005, c(1, 1-0.05, 1-0.05), 5000)
+cat("If A is rare and recessive, the initial increase is very slow since we start to see an increase when nearly 4000 generations have passed, so this prediction is true.\n\n")
+
+deleterious_never_eliminated <- selection(0.005, c(1-0.05, 1-0.05, 1-0.05), 5000)
+cat("Deleterious alleles are completely eliminated with the effect of time, so this prediction is false.")
+```
+   
+ 
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+ 
+ 
+# EFFECT OF DIRECTIONAL SELECTION IN A LOCUS WITHOUT GENETIC DRIFT
+
+We will illustrate this section with a classic example of population genetics: **selection for industrial melanism in peppered moths** (dominant allele selected in favor). Industrial melanism provides one of the best observed examples of evolutionary change due to natural selection and shows that natural selection can be a powerful force. The adults of *Biston betularia* are white in color, inhabiting forests, feeding at night and resting during the day on white lichen-covered logs. This lepidopteran can easily camouflage itself on these trees. During the English Industrial Revolution, the habitat of this nocturnal moth was drastically affected. The use of poor quality coals released a large amount of pollution into the atmosphere, which was carried by the winds to various destinations. This contamination resulted in the blackening of the logs on which they rested. There are several mutations in this species that are darker than the common in *Biston*. During this period, these blacker individuals (melanic forms) began to be more frequent, being able to better camouflage themselves on the now black trunks. In contrast, white individuals became less well adapted, since their natural predators could more easily identify them by contrasting with the blackened color of the trunk (Figure 1).
+ 
+![](biston2020_5_4D9_20_12.png) 
+
+**(A)** Map of the United Kingdom with graphs indicating the frequency of the melanic forms (black color), slightly melanic or insular (gray color) and non melanic or typical (white color) of the moths in 1950. The melanic form had high frequencies in industrial areas (Midlands, around London in the southeast and around Glasgow in the northwest), and low frequencies in less polluted areas. **(B)** Camouflage in the typical way on white logs before the industrial revolution. **(C) **Camouflage of the melanic form on the black trunks during the industrial revolution.
+
+The frequency of the melanic forms increased from a frequency of the M allele from p~0.005 in 1848 to p~0.776 in 1900 (52 generations). The selective model is:
+
+
+| **w<sub>MM</sub>** | **w<sub>Mt</sub>**  | **w<sub>tt</sub>** |
+|:------------------:|:-------------------:|:------------------:|
+|       1            |        1            |        1-s         |
+
+
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 2 </h3> </div>
+  
+Through trial and error, find a selection coefficient (s) that explains this evolutionary event considering that the genetic drift is not acting, using the `selection()` function. For example, start with a fitness for tt (w<sub>tt</sub>) of 0.5, and see what happens trying other values.
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+
+```{r answer-exercise-2}
+w <- c(1, 1, 0.82)
+
+selection_coef <- selection(0.005, w, 52)
+
+cat("Approximately the selection coefficient is s=0.18 (1-s=0.82, s=1-0.82, s=0.18), since the frequency of p is roughly 0.776 after 52 generations with a fitness value of 0.82. As the fitness value increases, the frequency of p decreases and viceversa.")
+
+```
+ 
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 3 </h3> </div>
+
+After 1995, the frequency of the M allele has decreased to less than 20\% following the enactment in England of anti-pollution legislation and the obligation to use mainly electrical or non-polluting energy sources. Could we claim that evolutionary change due to natural selection is reversible? Justify your answer.
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+# Yes, the effect can be reversible since it is an ability of the population to revert back to a previous state under certain conditions. In our case, the M allele was advantageous in a polluted environment but as this became cleaner, the allele was less frequent. If the environment ever became polluted again (by not using electrical/non-polluting energy resources), the M allele frequency would increase, so we can confirm that the effect of evolutionary change due to natural selection is reversible. 
+
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+ 
+# EFFECT OF DIRECTIONAL SELECTION ON A FINITE SIZE POPULATION
+ 
+Next, we are going to add to the previous example (adaptive evolution with strong selection in favor of the melanic form) the stochastic effect of genetic drift. For this we are going to assume that the melanic form exists initially in a single mutant (heterozygous) individual in the population (p0~0.005 in a population of 100 individuals). Fisher (1930) predicted that the survival probability of a new mutant is twice its selection coefficient (at least when s is small).
+
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 4 </h3> </div>
+  
+ To introduce the effect of genetic drift, now we will use the `drift.selection()` function. This takes five arguments:   `p0` as the starting frequency for the A allele, `w` as a vector of the fitnesses for the three genotypes in the following order: AA, Aa, aa, `time` as the number of generations to run the analysis, `Ne` as the effective population size and `nrep` as the number of replicate simulations.
+ 
+- Simulate the proposed situation and write your results in the table. In what proportion of cases is the melanic allele (M) lost even though it is advantageous? Do your results support Fisher's hypothesis? Make at least 20 replicates of this simulation. 
+  
+- Compare these results with the case of infinite population size (presented in exercise 2).
+   
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+| **Simulation**   | **M is lost (p=0)**  | **Polymorphic** | **M is fixed (p=1)**  |
+|:----------------:|:--------------------:|:---------------:|:---------------------:|
+| p0=0.005, Ne=100 |           18         |        2        |         0             |
+
+
+```{r answer-exercise-4}
+w_AA <- 1
+w_Aa <- 1
+w_aa <- 0.82
+
+results <- drift.selection(p0 = 0.005, w = c(w_AA,w_Aa,w_aa), ngen =52 , Ne =100 , nrep=20)
+
+cat("There are cases in this simulation of the melanic allele being lost, pretty much the whole population. 18/20 are lost, so 9 out of 10 individuals is the proportion. \n\n")
+
+cat("Given my fitness level of 0.82, the selection coefficient is 0.18, which according to Fisher’s hypothesis, predicts a survival probability of 36%. However, the survival rate observed in my case is only 10% (only 2 out of 20 alleles survived), which is less than the predicted value.")
+```
+ 
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+ 
+ 
+# SELECTION IN FAVOR OF THE HETEROZYGOTE IN A FINITE-SIZED POPULATION
+  
+Finally, we will illustrate the situation of strong selection in favor of the heterozygote in a finite population with one of the cases analyzed in more detail in the entire history of population genetics. This is the locus that encrypts the $\beta$ chain of hemoglobin. In current human populations, there are several alleles at this locus, among which allele A is the majority. The S allele is the cause, in homozygotes, of the disease known as **sickle cell anemia** that erythrocytes adopt in affected individuals (Figure 2). These suffer a severe hemolytic anemia that usually causes their death before reaching adulthood. In sub-Saharan African populations, there is a surprisingly high frequency of the S allele. In 1949, J. B. S. Haldane suggested that this high frequency was due to **heterozygous AS individuals not suffering from severe sickle cell anemia**, while presenting some **resistance to malaria**. Haldane based his proposal on the fact that the frequency of the S allele was higher in those areas where malaria was endemic.
+
+![](anemia2020_5_4D9_31_47.png) 
+
+Allison (1956) analyzed the frequencies of the three genotypes in children and adults from the following counts:
+ 
+|                    | AA  | AS  | SS |
+|--------------------|:---:|:---:|:--:|
+| Number of children | 189 | 89  | 9  |
+| Number of adult    | 400 | 249 | 5  | 
+ 
+ 
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 5 </h3> </div>
+  
+Based on the data in the table above, is there evidence to corroborate or reject the hypothesis that the AS genotype confers resistance to malaria? Calculate the frequencies of the three genotypes in children and adults. Do genotypic frequencies in children differ from those expected according to the Hardy-Weinberg equilibrium? And in adults? Try to explain your answer.
+
+<i class="fa fa-key"></i> **Hint: ** Use the `test_HWE()` function of P1.
+
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+
+```{r answer-exercise-5}
+library(HardyWeinberg)
+
+children_counts <- c(AA = 189, AS = 89, SS = 9)
+adult_counts <- c(AA = 400, AS = 249, SS = 5)
+
+children_freq <- children_counts / sum(children_counts)
+adult_freq <- adult_counts / sum(adult_counts)
+
+children_HW_test <- HWChisq(children_counts)
+adult_HW_test <- HWChisq(adult_counts)
+
+print(paste("Children genotype frequencies: ", children_freq))
+print(paste("Adult genotype frequencies: ", adult_freq))
+print(paste("Hardy-Weinberg equilibrium test for children: ", children_HW_test$pval))
+print(paste("Hardy-Weinberg equilibrium test for adults: ", adult_HW_test$pval))
+
+cat("\nThe frequency of the AS genotype is higher in adults (0.3807) than in children (0.3101). This could suggest that individuals with the AS genotype have an advantage of survival because they might be resistent to malaria. \n\n")
+
+cat("No, the genotypic frequencies in children do not differ from those expected in Hardy-Weinberg equilibrium. The p-value for the Hardy-Weinberg equilibrium test in children is 0.8272, which is greater than 0.05. This means that we accept the null hypothesis that the population is in Hardy-Weinberg equilibrium. \n\n")
+
+cat("Yes, the genotypic frequencies in adults differ from those expected in Hardy-Weinberg equilibrium.The p-value for the Hardy-Weinberg equilibrium test in adults is approximately 6.38e-07, which is under 0.05. This means that we reject the null hypothesis that the population is in Hardy-Weinberg equilibrium. \n\n")
+
+cat("The significant deviation from Hardy-Weinberg equilibrium in adults suggests that selection might be favoring the AS genotype, possibly due to its resistance to malaria.\n")
+
+```
+ 
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 6 </h3> </div>
+  
+Calculate the relative survival rates (dividing the frequency of each genotype in adults by the corresponding frequency in children), the relative biological efficiencies of each genotype in relation to that of the heterozygote, and the selection coefficients against the homozygote AA (s<sub>1</sub>) and against the homozygous SS (s<sub>2</sub>).
+
+| **w<sub>MM</sub>** | **w<sub>Mt</sub>**  | **w<sub>tt</sub>** |
+|:------------------:|:-------------------:|:------------------:|
+| 1-s<sub>1</sub>    | 1                   | 1-s<sub>2</sub>    |
+
+
+- Have you found evidence of selection in favor of the heterozygote? Do you think it is a weak or strong team? Do these data support the hypothesis p
+
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+
+|                       |  AA   |  AS   |  SS   |
+|-----------------------|:-----:|:-----:|:-----:|
+| Number of children    | 189   | 89    | 9     |
+| Number of adult       | 400   | 249   | 5     | 
+| Frequency in children | 0.659 | 0.310 | 0.031 |
+| Frequency in adults   | 0.612 | 0.381 | 0.007 |
+| Relative survival     | 0.929 | 1.228 | 0.244 |
+| Relative fitness      | 0.756 | 1     | 0.199 |
+| Selective coefficients (s<sub>1</sub> and s<sub>2</sub>)  | 0.244    |  0   | 0.801   |
+
+
+```{r answer-exercise-6}
+# Frequencies calculated in Ex 5
+relative_survival <- adult_freq / children_freq
+relative_fitness <- relative_survival / relative_survival["AS"]
+
+s1 <- 1 - relative_fitness["AA"]
+s2 <- 1 - relative_fitness["SS"]
+
+cat("Relative survival\t", relative_survival["AA"], "\t", relative_survival["AS"], "\t", relative_survival["SS"], "\n")
+cat("Relative fitness\t", relative_fitness["AA"], "\t", relative_fitness["AS"], "\t", relative_fitness["SS"], "\n")
+cat("Selective coefficients (s1 and s2)\t", s1, "\t", "N/A", "\t", s2, "\n")
+```
+ 
+<div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 7 </h3> </div>
+  
+Use the `drift.selection()` function to simulate allele frequency trajectories in the case of sickle cell anemia using the relative biological efficiencies that you have calculated in exercise 6. Start the simulations with an initial S allele frequency of 0.1 (initial A allele frequency = 0.9), for 100 generations, with (i) a large population (drift does not have a significant effect), (ii) N = 100, and (iii) N = 10. Make at least 20 replicates of each simulation and compare the results with the three population sizes. What is the effect of genetic drift on the dynamics of allele frequencies at a locus with strong selection in favor of the heterozygote? Justify your answer.
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+| Simulation | A is lost (p=0) | Polymorphic | A is fixed (p=1) |
+|:----------:|:---------------:|:-----------:|:----------------:|
+| N=500      |        0        |      20     |        0         |
+| N=100      |        0        |      20     |        0         |
+| N=10       |        0        |      0      |        20        |
+
+
+```{r answer-exercise-7}
+p0 <- 0.1  
+w <- c(1 - s1, 1, 1 - s2)
+
+ngen <- 100 
+nrep <- 20  
+
+results_500 <- drift.selection(p0 = p0, w = w, ngen = ngen, Ne = 500, nrep = nrep)
+
+results_100 <- drift.selection(p0 = p0, w = w, ngen = ngen, Ne = 100, nrep = nrep)
+
+results_10 <- drift.selection(p0 = p0, w = w, ngen = ngen, Ne = 10, nrep = nrep)
+
+
+cat("We can conclude that the bigger the group, the stronger the influence of selection is. This allows the A allele to persist at different frequencies within the population. However, in small groups (N=10), genetic drift can outweigh the effects of selection which leads to the fixation of the A allele. This shows that selection can maintain a variety of genes in larger populations (even if the heterozygotes are favored), but in smaller populations genetic drift can eliminate this variety, even against strong selection.\n")
+
+
+```
+  
+ 
+ <div  style = "background-color:#FFDAA1"><h3>
+  <i class="fa fa-cogs"></i> Exercise 8 </h3> </div>
+  
+Try to summarize what have you learnt in this practical.
+  
+##### <i class="fas fa-comment-dots"></i> Answer:
+
+In this practical, i explored how allele frequencies can change over time due to forces like
+selection and genetic drift. I discovered that in large populations, selection can maintain genetic diversity, even when one genotype has a strong advantage. However, in smaller populations, genetic drift can lead to a loss of this diversity. I also got hands-on experience with R by simulating these processes and interpreting the results.
+
+ 
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+
+# Deliver the R Markdown in [Aul@-ESCI](https://aula.esci.upf.edu/course/view.php?id=7762)
+
+<i class="fa fa-upload"></i> **Deliver this document in [Aul@-ESCI](https://aula.esci.upf.edu/course/view.php?id=7762) with your answers**
+
+<i class="fa fa-clock"></i> **Deadline**: 6 May 2024
+
+<i class="fa fa-envelope"></i> **Doubts?**  marta.coronado@uab.cat and olga.dolgova@crg.es.
+
+<div style="background-color: #86CBBB; 1px; height:3px " ></div>
+<br>
