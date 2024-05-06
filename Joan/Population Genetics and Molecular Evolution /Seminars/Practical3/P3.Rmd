@@ -93,9 +93,10 @@ s=0.05
 selection(0.005,w=c(1,1,1-s), 5000)
 selection(0.005,w=c(1,1-s,1-s), 5000)
 
-#True
-#True
-#False
+cat('True\n')
+cat('True\n')
+cat('False')
+
 ```
    
  
@@ -202,6 +203,12 @@ Based on the data in the table above, is there evidence to corroborate or reject
 
 
 ```{r answer-exercise-5}
+observed_children <- c(189, 89, 9)
+observed_adults <- c(400, 249, 5)
+
+total_children <- sum(observed_children)
+total_adults <- sum(observed_adults)
+
 
 ```
  
