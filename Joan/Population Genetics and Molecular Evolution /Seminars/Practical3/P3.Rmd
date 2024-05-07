@@ -169,7 +169,7 @@ Next, we are going to add to the previous example (adaptive evolution with stron
 ```{r answer-exercise-4}
 s=0.16
 drift.selection(0.005, 100, c(1,1,1-s), nrep = 20)
-drift.selection(0.005, 1000, c(1,1,1-s), nrep = 20)
+drift.selection(0.005, 2000, c(1,1,1-s), nrep = 20)
 
 ```
  
@@ -203,13 +203,46 @@ Based on the data in the table above, is there evidence to corroborate or reject
 
 
 ```{r answer-exercise-5}
-observed_children <- c(189, 89, 9)
-observed_adults <- c(400, 249, 5)
 
-total_children <- sum(observed_children)
-total_adults <- sum(observed_adults)
+test_HWE <- function(N11, N12, N22) {
+
+   N = N11 + N12 + N22 # N total sample
+   
+   # Allele frequencies estimation
+   p = (N11 + N12/2)/N # p is the frequency of X1 
+   q = 1 - p # q is the frequency of X2 
+   
+   #Genotype frequencies
+   f11 = N11/N # frequency of X11 genotype
+   f12 = N12/N # frequency of X12 genotype
+   f22 = N22/N # frequency of X22 genotype
+
+   # Expected HWE
+   E11 = N*p^2 
+   E12 = N*2*p*q
+   E22 = N-E11-E12
+   
+   # Chi-square value and probability
+   Chi_value = (N11-E11)^2/E11 + (N12-E12)^2/E12 + (N22-E22)^2/E22
+   prob = pchisq(Chi_value, df = 1, lower = F)
+
+   # Output
+   return (list("N" = N, "N11" = N11, "N12" = N12, "N22" = N22,
+                "p" = p, "q" = q,
+                "f11" = f11, "f12" = f12, "f22" = f22,
+                "Chi_value" = Chi_value, "prob" = prob))
+}
+children <- test_HWE(189, 89, 9)
+children
+#Here we can see that the chi value is lower than the critical value, therefor we reject the null, meaning that it follows HWE
+
+adults <- test_HWE(400, 249, 5)
+adults
+#Here we can see that the chi value is higher than the critical value, therefor we accept the null, meaning that it doesn't follow HWE
 
 
+
+children
 ```
  
 <div  style = "background-color:#FFDAA1"><h3>
@@ -232,15 +265,15 @@ Calculate the relative survival rates (dividing the frequency of each genotype i
 |-----------------------|:---:|:---:|:--:|
 | Number of children    | 189 | 89  | 9  |
 | Number of adult       | 400 | 249 | 5  | 
-| Frequency in children |     |     |    |
-| Frequency in adults   |     |     |    |
-| Relative survival     |     |     |    |
-| Relative fitness      |     |     |    |
-| Selective coefficients (s<sub>1</sub> and s<sub>2</sub>)  |     |     |    |
+| Frequency in children | 0.6585366    |  0.3101045   |  0.03135889  |
+| Frequency in adults   | 0.6116208    |  0.3807339   |  0.00764526  |
+| Relative survival     | 0.9287    |  1.2277   |  0.2438  |
+| Relative fitness      |  0.7564   |   1  |  0.1986  |
+| Selective coefficients (s<sub>1</sub> and s<sub>2</sub>)  | 0.2436    |  -   |  0.8014  |
 
 
 ```{r answer-exercise-6}
-
+#Looking at the table we can see how the heterozygote is the one with the most survival rate by a relatively strong margin
 ```
  
 <div  style = "background-color:#FFDAA1"><h3>
@@ -252,13 +285,15 @@ Use the `drift.selection()` function to simulate allele frequency trajectories i
 
 | Simulation | A is lost (p=0) | Polymorphic | A is fixed (p=1) |
 |:----------:|:---------------:|:-----------:|:----------------:|
-| N=500      |                 |             |                  |
-| N=100      |                 |             |                  |
-| N=10       |                 |             |                  |
+| N=500      |         0        |      20       |        0          |
+| N=100      |         0        |      20       |        0          |
+| N=10       |         0        |      3       |         17         |
 
 
 ```{r answer-exercise-7}
-
+simulation1 <- drift.selection(p0=0.9, Ne= 500, w=c(0.7564, 1, 0.1986), ngen=100, nrep=20)
+simulation2 <- drift.selection(p0=0.9, Ne= 100, w=c(0.7564, 1, 0.1986), ngen=100, nrep=20)
+simulation3 <- drift.selection(p0=0.9, Ne= 10, w=c(0.7564, 1, 0.1986), ngen=100, nrep=20)
 ```
   
  
@@ -269,7 +304,9 @@ Try to summarize what have you learnt in this practical.
   
 ##### <i class="fas fa-comment-dots"></i> Answer:
 
-
+# I have learned how to simulate populations in both natural selection and genetic drift situations, modify them according what I need and interpret the results and graphs obtained.
+# Also I have learned more about how polymorphism works
+#
 
  
 <div style="background-color: #86CBBB; 1px; height:3px " ></div>

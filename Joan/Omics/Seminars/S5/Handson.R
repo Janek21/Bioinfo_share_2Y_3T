@@ -127,4 +127,34 @@ PCA <- prcomp(log2(t(assays(se)$TMM)+1))
 
  #4.3
  
+ se <- se0  # Initial (preprocessed) dataset
+ se <- se[, colnames(se) != "896282"]
+
+ keep <- filterByExpr(se, group = se$cohort)
+ se <- se[keep, ]
+ dgl <- calcNormFactors(se, method = "TMM") 
+ assays(se)$CPM <- cpm(se) 
+ assays(se)$TMM <- cpm(dgl, normalized.lib.sizes = TRUE)
+ se
+
+ #5
+ 
+ cohort <- as.factor(se$cohort)
+ design <- model.matrix(~0 + cohort)
+ colnames(design) <- levels(cohort)
+ design
+
+ 
+ race <- as.factor(se$race)
+ age <- se$age
+ design <- model.matrix(~0 + cohort + age + race)
+ colnames(design)[1:2] <- levels(cohort)
+ design 
+
+ 
+ contr.matrix <- makeContrasts(
+   Bacterial - Influenza, 
+   levels = colnames(design)
+ )
+ contr.matrix 
  
