@@ -10,11 +10,14 @@ library(Glimma)
 BiocManager::install("SummarizedExperiment")
 library(SummarizedExperiment)
 install.packages("factoextra")
-BiocManager::install("factoextra")
 library(factoextra)
 install.packages("pheatmap")
 BiocManager::install("pheatmap")
 library(pheatmap)
+BiocManager::install("GO.db")
+library(GO.db)
+BiocManager::install("org.Hs.eg.db")
+library(org.Hs.eg.db)
 
 
 library(edgeR)
@@ -23,6 +26,8 @@ library(Glimma)
 library(SummarizedExperiment)
 library(factoextra)
 library(pheatmap)
+library(GO.db)
+library(org.Hs.eg.db)
 
 
 files_to_download <- c("GSE161731_counts.csv.gz",      # Gene expression (count matrix)
@@ -53,12 +58,12 @@ colData(se)
 rowRanges(se)
 
 
-#3.2
+#3.2 #data cleaning
 # Count samples per condition
 table(se$cohort)
 
 # Some individuals have replicated measurements
-table(table(se$subject_id)) 
+table(table(se$subject_id))
 
 se <- se[, !duplicated(se$subject_id)]  # keep only the first (arbitrary)
 table(se$cohort)
@@ -219,6 +224,7 @@ y2 <- voom(dgl2, design, plot = F)
 fit2 <- lmFit(y2, design)                      
 fit2 <- contrasts.fit(fit2, contr.matrix)      
 fit2 <- eBayes(fit2)
+
 
 go <- goana(fit2, species="Hs")
 topGO(go, n=10)
