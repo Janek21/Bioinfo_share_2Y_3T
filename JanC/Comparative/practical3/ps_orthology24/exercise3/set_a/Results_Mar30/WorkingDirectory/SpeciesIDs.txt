@@ -1,0 +1,2 @@
+0: ACYPI.fa
+1: MYZPE.fa

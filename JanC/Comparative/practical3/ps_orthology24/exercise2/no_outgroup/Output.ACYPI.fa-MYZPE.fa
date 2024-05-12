@@ -1,0 +1,1927 @@
+395 sequences in file ACYPI.fa
+433 sequences in file MYZPE.fa
+354 sequences ACYPI.fa have homologs in dataset MYZPE.fa
+377 sequences MYZPE.fa have homologs in dataset ACYPI.fa
+451 ACYPI.fa-ACYPI.fa matches
+538 MYZPE.fa-MYZPE.fa matches
+###################################
+317 groups of orthologs
+318 in-paralogs from ACYPI.fa
+322 in-paralogs from MYZPE.fa
+Grey zone 0 bits
+Score cutoff 40 bits
+In-paralogs with confidence less than 0.05 not shown
+Sequence overlap cutoff 0.5
+Group merging cutoff 0.5
+Scoring matrix BLOSUM62
+###################################
+___________________________________________________________________________________
+Group of orthologs #1. Best score 10659 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:10659   MYZPE.fa:10659
+Phy00BX2N6_ACYPI    	100.00%		Phy007AT13_MYZPE    	100.00%
+Bootstrap support for Phy00BX2N6_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AT13_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #2. Best score 9699 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:9699   MYZPE.fa:9699
+Phy00BX2O5_ACYPI    	100.00%		Phy007AQUW_MYZPE    	100.00%
+Bootstrap support for Phy00BX2O5_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQUW_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #3. Best score 8634 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:8634   MYZPE.fa:8634
+Phy0042CN4_ACYPI    	100.00%		Phy007AT1B_MYZPE    	100.00%
+Bootstrap support for Phy0042CN4_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AT1B_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #4. Best score 6754 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:751   MYZPE.fa:1361
+Phy00BX0K4_ACYPI    	100.00%		Phy007AN98_MYZPE    	100.00%
+Bootstrap support for Phy00BX0K4_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AN98_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #5. Best score 4901 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:4901   MYZPE.fa:4901
+Phy0042ENP_ACYPI    	100.00%		Phy007AQMR_MYZPE    	100.00%
+Bootstrap support for Phy0042ENP_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQMR_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #6. Best score 4438 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:4438   MYZPE.fa:4438
+Phy00BX1R4_ACYPI    	100.00%		Phy007AV3L_MYZPE    	100.00%
+Bootstrap support for Phy00BX1R4_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV3L_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #7. Best score 4153 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:4153   MYZPE.fa:4153
+Phy00428QG_ACYPI    	100.00%		Phy007ATXH_MYZPE    	100.00%
+Bootstrap support for Phy00428QG_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATXH_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #8. Best score 3761 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:3761   MYZPE.fa:3761
+Phy0010FWE_ACYPI    	100.00%		Phy007ASDT_MYZPE    	100.00%
+Bootstrap support for Phy0010FWE_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASDT_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #9. Best score 3106 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:3106   MYZPE.fa:3106
+Phy00422FO_ACYPI    	100.00%		Phy007AQ3S_MYZPE    	100.00%
+Bootstrap support for Phy00422FO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQ3S_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #10. Best score 2933 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2933   MYZPE.fa:2933
+Phy00BWZWL_ACYPI    	100.00%		Phy007AQQO_MYZPE    	100.00%
+Bootstrap support for Phy00BWZWL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQQO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #11. Best score 2647 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2647   MYZPE.fa:2647
+Phy00423B8_ACYPI    	100.00%		Phy007ANT4_MYZPE    	100.00%
+Bootstrap support for Phy00423B8_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANT4_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #12. Best score 2618 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2618   MYZPE.fa:2618
+Phy00BX2ZY_ACYPI    	100.00%		Phy007AYQP_MYZPE    	100.00%
+Bootstrap support for Phy00BX2ZY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYQP_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #13. Best score 2575 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2575   MYZPE.fa:2575
+Phy00428YY_ACYPI    	100.00%		Phy007ARYE_MYZPE    	100.00%
+Bootstrap support for Phy00428YY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARYE_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #14. Best score 2532 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2532   MYZPE.fa:2532
+Phy00428SG_ACYPI    	100.00%		Phy007AQLC_MYZPE    	100.00%
+Bootstrap support for Phy00428SG_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQLC_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #15. Best score 2352 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2352   MYZPE.fa:2352
+Phy00BWWQZ_ACYPI    	100.00%		Phy007AXIQ_MYZPE    	100.00%
+Bootstrap support for Phy00BWWQZ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXIQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #16. Best score 2330 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2330   MYZPE.fa:2330
+Phy0042DCZ_ACYPI    	100.00%		Phy007AWWX_MYZPE    	100.00%
+Bootstrap support for Phy0042DCZ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWWX_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #17. Best score 2254 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:128   MYZPE.fa:367
+Phy0010BYG_ACYPI    	100.00%		Phy007AWWE_MYZPE    	100.00%
+Bootstrap support for Phy0010BYG_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWWE_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #18. Best score 2077 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2077   MYZPE.fa:2077
+Phy00BWXBP_ACYPI    	100.00%		Phy007AWWV_MYZPE    	100.00%
+Bootstrap support for Phy00BWXBP_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWWV_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #19. Best score 2075 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2075   MYZPE.fa:2075
+Phy00424CQ_ACYPI    	100.00%		Phy007ANOP_MYZPE    	100.00%
+Bootstrap support for Phy00424CQ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANOP_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #20. Best score 2031 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2031   MYZPE.fa:2031
+Phy0010BUM_ACYPI    	100.00%		Phy007AP59_MYZPE    	100.00%
+Bootstrap support for Phy0010BUM_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AP59_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #21. Best score 2012 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:2012   MYZPE.fa:2012
+Phy004232E_ACYPI    	100.00%		Phy007AWBG_MYZPE    	100.00%
+Bootstrap support for Phy004232E_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWBG_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #22. Best score 1959 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1959   MYZPE.fa:1959
+Phy00428LP_ACYPI    	100.00%		Phy007AYKW_MYZPE    	100.00%
+Bootstrap support for Phy00428LP_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYKW_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #23. Best score 1912 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1912   MYZPE.fa:1912
+Phy0042253_ACYPI    	100.00%		Phy007AVAQ_MYZPE    	100.00%
+Bootstrap support for Phy0042253_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVAQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #24. Best score 1886 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1886   MYZPE.fa:1886
+Phy00429QC_ACYPI    	100.00%		Phy007AU03_MYZPE    	100.00%
+Bootstrap support for Phy00429QC_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AU03_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #25. Best score 1849 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1849   MYZPE.fa:1849
+Phy00422AJ_ACYPI    	100.00%		Phy007ATV8_MYZPE    	100.00%
+Bootstrap support for Phy00422AJ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATV8_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #26. Best score 1838 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1838   MYZPE.fa:1838
+Phy00424P9_ACYPI    	100.00%		Phy007AV10_MYZPE    	100.00%
+Bootstrap support for Phy00424P9_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV10_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #27. Best score 1798 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1798   MYZPE.fa:1798
+Phy00425AE_ACYPI    	100.00%		Phy007AS7N_MYZPE    	100.00%
+Bootstrap support for Phy00425AE_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AS7N_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #28. Best score 1753 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1753   MYZPE.fa:1753
+Phy0010D42_ACYPI    	100.00%		Phy007AZRO_MYZPE    	100.00%
+Bootstrap support for Phy0010D42_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZRO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #29. Best score 1752 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1678   MYZPE.fa:1752
+Phy00425RO_ACYPI    	100.00%		Phy007AXNM_MYZPE    	100.00%
+Bootstrap support for Phy00425RO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXNM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #30. Best score 1707 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1707   MYZPE.fa:1707
+Phy00BX1KV_ACYPI    	100.00%		Phy007AUDL_MYZPE    	100.00%
+Bootstrap support for Phy00BX1KV_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUDL_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #31. Best score 1696 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1696   MYZPE.fa:1696
+Phy0042F5L_ACYPI    	100.00%		Phy007ASN1_MYZPE    	100.00%
+Bootstrap support for Phy0042F5L_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASN1_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #32. Best score 1689 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1689   MYZPE.fa:1689
+Phy00BX1KU_ACYPI    	100.00%		Phy007AURM_MYZPE    	100.00%
+Bootstrap support for Phy00BX1KU_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AURM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #33. Best score 1620 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1620   MYZPE.fa:1620
+Phy0042405_ACYPI    	100.00%		Phy007AZO7_MYZPE    	100.00%
+Bootstrap support for Phy0042405_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZO7_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #34. Best score 1613 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1613   MYZPE.fa:1613
+Phy00BX0Q2_ACYPI    	100.00%		Phy007AUAN_MYZPE    	100.00%
+Bootstrap support for Phy00BX0Q2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUAN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #35. Best score 1597 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1597   MYZPE.fa:1597
+Phy00422Q3_ACYPI    	100.00%		Phy007AVDW_MYZPE    	100.00%
+Bootstrap support for Phy00422Q3_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVDW_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #36. Best score 1554 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1554   MYZPE.fa:351
+Phy0042AP2_ACYPI    	100.00%		Phy007AVPE_MYZPE    	100.00%
+Bootstrap support for Phy0042AP2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVPE_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #37. Best score 1548 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1548   MYZPE.fa:1548
+Phy00BX2LR_ACYPI    	100.00%		Phy007AOVX_MYZPE    	100.00%
+Bootstrap support for Phy00BX2LR_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AOVX_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #38. Best score 1543 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1543   MYZPE.fa:1543
+Phy00BWZWY_ACYPI    	100.00%		Phy007ALUB_MYZPE    	100.00%
+Bootstrap support for Phy00BWZWY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ALUB_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #39. Best score 1534 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1534   MYZPE.fa:1534
+Phy004258G_ACYPI    	100.00%		Phy007AX2S_MYZPE    	100.00%
+Bootstrap support for Phy004258G_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AX2S_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #40. Best score 1511 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1511   MYZPE.fa:1511
+Phy0042CJT_ACYPI    	100.00%		Phy007AV29_MYZPE    	100.00%
+Bootstrap support for Phy0042CJT_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV29_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #41. Best score 1488 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1488   MYZPE.fa:1488
+Phy0042AKQ_ACYPI    	100.00%		Phy007AWGN_MYZPE    	100.00%
+Bootstrap support for Phy0042AKQ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWGN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #42. Best score 1445 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1445   MYZPE.fa:1445
+Phy0042AS9_ACYPI    	100.00%		Phy007ALSN_MYZPE    	100.00%
+Bootstrap support for Phy0042AS9_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ALSN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #43. Best score 1438 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:864   MYZPE.fa:112
+Phy000XQ1P_ACYPI    	100.00%		Phy007AXCW_MYZPE    	100.00%
+Bootstrap support for Phy000XQ1P_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXCW_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #44. Best score 1437 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1437   MYZPE.fa:1437
+Phy00BX529_ACYPI    	100.00%		Phy007ASZ2_MYZPE    	100.00%
+Bootstrap support for Phy00BX529_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASZ2_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #45. Best score 1418 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1418   MYZPE.fa:1418
+Phy0042282_ACYPI    	100.00%		Phy007APZK_MYZPE    	100.00%
+Bootstrap support for Phy0042282_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APZK_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #46. Best score 1374 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1374   MYZPE.fa:1374
+Phy00BX3OX_ACYPI    	100.00%		Phy007AUZ2_MYZPE    	100.00%
+Bootstrap support for Phy00BX3OX_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUZ2_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #47. Best score 1352 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1352   MYZPE.fa:1352
+Phy004254Q_ACYPI    	100.00%		Phy007AMRS_MYZPE    	100.00%
+Bootstrap support for Phy004254Q_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMRS_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #48. Best score 1346 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1346   MYZPE.fa:1346
+Phy00BWZLR_ACYPI    	100.00%		Phy007AWLJ_MYZPE    	100.00%
+Bootstrap support for Phy00BWZLR_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWLJ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #49. Best score 1311 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1311   MYZPE.fa:1311
+Phy0010BM3_ACYPI    	100.00%		Phy007ATBO_MYZPE    	100.00%
+Bootstrap support for Phy0010BM3_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATBO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #50. Best score 1307 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1307   MYZPE.fa:1307
+Phy00420KR_ACYPI    	100.00%		Phy007AQI1_MYZPE    	100.00%
+Bootstrap support for Phy00420KR_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQI1_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #51. Best score 1301 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1301   MYZPE.fa:1301
+Phy0010HP0_ACYPI    	100.00%		Phy007AN0I_MYZPE    	100.00%
+Bootstrap support for Phy0010HP0_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AN0I_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #52. Best score 1290 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1290   MYZPE.fa:1290
+Phy00425SZ_ACYPI    	100.00%		Phy007AWDI_MYZPE    	100.00%
+Bootstrap support for Phy00425SZ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWDI_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #53. Best score 1279 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1279   MYZPE.fa:1279
+Phy0042C8J_ACYPI    	100.00%		Phy007ATNK_MYZPE    	100.00%
+Bootstrap support for Phy0042C8J_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATNK_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #54. Best score 1274 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1274   MYZPE.fa:1274
+Phy00BWX5C_ACYPI    	100.00%		Phy007AORD_MYZPE    	100.00%
+Bootstrap support for Phy00BWX5C_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AORD_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #55. Best score 1272 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1272   MYZPE.fa:1272
+Phy0010FV0_ACYPI    	100.00%		Phy007AWBD_MYZPE    	100.00%
+Bootstrap support for Phy0010FV0_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWBD_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #56. Best score 1260 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1260   MYZPE.fa:1260
+Phy0042041_ACYPI    	100.00%		Phy007AVVJ_MYZPE    	100.00%
+Bootstrap support for Phy0042041_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVVJ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #57. Best score 1247 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1247   MYZPE.fa:1247
+Phy00BX4C5_ACYPI    	100.00%		Phy007AT9F_MYZPE    	100.00%
+Bootstrap support for Phy00BX4C5_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AT9F_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #58. Best score 1247 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1247   MYZPE.fa:1247
+Phy0010EKE_ACYPI    	100.00%		Phy007AN85_MYZPE    	100.00%
+Bootstrap support for Phy0010EKE_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AN85_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #59. Best score 1242 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1242   MYZPE.fa:1242
+Phy0010HTN_ACYPI    	100.00%		Phy007ANJZ_MYZPE    	100.00%
+Bootstrap support for Phy0010HTN_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANJZ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #60. Best score 1238 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1238   MYZPE.fa:1238
+Phy0010E72_ACYPI    	100.00%		Phy007ARKI_MYZPE    	100.00%
+Bootstrap support for Phy0010E72_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARKI_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #61. Best score 1206 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1206   MYZPE.fa:1206
+Phy00BX1SH_ACYPI    	100.00%		Phy007ASPQ_MYZPE    	100.00%
+Bootstrap support for Phy00BX1SH_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASPQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #62. Best score 1200 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1200   MYZPE.fa:1200
+Phy004298S_ACYPI    	100.00%		Phy007ARAC_MYZPE    	100.00%
+Bootstrap support for Phy004298S_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARAC_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #63. Best score 1196 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1196   MYZPE.fa:1196
+Phy0010HRQ_ACYPI    	100.00%		Phy007AS3A_MYZPE    	100.00%
+Bootstrap support for Phy0010HRQ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AS3A_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #64. Best score 1194 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1194   MYZPE.fa:1194
+Phy00BX0EM_ACYPI    	100.00%		Phy007ATQ2_MYZPE    	100.00%
+Bootstrap support for Phy00BX0EM_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATQ2_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #65. Best score 1163 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1163   MYZPE.fa:1163
+Phy00BX1GM_ACYPI    	100.00%		Phy007ARSF_MYZPE    	100.00%
+Bootstrap support for Phy00BX1GM_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARSF_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #66. Best score 1153 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1153   MYZPE.fa:1153
+Phy0010HBK_ACYPI    	100.00%		Phy007AS7X_MYZPE    	100.00%
+Bootstrap support for Phy0010HBK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AS7X_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #67. Best score 1152 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1152   MYZPE.fa:1152
+Phy00BX05B_ACYPI    	100.00%		Phy007AWF3_MYZPE    	100.00%
+Bootstrap support for Phy00BX05B_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWF3_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #68. Best score 1151 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1151   MYZPE.fa:207
+Phy0042CQV_ACYPI    	100.00%		Phy007AUC8_MYZPE    	100.00%
+Bootstrap support for Phy0042CQV_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUC8_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #69. Best score 1141 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1141   MYZPE.fa:1141
+Phy0042035_ACYPI    	100.00%		Phy007AWG0_MYZPE    	100.00%
+Bootstrap support for Phy0042035_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWG0_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #70. Best score 1137 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1137   MYZPE.fa:1137
+Phy00BWY4A_ACYPI    	100.00%		Phy007AVC6_MYZPE    	100.00%
+Bootstrap support for Phy00BWY4A_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVC6_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #71. Best score 1131 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1131   MYZPE.fa:1131
+Phy00428ZO_ACYPI    	100.00%		Phy007AVLR_MYZPE    	100.00%
+Bootstrap support for Phy00428ZO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVLR_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #72. Best score 1121 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1121   MYZPE.fa:1121
+Phy00BX15Y_ACYPI    	100.00%		Phy007AN5H_MYZPE    	100.00%
+Bootstrap support for Phy00BX15Y_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AN5H_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #73. Best score 1097 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1097   MYZPE.fa:1097
+Phy0010GMJ_ACYPI    	100.00%		Phy007AY3M_MYZPE    	100.00%
+Bootstrap support for Phy0010GMJ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AY3M_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #74. Best score 1091 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1091   MYZPE.fa:1091
+Phy0010BDV_ACYPI    	100.00%		Phy007AWDL_MYZPE    	100.00%
+Bootstrap support for Phy0010BDV_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWDL_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #75. Best score 1091 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1091   MYZPE.fa:1091
+Phy00BWZW2_ACYPI    	100.00%		Phy007ASNB_MYZPE    	100.00%
+Bootstrap support for Phy00BWZW2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASNB_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #76. Best score 1089 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1089   MYZPE.fa:1089
+Phy0010F1E_ACYPI    	100.00%		Phy007AWKY_MYZPE    	100.00%
+Bootstrap support for Phy0010F1E_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWKY_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #77. Best score 1086 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1086   MYZPE.fa:1086
+Phy00BX15C_ACYPI    	100.00%		Phy007AVYX_MYZPE    	100.00%
+Bootstrap support for Phy00BX15C_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVYX_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #78. Best score 1084 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1084   MYZPE.fa:1084
+Phy0042885_ACYPI    	100.00%		Phy007ATGD_MYZPE    	100.00%
+Bootstrap support for Phy0042885_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATGD_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #79. Best score 1062 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:359   MYZPE.fa:1062
+Phy0042233_ACYPI    	100.00%		Phy007ATFF_MYZPE    	100.00%
+                    	       		Phy007AV73_MYZPE    	13.79%
+Bootstrap support for Phy0042233_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATFF_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #80. Best score 1061 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1061   MYZPE.fa:1061
+Phy004266C_ACYPI    	100.00%		Phy007ASEW_MYZPE    	100.00%
+Bootstrap support for Phy004266C_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASEW_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #81. Best score 1059 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1059   MYZPE.fa:1059
+Phy0010ETL_ACYPI    	100.00%		Phy007ATS6_MYZPE    	100.00%
+Bootstrap support for Phy0010ETL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATS6_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #82. Best score 1058 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1058   MYZPE.fa:1058
+Phy0010HB6_ACYPI    	100.00%		Phy007AW92_MYZPE    	100.00%
+Bootstrap support for Phy0010HB6_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AW92_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #83. Best score 1054 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1054   MYZPE.fa:62
+Phy000XPRZ_ACYPI    	100.00%		Phy007ARNB_MYZPE    	100.00%
+Bootstrap support for Phy000XPRZ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARNB_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #84. Best score 1042 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1042   MYZPE.fa:1042
+Phy0010HGX_ACYPI    	100.00%		Phy007AQA4_MYZPE    	100.00%
+Bootstrap support for Phy0010HGX_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQA4_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #85. Best score 1041 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1041   MYZPE.fa:518
+Phy0041ZIK_ACYPI    	100.00%		Phy007AO3L_MYZPE    	100.00%
+Bootstrap support for Phy0041ZIK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AO3L_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #86. Best score 1036 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1036   MYZPE.fa:1036
+Phy0042AT3_ACYPI    	100.00%		Phy007APPJ_MYZPE    	100.00%
+Bootstrap support for Phy0042AT3_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APPJ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #87. Best score 1027 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1027   MYZPE.fa:1027
+Phy000XPD5_ACYPI    	100.00%		Phy007AWW4_MYZPE    	100.00%
+Bootstrap support for Phy000XPD5_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWW4_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #88. Best score 1027 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1027   MYZPE.fa:1027
+Phy0010D28_ACYPI    	100.00%		Phy007AMEX_MYZPE    	100.00%
+Bootstrap support for Phy0010D28_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMEX_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #89. Best score 1025 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1025   MYZPE.fa:1025
+Phy0042AK1_ACYPI    	100.00%		Phy007AXG6_MYZPE    	100.00%
+Bootstrap support for Phy0042AK1_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXG6_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #90. Best score 1018 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1018   MYZPE.fa:1018
+Phy0010C98_ACYPI    	100.00%		Phy007ATD3_MYZPE    	100.00%
+Bootstrap support for Phy0010C98_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATD3_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #91. Best score 1017 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1017   MYZPE.fa:1017
+Phy0010EOY_ACYPI    	100.00%		Phy007AR10_MYZPE    	100.00%
+Bootstrap support for Phy0010EOY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AR10_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #92. Best score 1017 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1017   MYZPE.fa:1017
+Phy00420LL_ACYPI    	100.00%		Phy007AYR0_MYZPE    	100.00%
+Bootstrap support for Phy00420LL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYR0_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #93. Best score 1015 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1015   MYZPE.fa:1015
+Phy0042EF4_ACYPI    	100.00%		Phy007AVQB_MYZPE    	100.00%
+Bootstrap support for Phy0042EF4_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVQB_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #94. Best score 1006 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1006   MYZPE.fa:1006
+Phy0042AUL_ACYPI    	100.00%		Phy007ARCO_MYZPE    	100.00%
+Bootstrap support for Phy0042AUL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARCO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #95. Best score 1005 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1005   MYZPE.fa:1005
+Phy0041ZZ3_ACYPI    	100.00%		Phy007AMB9_MYZPE    	100.00%
+Bootstrap support for Phy0041ZZ3_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMB9_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #96. Best score 1002 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:926   MYZPE.fa:773
+Phy00BWW63_ACYPI    	100.00%		Phy007AO55_MYZPE    	100.00%
+Bootstrap support for Phy00BWW63_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AO55_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #97. Best score 1002 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1002   MYZPE.fa:1002
+Phy0010HT6_ACYPI    	100.00%		Phy007AV0S_MYZPE    	100.00%
+Bootstrap support for Phy0010HT6_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV0S_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #98. Best score 999 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:999   MYZPE.fa:999
+Phy00421Q8_ACYPI    	100.00%		Phy007ATOJ_MYZPE    	100.00%
+Bootstrap support for Phy00421Q8_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATOJ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #99. Best score 999 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:999   MYZPE.fa:999
+Phy0042C5B_ACYPI    	100.00%		Phy007AUJO_MYZPE    	100.00%
+Bootstrap support for Phy0042C5B_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUJO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #100. Best score 985 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:985   MYZPE.fa:985
+Phy000XPU0_ACYPI    	100.00%		Phy007ARDW_MYZPE    	100.00%
+Bootstrap support for Phy000XPU0_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARDW_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #101. Best score 980 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:980   MYZPE.fa:980
+Phy0042BWI_ACYPI    	100.00%		Phy007AMQH_MYZPE    	100.00%
+Bootstrap support for Phy0042BWI_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMQH_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #102. Best score 963 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:963   MYZPE.fa:963
+Phy00BX4AK_ACYPI    	100.00%		Phy007ANX6_MYZPE    	100.00%
+Bootstrap support for Phy00BX4AK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANX6_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #103. Best score 960 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:960   MYZPE.fa:960
+Phy0010GRA_ACYPI    	100.00%		Phy007AY3W_MYZPE    	100.00%
+Bootstrap support for Phy0010GRA_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AY3W_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #104. Best score 952 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:952   MYZPE.fa:952
+Phy00BWYNY_ACYPI    	100.00%		Phy007AZ22_MYZPE    	100.00%
+Bootstrap support for Phy00BWYNY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZ22_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #105. Best score 948 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:948   MYZPE.fa:948
+Phy00425TK_ACYPI    	100.00%		Phy007ATKG_MYZPE    	100.00%
+Bootstrap support for Phy00425TK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATKG_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #106. Best score 946 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:946   MYZPE.fa:946
+Phy00BX4KD_ACYPI    	100.00%		Phy007AT6Q_MYZPE    	100.00%
+Bootstrap support for Phy00BX4KD_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AT6Q_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #107. Best score 937 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:937   MYZPE.fa:937
+Phy004208O_ACYPI    	100.00%		Phy007APBT_MYZPE    	100.00%
+Bootstrap support for Phy004208O_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APBT_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #108. Best score 934 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:934   MYZPE.fa:934
+Phy000XPU2_ACYPI    	100.00%		Phy007ATZU_MYZPE    	100.00%
+Bootstrap support for Phy000XPU2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATZU_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #109. Best score 933 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:933   MYZPE.fa:933
+Phy00BWYME_ACYPI    	100.00%		Phy007AUQL_MYZPE    	100.00%
+Bootstrap support for Phy00BWYME_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUQL_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #110. Best score 931 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:931   MYZPE.fa:931
+Phy0010D0T_ACYPI    	100.00%		Phy007AQI5_MYZPE    	100.00%
+Bootstrap support for Phy0010D0T_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQI5_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #111. Best score 924 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:924   MYZPE.fa:924
+Phy00BX54I_ACYPI    	100.00%		Phy007AM5F_MYZPE    	100.00%
+Bootstrap support for Phy00BX54I_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AM5F_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #112. Best score 923 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:923   MYZPE.fa:923
+Phy0010GEE_ACYPI    	100.00%		Phy007AWFN_MYZPE    	100.00%
+Bootstrap support for Phy0010GEE_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWFN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #113. Best score 922 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:922   MYZPE.fa:922
+Phy00BWVPM_ACYPI    	100.00%		Phy007AP4J_MYZPE    	100.00%
+Bootstrap support for Phy00BWVPM_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AP4J_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #114. Best score 918 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:918   MYZPE.fa:918
+Phy0010I13_ACYPI    	100.00%		Phy007AXK9_MYZPE    	100.00%
+Bootstrap support for Phy0010I13_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXK9_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #115. Best score 901 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:901   MYZPE.fa:901
+Phy0010HXB_ACYPI    	100.00%		Phy007AQI7_MYZPE    	100.00%
+Bootstrap support for Phy0010HXB_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQI7_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #116. Best score 900 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:900   MYZPE.fa:900
+Phy004287A_ACYPI    	100.00%		Phy007AQRY_MYZPE    	100.00%
+Bootstrap support for Phy004287A_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQRY_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #117. Best score 899 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:899   MYZPE.fa:899
+Phy0042EEO_ACYPI    	100.00%		Phy007AVAA_MYZPE    	100.00%
+Bootstrap support for Phy0042EEO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVAA_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #118. Best score 893 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:893   MYZPE.fa:893
+Phy00BX24R_ACYPI    	100.00%		Phy007AQG0_MYZPE    	100.00%
+Bootstrap support for Phy00BX24R_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQG0_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #119. Best score 889 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:889   MYZPE.fa:889
+Phy0042AZS_ACYPI    	100.00%		Phy007ANLB_MYZPE    	100.00%
+Bootstrap support for Phy0042AZS_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANLB_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #120. Best score 888 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:1   MYZPE.fa:5
+Phy0010H4C_ACYPI    	100.00%		Phy007AZIM_MYZPE    	100.00%
+Bootstrap support for Phy0010H4C_ACYPI as seed ortholog is 50%. Alternative seed ortholog is Phy0010FJY_ACYPI (1 bits away from this cluster)
+Bootstrap support for Phy007AZIM_MYZPE as seed ortholog is 63%. Alternative seed ortholog is Phy007AVBU_MYZPE (5 bits away from this cluster)
+___________________________________________________________________________________
+Group of orthologs #121. Best score 885 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:885   MYZPE.fa:102
+Phy0042515_ACYPI    	100.00%		Phy007AMP0_MYZPE    	100.00%
+Bootstrap support for Phy0042515_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMP0_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #122. Best score 884 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:884   MYZPE.fa:884
+Phy0010H5J_ACYPI    	100.00%		Phy007ALVA_MYZPE    	100.00%
+Bootstrap support for Phy0010H5J_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ALVA_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #123. Best score 883 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:883   MYZPE.fa:883
+Phy0010BBQ_ACYPI    	100.00%		Phy007AT4M_MYZPE    	100.00%
+Bootstrap support for Phy0010BBQ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AT4M_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #124. Best score 882 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:882   MYZPE.fa:882
+Phy00BWWXJ_ACYPI    	100.00%		Phy007AMST_MYZPE    	100.00%
+Bootstrap support for Phy00BWWXJ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMST_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #125. Best score 878 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:878   MYZPE.fa:878
+Phy0042B2O_ACYPI    	100.00%		Phy007AVQL_MYZPE    	100.00%
+Bootstrap support for Phy0042B2O_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVQL_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #126. Best score 874 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:874   MYZPE.fa:874
+Phy0010FJG_ACYPI    	100.00%		Phy007ASJ7_MYZPE    	100.00%
+Bootstrap support for Phy0010FJG_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASJ7_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #127. Best score 871 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:871   MYZPE.fa:871
+Phy0042681_ACYPI    	100.00%		Phy007AR2W_MYZPE    	100.00%
+Bootstrap support for Phy0042681_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AR2W_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #128. Best score 866 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:866   MYZPE.fa:866
+Phy0042669_ACYPI    	100.00%		Phy007AXQZ_MYZPE    	100.00%
+Bootstrap support for Phy0042669_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXQZ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #129. Best score 865 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:865   MYZPE.fa:865
+Phy000XPX4_ACYPI    	100.00%		Phy007AM88_MYZPE    	100.00%
+Bootstrap support for Phy000XPX4_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AM88_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #130. Best score 861 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:861   MYZPE.fa:43
+Phy00BX36V_ACYPI    	100.00%		Phy007AYEX_MYZPE    	100.00%
+                    	       		Phy007AX6C_MYZPE    	6.96%
+Bootstrap support for Phy00BX36V_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYEX_MYZPE as seed ortholog is 96%.
+___________________________________________________________________________________
+Group of orthologs #131. Best score 861 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:861   MYZPE.fa:861
+Phy0042F1R_ACYPI    	100.00%		Phy007AY9S_MYZPE    	100.00%
+Bootstrap support for Phy0042F1R_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AY9S_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #132. Best score 860 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:860   MYZPE.fa:860
+Phy0041ZYC_ACYPI    	100.00%		Phy007ANHD_MYZPE    	100.00%
+Bootstrap support for Phy0041ZYC_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANHD_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #133. Best score 851 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:851   MYZPE.fa:851
+Phy0010C8I_ACYPI    	100.00%		Phy007AVEG_MYZPE    	100.00%
+Bootstrap support for Phy0010C8I_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVEG_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #134. Best score 842 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:842   MYZPE.fa:394
+Phy00BX278_ACYPI    	100.00%		Phy007AMLH_MYZPE    	100.00%
+Bootstrap support for Phy00BX278_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMLH_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #135. Best score 840 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:840   MYZPE.fa:840
+Phy004258E_ACYPI    	100.00%		Phy007ATXS_MYZPE    	100.00%
+Bootstrap support for Phy004258E_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATXS_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #136. Best score 836 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:836   MYZPE.fa:836
+Phy0010FOJ_ACYPI    	100.00%		Phy007AWP1_MYZPE    	100.00%
+Bootstrap support for Phy0010FOJ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWP1_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #137. Best score 819 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:819   MYZPE.fa:819
+Phy00BX2JS_ACYPI    	100.00%		Phy007AXT4_MYZPE    	100.00%
+Bootstrap support for Phy00BX2JS_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXT4_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #138. Best score 817 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:817   MYZPE.fa:817
+Phy00422NR_ACYPI    	100.00%		Phy007AR55_MYZPE    	100.00%
+Bootstrap support for Phy00422NR_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AR55_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #139. Best score 809 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:809   MYZPE.fa:809
+Phy00BX273_ACYPI    	100.00%		Phy007ANUV_MYZPE    	100.00%
+Bootstrap support for Phy00BX273_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANUV_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #140. Best score 806 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:806   MYZPE.fa:806
+Phy0010DI1_ACYPI    	100.00%		Phy007AZNR_MYZPE    	100.00%
+Bootstrap support for Phy0010DI1_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZNR_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #141. Best score 798 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:798   MYZPE.fa:798
+Phy00BWVA9_ACYPI    	100.00%		Phy007AYHJ_MYZPE    	100.00%
+Bootstrap support for Phy00BWVA9_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYHJ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #142. Best score 795 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:795   MYZPE.fa:795
+Phy0042268_ACYPI    	100.00%		Phy007AOQ7_MYZPE    	100.00%
+Bootstrap support for Phy0042268_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AOQ7_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #143. Best score 794 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:794   MYZPE.fa:794
+Phy00427WM_ACYPI    	100.00%		Phy007AWCH_MYZPE    	100.00%
+Bootstrap support for Phy00427WM_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWCH_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #144. Best score 791 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:791   MYZPE.fa:791
+Phy00BWX26_ACYPI    	100.00%		Phy007AVA2_MYZPE    	100.00%
+Bootstrap support for Phy00BWX26_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVA2_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #145. Best score 790 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:790   MYZPE.fa:790
+Phy0010HY2_ACYPI    	100.00%		Phy007AQPV_MYZPE    	100.00%
+Bootstrap support for Phy0010HY2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQPV_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #146. Best score 785 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:785   MYZPE.fa:785
+Phy00BX2LA_ACYPI    	100.00%		Phy007ANAB_MYZPE    	100.00%
+Bootstrap support for Phy00BX2LA_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANAB_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #147. Best score 784 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:784   MYZPE.fa:784
+Phy0042D1M_ACYPI    	100.00%		Phy007AVVM_MYZPE    	100.00%
+Bootstrap support for Phy0042D1M_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVVM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #148. Best score 784 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:784   MYZPE.fa:784
+Phy00BX55U_ACYPI    	100.00%		Phy007AZ9J_MYZPE    	100.00%
+Bootstrap support for Phy00BX55U_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZ9J_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #149. Best score 780 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:780   MYZPE.fa:780
+Phy0042DTH_ACYPI    	100.00%		Phy007AV5H_MYZPE    	100.00%
+Bootstrap support for Phy0042DTH_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV5H_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #150. Best score 769 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:769   MYZPE.fa:769
+Phy00425ES_ACYPI    	100.00%		Phy007AQG8_MYZPE    	100.00%
+Bootstrap support for Phy00425ES_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQG8_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #151. Best score 767 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:767   MYZPE.fa:767
+Phy00429HQ_ACYPI    	100.00%		Phy007ASCW_MYZPE    	100.00%
+Bootstrap support for Phy00429HQ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASCW_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #152. Best score 759 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:759   MYZPE.fa:759
+Phy000YFCC_ACYPI    	100.00%		Phy007AS56_MYZPE    	100.00%
+Bootstrap support for Phy000YFCC_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AS56_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #153. Best score 758 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:758   MYZPE.fa:338
+Phy00424H0_ACYPI    	100.00%		Phy007AYRM_MYZPE    	100.00%
+Bootstrap support for Phy00424H0_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYRM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #154. Best score 757 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:644   MYZPE.fa:757
+Phy0042B2G_ACYPI    	100.00%		Phy007ASLM_MYZPE    	100.00%
+Bootstrap support for Phy0042B2G_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASLM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #155. Best score 756 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:756   MYZPE.fa:756
+Phy0010GP8_ACYPI    	100.00%		Phy007ASVN_MYZPE    	100.00%
+Bootstrap support for Phy0010GP8_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASVN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #156. Best score 753 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:753   MYZPE.fa:753
+Phy0042CIF_ACYPI    	100.00%		Phy007AZP1_MYZPE    	100.00%
+Bootstrap support for Phy0042CIF_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZP1_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #157. Best score 749 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:626   MYZPE.fa:651
+Phy00BWYUS_ACYPI    	100.00%		Phy007APY3_MYZPE    	100.00%
+Bootstrap support for Phy00BWYUS_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APY3_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #158. Best score 743 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:743   MYZPE.fa:743
+Phy0042F1O_ACYPI    	100.00%		Phy007ARGX_MYZPE    	100.00%
+Bootstrap support for Phy0042F1O_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARGX_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #159. Best score 732 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:732   MYZPE.fa:732
+Phy0010EAE_ACYPI    	100.00%		Phy007AW1N_MYZPE    	100.00%
+Bootstrap support for Phy0010EAE_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AW1N_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #160. Best score 719 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:719   MYZPE.fa:719
+Phy00BWWNC_ACYPI    	100.00%		Phy007AQXA_MYZPE    	100.00%
+Bootstrap support for Phy00BWWNC_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQXA_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #161. Best score 717 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:717   MYZPE.fa:577
+Phy00BX0HM_ACYPI    	100.00%		Phy007AVIO_MYZPE    	100.00%
+Bootstrap support for Phy00BX0HM_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVIO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #162. Best score 716 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:716   MYZPE.fa:615
+Phy00BWZ4Q_ACYPI    	100.00%		Phy007AOCF_MYZPE    	100.00%
+Bootstrap support for Phy00BWZ4Q_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AOCF_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #163. Best score 709 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:709   MYZPE.fa:709
+Phy00BX36H_ACYPI    	100.00%		Phy007AQXX_MYZPE    	100.00%
+Bootstrap support for Phy00BX36H_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQXX_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #164. Best score 704 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:704   MYZPE.fa:704
+Phy0042DPF_ACYPI    	100.00%		Phy007AUW2_MYZPE    	100.00%
+Bootstrap support for Phy0042DPF_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUW2_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #165. Best score 699 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:699   MYZPE.fa:699
+Phy0010D5A_ACYPI    	100.00%		Phy007APJP_MYZPE    	100.00%
+Bootstrap support for Phy0010D5A_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APJP_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #166. Best score 693 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:34   MYZPE.fa:693
+Phy0010HXC_ACYPI    	100.00%		Phy007AT9I_MYZPE    	100.00%
+Bootstrap support for Phy0010HXC_ACYPI as seed ortholog is 99%.
+Bootstrap support for Phy007AT9I_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #167. Best score 693 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:175   MYZPE.fa:693
+Phy0042B0D_ACYPI    	100.00%		Phy007AM3U_MYZPE    	100.00%
+Bootstrap support for Phy0042B0D_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AM3U_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #168. Best score 691 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:691   MYZPE.fa:691
+Phy00427VH_ACYPI    	100.00%		Phy007AXBU_MYZPE    	100.00%
+Bootstrap support for Phy00427VH_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXBU_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #169. Best score 685 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:685   MYZPE.fa:685
+Phy004281W_ACYPI    	100.00%		Phy007AM2C_MYZPE    	100.00%
+Bootstrap support for Phy004281W_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AM2C_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #170. Best score 683 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:683   MYZPE.fa:683
+Phy0042BQO_ACYPI    	100.00%		Phy007AQRW_MYZPE    	100.00%
+Bootstrap support for Phy0042BQO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQRW_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #171. Best score 683 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:683   MYZPE.fa:683
+Phy00BWW7P_ACYPI    	100.00%		Phy007AY8F_MYZPE    	100.00%
+Bootstrap support for Phy00BWW7P_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AY8F_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #172. Best score 676 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:676   MYZPE.fa:676
+Phy004278E_ACYPI    	100.00%		Phy007AN8K_MYZPE    	100.00%
+Bootstrap support for Phy004278E_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AN8K_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #173. Best score 676 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:676   MYZPE.fa:676
+Phy0010DYY_ACYPI    	100.00%		Phy007AXWX_MYZPE    	100.00%
+Bootstrap support for Phy0010DYY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXWX_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #174. Best score 673 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:673   MYZPE.fa:673
+Phy00422ZD_ACYPI    	100.00%		Phy007AM28_MYZPE    	100.00%
+Bootstrap support for Phy00422ZD_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AM28_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #175. Best score 669 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:669   MYZPE.fa:669
+Phy0010GJT_ACYPI    	100.00%		Phy007AUQA_MYZPE    	100.00%
+Bootstrap support for Phy0010GJT_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUQA_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #176. Best score 662 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:662   MYZPE.fa:662
+Phy0010BNZ_ACYPI    	100.00%		Phy007ANPN_MYZPE    	100.00%
+Bootstrap support for Phy0010BNZ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANPN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #177. Best score 650 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:650   MYZPE.fa:650
+Phy00BX4QX_ACYPI    	100.00%		Phy007AUHV_MYZPE    	100.00%
+Bootstrap support for Phy00BX4QX_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUHV_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #178. Best score 649 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:649   MYZPE.fa:334
+Phy0010BBO_ACYPI    	100.00%		Phy007AVYH_MYZPE    	100.00%
+Bootstrap support for Phy0010BBO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVYH_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #179. Best score 646 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:646   MYZPE.fa:646
+Phy00BX2V7_ACYPI    	100.00%		Phy007ATT1_MYZPE    	100.00%
+Bootstrap support for Phy00BX2V7_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATT1_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #180. Best score 644 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:644   MYZPE.fa:644
+Phy00BX0C2_ACYPI    	100.00%		Phy007AZNK_MYZPE    	100.00%
+Bootstrap support for Phy00BX0C2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZNK_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #181. Best score 638 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:638   MYZPE.fa:638
+Phy0010CTO_ACYPI    	100.00%		Phy007AR6E_MYZPE    	100.00%
+Bootstrap support for Phy0010CTO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AR6E_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #182. Best score 635 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:635   MYZPE.fa:635
+Phy0010I74_ACYPI    	100.00%		Phy007AUI1_MYZPE    	100.00%
+Bootstrap support for Phy0010I74_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUI1_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #183. Best score 629 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:629   MYZPE.fa:629
+Phy0042EE8_ACYPI    	100.00%		Phy007AW5P_MYZPE    	100.00%
+Bootstrap support for Phy0042EE8_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AW5P_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #184. Best score 620 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:620   MYZPE.fa:620
+Phy004291W_ACYPI    	100.00%		Phy007AZGC_MYZPE    	100.00%
+Bootstrap support for Phy004291W_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZGC_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #185. Best score 620 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:620   MYZPE.fa:620
+Phy0010DWH_ACYPI    	100.00%		Phy007APIB_MYZPE    	100.00%
+Bootstrap support for Phy0010DWH_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APIB_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #186. Best score 618 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:618   MYZPE.fa:618
+Phy0010HEZ_ACYPI    	100.00%		Phy007AWWK_MYZPE    	100.00%
+Bootstrap support for Phy0010HEZ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWWK_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #187. Best score 617 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:617   MYZPE.fa:617
+Phy0010G3E_ACYPI    	100.00%		Phy007AN5M_MYZPE    	100.00%
+Bootstrap support for Phy0010G3E_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AN5M_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #188. Best score 614 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:614   MYZPE.fa:614
+Phy0010CUX_ACYPI    	100.00%		Phy007AWDM_MYZPE    	100.00%
+Bootstrap support for Phy0010CUX_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWDM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #189. Best score 611 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:611   MYZPE.fa:611
+Phy0010HNK_ACYPI    	100.00%		Phy007ATBC_MYZPE    	100.00%
+Bootstrap support for Phy0010HNK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATBC_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #190. Best score 609 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:609   MYZPE.fa:609
+Phy00BX44N_ACYPI    	100.00%		Phy007AV43_MYZPE    	100.00%
+Bootstrap support for Phy00BX44N_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV43_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #191. Best score 608 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:608   MYZPE.fa:207
+Phy0041ZJG_ACYPI    	100.00%		Phy007ANP1_MYZPE    	100.00%
+Bootstrap support for Phy0041ZJG_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANP1_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #192. Best score 607 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:607   MYZPE.fa:607
+Phy0042A9T_ACYPI    	100.00%		Phy007ATLP_MYZPE    	100.00%
+Bootstrap support for Phy0042A9T_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATLP_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #193. Best score 597 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:597   MYZPE.fa:597
+Phy0010F0V_ACYPI    	100.00%		Phy007AXG7_MYZPE    	100.00%
+Bootstrap support for Phy0010F0V_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXG7_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #194. Best score 588 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:588   MYZPE.fa:588
+Phy00BX3Z1_ACYPI    	100.00%		Phy007ASP4_MYZPE    	100.00%
+Bootstrap support for Phy00BX3Z1_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASP4_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #195. Best score 588 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:588   MYZPE.fa:349
+Phy00BX0EP_ACYPI    	100.00%		Phy007APVO_MYZPE    	100.00%
+Bootstrap support for Phy00BX0EP_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APVO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #196. Best score 586 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:586   MYZPE.fa:586
+Phy0042BSL_ACYPI    	100.00%		Phy007AOQN_MYZPE    	100.00%
+Bootstrap support for Phy0042BSL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AOQN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #197. Best score 586 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:586   MYZPE.fa:586
+Phy0010BU8_ACYPI    	100.00%		Phy007ASV1_MYZPE    	100.00%
+Bootstrap support for Phy0010BU8_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASV1_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #198. Best score 585 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:585   MYZPE.fa:585
+Phy00BWWX4_ACYPI    	100.00%		Phy007AVSM_MYZPE    	100.00%
+Bootstrap support for Phy00BWWX4_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVSM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #199. Best score 584 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:584   MYZPE.fa:584
+Phy00427AU_ACYPI    	100.00%		Phy007AS5O_MYZPE    	100.00%
+Bootstrap support for Phy00427AU_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AS5O_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #200. Best score 582 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:582   MYZPE.fa:180
+Phy0010E2A_ACYPI    	100.00%		Phy007AV1W_MYZPE    	100.00%
+Bootstrap support for Phy0010E2A_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV1W_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #201. Best score 559 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:559   MYZPE.fa:559
+Phy0010CBU_ACYPI    	100.00%		Phy007AVLV_MYZPE    	100.00%
+Bootstrap support for Phy0010CBU_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVLV_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #202. Best score 549 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:549   MYZPE.fa:431
+Phy007B5SL_ACYPI    	100.00%		Phy007AXYQ_MYZPE    	100.00%
+Bootstrap support for Phy007B5SL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXYQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #203. Best score 548 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:548   MYZPE.fa:548
+Phy00BX105_ACYPI    	100.00%		Phy007AX6A_MYZPE    	100.00%
+Bootstrap support for Phy00BX105_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AX6A_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #204. Best score 544 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:544   MYZPE.fa:544
+Phy000YOFB_ACYPI    	100.00%		Phy007AYZS_MYZPE    	100.00%
+Bootstrap support for Phy000YOFB_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYZS_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #205. Best score 544 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:544   MYZPE.fa:544
+Phy0010GIW_ACYPI    	100.00%		Phy007AUDO_MYZPE    	100.00%
+Bootstrap support for Phy0010GIW_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUDO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #206. Best score 541 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:541   MYZPE.fa:541
+Phy00BX0LY_ACYPI    	100.00%		Phy007ANLI_MYZPE    	100.00%
+Bootstrap support for Phy00BX0LY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANLI_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #207. Best score 540 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:540   MYZPE.fa:540
+Phy000XPTK_ACYPI    	100.00%		Phy007AO97_MYZPE    	100.00%
+Bootstrap support for Phy000XPTK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AO97_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #208. Best score 530 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:530   MYZPE.fa:315
+Phy0010CMB_ACYPI    	100.00%		Phy007AU7L_MYZPE    	100.00%
+Bootstrap support for Phy0010CMB_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AU7L_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #209. Best score 524 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:524   MYZPE.fa:524
+Phy0042DRC_ACYPI    	100.00%		Phy007AVO4_MYZPE    	100.00%
+Bootstrap support for Phy0042DRC_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVO4_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #210. Best score 522 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:75   MYZPE.fa:522
+Phy000XQ3T_ACYPI    	100.00%		Phy007AYFN_MYZPE    	100.00%
+Bootstrap support for Phy000XQ3T_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYFN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #211. Best score 517 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:517   MYZPE.fa:440
+Phy00BWW2L_ACYPI    	100.00%		Phy007AMKW_MYZPE    	100.00%
+Bootstrap support for Phy00BWW2L_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMKW_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #212. Best score 510 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:510   MYZPE.fa:510
+Phy00BWYE5_ACYPI    	100.00%		Phy007AX9A_MYZPE    	100.00%
+Bootstrap support for Phy00BWYE5_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AX9A_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #213. Best score 510 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:448   MYZPE.fa:510
+Phy0010C6B_ACYPI    	100.00%		Phy007AT2R_MYZPE    	100.00%
+Bootstrap support for Phy0010C6B_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AT2R_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #214. Best score 509 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:509   MYZPE.fa:449
+Phy000YERN_ACYPI    	100.00%		Phy007AZVI_MYZPE    	100.00%
+Bootstrap support for Phy000YERN_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZVI_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #215. Best score 500 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:500   MYZPE.fa:188
+Phy0010DA1_ACYPI    	100.00%		Phy007AR3X_MYZPE    	100.00%
+Bootstrap support for Phy0010DA1_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AR3X_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #216. Best score 499 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:499   MYZPE.fa:499
+Phy00424VV_ACYPI    	100.00%		Phy007AU5X_MYZPE    	100.00%
+Bootstrap support for Phy00424VV_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AU5X_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #217. Best score 498 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:498   MYZPE.fa:498
+Phy0010FR9_ACYPI    	100.00%		Phy007AXQD_MYZPE    	100.00%
+Bootstrap support for Phy0010FR9_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXQD_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #218. Best score 497 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:497   MYZPE.fa:497
+Phy00107VZ_ACYPI    	100.00%		Phy007AP5E_MYZPE    	100.00%
+Bootstrap support for Phy00107VZ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AP5E_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #219. Best score 494 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:494   MYZPE.fa:494
+Phy00427OA_ACYPI    	100.00%		Phy007AW00_MYZPE    	100.00%
+Bootstrap support for Phy00427OA_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AW00_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #220. Best score 491 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:491   MYZPE.fa:491
+Phy00BWVET_ACYPI    	100.00%		Phy007AV4Q_MYZPE    	100.00%
+Bootstrap support for Phy00BWVET_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV4Q_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #221. Best score 485 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:485   MYZPE.fa:485
+Phy0010F2D_ACYPI    	100.00%		Phy007ASS3_MYZPE    	100.00%
+Bootstrap support for Phy0010F2D_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASS3_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #222. Best score 484 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:484   MYZPE.fa:484
+Phy007B3L7_ACYPI    	100.00%		Phy007AO29_MYZPE    	100.00%
+Bootstrap support for Phy007B3L7_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AO29_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #223. Best score 477 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:477   MYZPE.fa:477
+Phy00420A6_ACYPI    	100.00%		Phy007AQBQ_MYZPE    	100.00%
+Bootstrap support for Phy00420A6_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQBQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #224. Best score 476 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:476   MYZPE.fa:41
+Phy00422JE_ACYPI    	100.00%		Phy007AQTW_MYZPE    	100.00%
+Bootstrap support for Phy00422JE_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQTW_MYZPE as seed ortholog is 97%.
+___________________________________________________________________________________
+Group of orthologs #225. Best score 468 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:468   MYZPE.fa:468
+Phy000XQ56_ACYPI    	100.00%		Phy007ALSG_MYZPE    	100.00%
+Bootstrap support for Phy000XQ56_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ALSG_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #226. Best score 466 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:466   MYZPE.fa:133
+Phy00108PD_ACYPI    	100.00%		Phy007AVPH_MYZPE    	100.00%
+Bootstrap support for Phy00108PD_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVPH_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #227. Best score 462 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:462   MYZPE.fa:462
+Phy0010G7G_ACYPI    	100.00%		Phy007ATWG_MYZPE    	100.00%
+Bootstrap support for Phy0010G7G_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATWG_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #228. Best score 461 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:461   MYZPE.fa:461
+Phy00BX1BT_ACYPI    	100.00%		Phy007AWKM_MYZPE    	100.00%
+Bootstrap support for Phy00BX1BT_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWKM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #229. Best score 460 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:460   MYZPE.fa:460
+Phy0042EP2_ACYPI    	100.00%		Phy007AVQR_MYZPE    	100.00%
+Bootstrap support for Phy0042EP2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVQR_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #230. Best score 460 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:460   MYZPE.fa:460
+Phy00BX2RS_ACYPI    	100.00%		Phy007ATDQ_MYZPE    	100.00%
+Bootstrap support for Phy00BX2RS_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATDQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #231. Best score 455 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:455   MYZPE.fa:455
+Phy0010EUD_ACYPI    	100.00%		Phy007AWW8_MYZPE    	100.00%
+Bootstrap support for Phy0010EUD_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWW8_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #232. Best score 453 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:453   MYZPE.fa:453
+Phy0010CPR_ACYPI    	100.00%		Phy007AQ3V_MYZPE    	100.00%
+Bootstrap support for Phy0010CPR_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQ3V_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #233. Best score 453 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:453   MYZPE.fa:453
+Phy00BWZFH_ACYPI    	100.00%		Phy007AVUQ_MYZPE    	100.00%
+Bootstrap support for Phy00BWZFH_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVUQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #234. Best score 451 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:451   MYZPE.fa:451
+Phy0010D7K_ACYPI    	100.00%		Phy007AMBB_MYZPE    	100.00%
+Bootstrap support for Phy0010D7K_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMBB_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #235. Best score 449 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:449   MYZPE.fa:449
+Phy00BX3C9_ACYPI    	100.00%		Phy007AP3W_MYZPE    	100.00%
+Bootstrap support for Phy00BX3C9_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AP3W_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #236. Best score 448 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:448   MYZPE.fa:448
+Phy0041ZGL_ACYPI    	100.00%		Phy007AQU7_MYZPE    	100.00%
+Bootstrap support for Phy0041ZGL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQU7_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #237. Best score 448 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:448   MYZPE.fa:448
+Phy0010CD2_ACYPI    	100.00%		Phy007ARVD_MYZPE    	100.00%
+Bootstrap support for Phy0010CD2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARVD_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #238. Best score 447 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:447   MYZPE.fa:447
+Phy000YO9T_ACYPI    	100.00%		Phy007ANSG_MYZPE    	100.00%
+Bootstrap support for Phy000YO9T_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANSG_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #239. Best score 436 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:436   MYZPE.fa:436
+Phy000YJZF_ACYPI    	100.00%		Phy007AU0W_MYZPE    	100.00%
+Bootstrap support for Phy000YJZF_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AU0W_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #240. Best score 435 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:435   MYZPE.fa:435
+Phy00BX239_ACYPI    	100.00%		Phy007AWOG_MYZPE    	100.00%
+Bootstrap support for Phy00BX239_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWOG_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #241. Best score 430 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:430   MYZPE.fa:430
+Phy00BX2YE_ACYPI    	100.00%		Phy007ATRT_MYZPE    	100.00%
+Bootstrap support for Phy00BX2YE_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATRT_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #242. Best score 410 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:410   MYZPE.fa:410
+Phy0010FY8_ACYPI    	100.00%		Phy007AXXL_MYZPE    	100.00%
+Bootstrap support for Phy0010FY8_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXXL_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #243. Best score 408 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:408   MYZPE.fa:121
+Phy00BWZPL_ACYPI    	100.00%		Phy007ANNR_MYZPE    	100.00%
+Bootstrap support for Phy00BWZPL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANNR_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #244. Best score 408 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:408   MYZPE.fa:408
+Phy0042DSI_ACYPI    	100.00%		Phy007AP5W_MYZPE    	100.00%
+Bootstrap support for Phy0042DSI_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AP5W_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #245. Best score 407 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:407   MYZPE.fa:407
+Phy00424TR_ACYPI    	100.00%		Phy007ATL8_MYZPE    	100.00%
+Bootstrap support for Phy00424TR_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATL8_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #246. Best score 403 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:403   MYZPE.fa:403
+Phy00BWX4J_ACYPI    	100.00%		Phy007ALW2_MYZPE    	100.00%
+Bootstrap support for Phy00BWX4J_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ALW2_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #247. Best score 398 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:398   MYZPE.fa:398
+Phy0042D73_ACYPI    	100.00%		Phy007AXRQ_MYZPE    	100.00%
+Bootstrap support for Phy0042D73_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXRQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #248. Best score 396 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:396   MYZPE.fa:396
+Phy0010ENY_ACYPI    	100.00%		Phy007AW6C_MYZPE    	100.00%
+Bootstrap support for Phy0010ENY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AW6C_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #249. Best score 392 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:392   MYZPE.fa:392
+Phy000XPZO_ACYPI    	100.00%		Phy007AOJ9_MYZPE    	100.00%
+Bootstrap support for Phy000XPZO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AOJ9_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #250. Best score 392 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:392   MYZPE.fa:392
+Phy000XQ5I_ACYPI    	100.00%		Phy007AOTP_MYZPE    	100.00%
+Bootstrap support for Phy000XQ5I_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AOTP_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #251. Best score 389 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:389   MYZPE.fa:389
+Phy00BWWCR_ACYPI    	100.00%		Phy007AMQ3_MYZPE    	100.00%
+Bootstrap support for Phy00BWWCR_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMQ3_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #252. Best score 388 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:388   MYZPE.fa:388
+Phy0010HW4_ACYPI    	100.00%		Phy007AN4V_MYZPE    	100.00%
+Bootstrap support for Phy0010HW4_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AN4V_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #253. Best score 381 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:381   MYZPE.fa:381
+Phy000YGV8_ACYPI    	100.00%		Phy007ATQR_MYZPE    	100.00%
+Bootstrap support for Phy000YGV8_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATQR_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #254. Best score 379 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:379   MYZPE.fa:379
+Phy000XQ1Q_ACYPI    	100.00%		Phy007AYMQ_MYZPE    	100.00%
+Bootstrap support for Phy000XQ1Q_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYMQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #255. Best score 379 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:379   MYZPE.fa:379
+Phy00BX207_ACYPI    	100.00%		Phy007AMNM_MYZPE    	100.00%
+Bootstrap support for Phy00BX207_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMNM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #256. Best score 376 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:376   MYZPE.fa:376
+Phy000YKXC_ACYPI    	100.00%		Phy007AY52_MYZPE    	100.00%
+Bootstrap support for Phy000YKXC_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AY52_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #257. Best score 374 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:374   MYZPE.fa:205
+Phy00BX00C_ACYPI    	100.00%		Phy007ASDO_MYZPE    	100.00%
+Bootstrap support for Phy00BX00C_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASDO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #258. Best score 371 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:371   MYZPE.fa:371
+Phy00BX4Q2_ACYPI    	100.00%		Phy007ARRZ_MYZPE    	100.00%
+Bootstrap support for Phy00BX4Q2_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARRZ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #259. Best score 361 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:361   MYZPE.fa:361
+Phy0010G9G_ACYPI    	100.00%		Phy007APDR_MYZPE    	100.00%
+Bootstrap support for Phy0010G9G_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APDR_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #260. Best score 353 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:353   MYZPE.fa:353
+Phy0010H45_ACYPI    	100.00%		Phy007AVP5_MYZPE    	100.00%
+Bootstrap support for Phy0010H45_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVP5_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #261. Best score 349 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:349   MYZPE.fa:349
+Phy0010FFJ_ACYPI    	100.00%		Phy007AQBP_MYZPE    	100.00%
+Bootstrap support for Phy0010FFJ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQBP_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #262. Best score 346 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:346   MYZPE.fa:346
+Phy0042AIR_ACYPI    	100.00%		Phy007AV9O_MYZPE    	100.00%
+Bootstrap support for Phy0042AIR_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AV9O_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #263. Best score 344 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:344   MYZPE.fa:344
+Phy00BX0X5_ACYPI    	100.00%		Phy007AYRP_MYZPE    	100.00%
+Bootstrap support for Phy00BX0X5_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYRP_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #264. Best score 344 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:344   MYZPE.fa:344
+Phy00BWVTQ_ACYPI    	100.00%		Phy007AVEL_MYZPE    	100.00%
+Bootstrap support for Phy00BWVTQ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVEL_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #265. Best score 337 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:337   MYZPE.fa:337
+Phy0042AXQ_ACYPI    	100.00%		Phy007ASAK_MYZPE    	100.00%
+Bootstrap support for Phy0042AXQ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASAK_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #266. Best score 336 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:336   MYZPE.fa:336
+Phy004285C_ACYPI    	100.00%		Phy007AX66_MYZPE    	100.00%
+Bootstrap support for Phy004285C_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AX66_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #267. Best score 333 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:333   MYZPE.fa:333
+Phy00BX1RB_ACYPI    	100.00%		Phy007AQXD_MYZPE    	100.00%
+Bootstrap support for Phy00BX1RB_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQXD_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #268. Best score 331 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:331   MYZPE.fa:331
+Phy0010HSC_ACYPI    	100.00%		Phy007ATAH_MYZPE    	100.00%
+Bootstrap support for Phy0010HSC_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATAH_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #269. Best score 328 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:328   MYZPE.fa:328
+Phy00BWY8I_ACYPI    	100.00%		Phy007AZSS_MYZPE    	100.00%
+Bootstrap support for Phy00BWY8I_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZSS_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #270. Best score 323 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:323   MYZPE.fa:323
+Phy0010H0C_ACYPI    	100.00%		Phy007ANOU_MYZPE    	100.00%
+Bootstrap support for Phy0010H0C_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANOU_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #271. Best score 321 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:225   MYZPE.fa:171
+Phy00105WP_ACYPI    	100.00%		Phy007APS8_MYZPE    	100.00%
+Bootstrap support for Phy00105WP_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007APS8_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #272. Best score 320 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:320   MYZPE.fa:320
+Phy00BWWQT_ACYPI    	100.00%		Phy007AXI3_MYZPE    	100.00%
+Bootstrap support for Phy00BWWQT_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXI3_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #273. Best score 318 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:100   MYZPE.fa:318
+Phy00BX4O6_ACYPI    	100.00%		Phy007AWRQ_MYZPE    	100.00%
+Bootstrap support for Phy00BX4O6_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWRQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #274. Best score 316 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:316   MYZPE.fa:316
+Phy00BWY7G_ACYPI    	100.00%		Phy007AZSO_MYZPE    	100.00%
+Bootstrap support for Phy00BWY7G_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZSO_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #275. Best score 316 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:242   MYZPE.fa:153
+Phy0010904_ACYPI    	100.00%		Phy007ANJV_MYZPE    	100.00%
+Bootstrap support for Phy0010904_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANJV_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #276. Best score 310 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:310   MYZPE.fa:310
+Phy00BWVCY_ACYPI    	100.00%		Phy007AQ6Y_MYZPE    	100.00%
+Bootstrap support for Phy00BWVCY_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQ6Y_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #277. Best score 305 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:305   MYZPE.fa:305
+Phy00BX0GK_ACYPI    	100.00%		Phy007AOGX_MYZPE    	100.00%
+                    	       		Phy007AY06_MYZPE    	5.10%
+Bootstrap support for Phy00BX0GK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AOGX_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #278. Best score 305 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:305   MYZPE.fa:305
+Phy00BX4WS_ACYPI    	100.00%		Phy007AW3P_MYZPE    	100.00%
+Bootstrap support for Phy00BX4WS_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AW3P_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #279. Best score 304 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:304   MYZPE.fa:304
+Phy00BWXXF_ACYPI    	100.00%		Phy007AXIC_MYZPE    	100.00%
+Bootstrap support for Phy00BWXXF_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AXIC_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #280. Best score 303 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:303   MYZPE.fa:303
+Phy0010ES6_ACYPI    	100.00%		Phy007AUEV_MYZPE    	100.00%
+Bootstrap support for Phy0010ES6_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AUEV_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #281. Best score 303 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:303   MYZPE.fa:303
+Phy0042AQC_ACYPI    	100.00%		Phy007ASWR_MYZPE    	100.00%
+Bootstrap support for Phy0042AQC_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASWR_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #282. Best score 299 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:299   MYZPE.fa:299
+Phy00BWY36_ACYPI    	100.00%		Phy007ASQK_MYZPE    	100.00%
+Bootstrap support for Phy00BWY36_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASQK_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #283. Best score 296 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:296   MYZPE.fa:296
+Phy00BX0ZW_ACYPI    	100.00%		Phy007AWID_MYZPE    	100.00%
+Bootstrap support for Phy00BX0ZW_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWID_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #284. Best score 295 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:295   MYZPE.fa:295
+Phy000YQ3M_ACYPI    	100.00%		Phy007AX6Z_MYZPE    	100.00%
+Bootstrap support for Phy000YQ3M_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AX6Z_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #285. Best score 292 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:292   MYZPE.fa:292
+Phy00BX1KG_ACYPI    	100.00%		Phy007AN1F_MYZPE    	100.00%
+Bootstrap support for Phy00BX1KG_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AN1F_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #286. Best score 289 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:289   MYZPE.fa:289
+Phy0010HOS_ACYPI    	100.00%		Phy007AZAN_MYZPE    	100.00%
+Bootstrap support for Phy0010HOS_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZAN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #287. Best score 281 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:281   MYZPE.fa:281
+Phy00BWVXA_ACYPI    	100.00%		Phy007AZ36_MYZPE    	100.00%
+Bootstrap support for Phy00BWVXA_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AZ36_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #288. Best score 269 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:269   MYZPE.fa:269
+Phy0042CL5_ACYPI    	100.00%		Phy007AVZ5_MYZPE    	100.00%
+Bootstrap support for Phy0042CL5_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVZ5_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #289. Best score 268 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:268   MYZPE.fa:268
+Phy0041ZVB_ACYPI    	100.00%		Phy007ATJP_MYZPE    	100.00%
+Bootstrap support for Phy0041ZVB_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATJP_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #290. Best score 258 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:258   MYZPE.fa:119
+Phy00421MQ_ACYPI    	100.00%		Phy007AWM2_MYZPE    	100.00%
+Bootstrap support for Phy00421MQ_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWM2_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #291. Best score 256 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:256   MYZPE.fa:256
+Phy0010GVV_ACYPI    	100.00%		Phy007ANV5_MYZPE    	100.00%
+Bootstrap support for Phy0010GVV_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANV5_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #292. Best score 252 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:252   MYZPE.fa:252
+Phy00BX57I_ACYPI    	100.00%		Phy007ARBZ_MYZPE    	100.00%
+Bootstrap support for Phy00BX57I_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARBZ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #293. Best score 252 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:252   MYZPE.fa:252
+Phy0010CLO_ACYPI    	100.00%		Phy007AU5I_MYZPE    	100.00%
+Bootstrap support for Phy0010CLO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AU5I_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #294. Best score 248 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:248   MYZPE.fa:248
+Phy00420KK_ACYPI    	100.00%		Phy007ATQJ_MYZPE    	100.00%
+Bootstrap support for Phy00420KK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATQJ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #295. Best score 244 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:244   MYZPE.fa:244
+Phy0010E6E_ACYPI    	100.00%		Phy007AS04_MYZPE    	100.00%
+Bootstrap support for Phy0010E6E_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AS04_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #296. Best score 238 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:238   MYZPE.fa:238
+Phy0010FZ7_ACYPI    	100.00%		Phy007AW81_MYZPE    	100.00%
+Bootstrap support for Phy0010FZ7_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AW81_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #297. Best score 233 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:233   MYZPE.fa:233
+Phy0010FL3_ACYPI    	100.00%		Phy007ASZQ_MYZPE    	100.00%
+Bootstrap support for Phy0010FL3_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ASZQ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #298. Best score 232 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:232   MYZPE.fa:72
+Phy00BX47C_ACYPI    	100.00%		Phy007AYSI_MYZPE    	100.00%
+                    	       		Phy007AZ12_MYZPE    	100.00%
+                    	       		Phy007AMPM_MYZPE    	56.56%
+Bootstrap support for Phy00BX47C_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYSI_MYZPE as seed ortholog is 99%.
+Bootstrap support for Phy007AZ12_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #299. Best score 231 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:231   MYZPE.fa:231
+Phy0010HSK_ACYPI    	100.00%		Phy007AY65_MYZPE    	100.00%
+Bootstrap support for Phy0010HSK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AY65_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #300. Best score 226 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:226   MYZPE.fa:226
+Phy0010I6T_ACYPI    	100.00%		Phy007AMJZ_MYZPE    	100.00%
+Bootstrap support for Phy0010I6T_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AMJZ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #301. Best score 223 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:223   MYZPE.fa:223
+Phy000YIAO_ACYPI    	100.00%		Phy007AY4X_MYZPE    	100.00%
+Bootstrap support for Phy000YIAO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AY4X_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #302. Best score 222 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:222   MYZPE.fa:222
+Phy0010CHP_ACYPI    	100.00%		Phy007ANR6_MYZPE    	100.00%
+Bootstrap support for Phy0010CHP_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANR6_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #303. Best score 217 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:217   MYZPE.fa:217
+Phy000YIWL_ACYPI    	100.00%		Phy007ATV9_MYZPE    	100.00%
+Bootstrap support for Phy000YIWL_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ATV9_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #304. Best score 214 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:214   MYZPE.fa:214
+Phy004234A_ACYPI    	100.00%		Phy007ANCH_MYZPE    	100.00%
+Bootstrap support for Phy004234A_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ANCH_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #305. Best score 212 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:212   MYZPE.fa:212
+Phy007B0JK_ACYPI    	100.00%		Phy007AX0P_MYZPE    	100.00%
+Bootstrap support for Phy007B0JK_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AX0P_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #306. Best score 209 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:209   MYZPE.fa:209
+Phy0010GWU_ACYPI    	100.00%		Phy007AS45_MYZPE    	100.00%
+Bootstrap support for Phy0010GWU_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AS45_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #307. Best score 208 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:208   MYZPE.fa:208
+Phy000XPLI_ACYPI    	100.00%		Phy007AM2D_MYZPE    	100.00%
+Phy00420LP_ACYPI    	100.00%		                    	       
+Bootstrap support for Phy000XPLI_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy00420LP_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AM2D_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #308. Best score 199 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:199   MYZPE.fa:199
+Phy00BX4LE_ACYPI    	100.00%		Phy007AT64_MYZPE    	100.00%
+Bootstrap support for Phy00BX4LE_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AT64_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #309. Best score 199 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:199   MYZPE.fa:199
+Phy00BX52E_ACYPI    	100.00%		Phy007AYCZ_MYZPE    	100.00%
+Bootstrap support for Phy00BX52E_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AYCZ_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #310. Best score 183 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:183   MYZPE.fa:183
+Phy00BWX5Q_ACYPI    	100.00%		Phy007AVJM_MYZPE    	100.00%
+Bootstrap support for Phy00BWX5Q_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AVJM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #311. Best score 173 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:173   MYZPE.fa:173
+Phy00BWXTO_ACYPI    	100.00%		Phy007AWYF_MYZPE    	100.00%
+Bootstrap support for Phy00BWXTO_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWYF_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #312. Best score 167 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:55   MYZPE.fa:167
+Phy000YQJS_ACYPI    	100.00%		Phy007AWS9_MYZPE    	100.00%
+Bootstrap support for Phy000YQJS_ACYPI as seed ortholog is 97%.
+Bootstrap support for Phy007AWS9_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #313. Best score 166 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:166   MYZPE.fa:166
+Phy0010GL4_ACYPI    	100.00%		Phy007AQO3_MYZPE    	100.00%
+Bootstrap support for Phy0010GL4_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AQO3_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #314. Best score 165 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:165   MYZPE.fa:165
+Phy00107GX_ACYPI    	100.00%		Phy007AWVN_MYZPE    	100.00%
+Bootstrap support for Phy00107GX_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWVN_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #315. Best score 149 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:149   MYZPE.fa:149
+Phy0010GE3_ACYPI    	100.00%		Phy007AWUM_MYZPE    	100.00%
+Bootstrap support for Phy0010GE3_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AWUM_MYZPE as seed ortholog is 100%.
+___________________________________________________________________________________
+Group of orthologs #316. Best score 146 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:146   MYZPE.fa:81
+Phy004291Q_ACYPI    	100.00%		Phy007AO71_MYZPE    	100.00%
+Bootstrap support for Phy004291Q_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007AO71_MYZPE as seed ortholog is 99%.
+___________________________________________________________________________________
+Group of orthologs #317. Best score 109 bits
+Score difference with first non-orthologous sequence - ACYPI.fa:109   MYZPE.fa:109
+Phy00BX4CI_ACYPI    	100.00%		Phy007ARN2_MYZPE    	100.00%
+Bootstrap support for Phy00BX4CI_ACYPI as seed ortholog is 100%.
+Bootstrap support for Phy007ARN2_MYZPE as seed ortholog is 100%.
