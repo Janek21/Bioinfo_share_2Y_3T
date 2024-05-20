@@ -1,0 +1,108 @@
+---
+title: "DGE analysis and GO enrichment"
+author: "Alexandra Caus, Jan Izquierdo, Jiaqui Li, Paula Martin"
+date: "2024-05-20"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Libraries
+```{r libraries, results=FALSE, message=FALSE, warning=FALSE}
+library(edgeR)
+library(EnsDb.Hsapiens.v86)
+library(Glimma)
+library(SummarizedExperiment)
+library(factoextra)
+library(pheatmap)
+library(GO.db)
+library(org.Hs.eg.db)
+```
+
+
+## Step 1
+
+Downloading the data
+```{r step 1, downloading, results=FALSE}
+files_to_download <- c("GSE161731_counts.csv.gz",      # Name of gene expression (count matrix) file
+                       "GSE161731_counts_key.csv.gz")  # Name of metadata file
+
+for (f in files_to_download) { #Download files
+  #url <- paste0("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE161nnn/GSE161731/suppl/", f)
+  #download.file(url, destfile = f)
+}
+```
+
+Setting up the parameters and preparing the experiment
+```{r step 1, preparation}
+counts <- read.csv("GSE161731_counts.csv.gz", header = TRUE, check.names = FALSE, row.names = 1)
+metadata <- read.csv("GSE161731_counts_key.csv.gz", header = TRUE, check.names = FALSE, row.names = 1)
+
+#Prepare an experiment object
+genes <- genes(EnsDb.Hsapiens.v86)
+comm.s <- intersect(colnames(counts), rownames(metadata))
+comm.g <- intersect(rownames(counts), genes$gene_id)
+se <- SummarizedExperiment(assay = list("counts" = counts[comm.g, comm.s]), colData = metadata[comm.s, ], rowRanges = genes[comm.g])
+
+#Remove duplicates
+se <- se[, !duplicated(se$subject_id)]
+
+#Set data to appropriate class (age as numeric)
+se$age <- gsub(">89", "90", se$age)
+se$age <- as.numeric(as.character(se$age))
+
+#Re-format the data in cohort and race columns
+cols <- c("cohort", "race")
+
+colData(se)[, cols] <- apply(colData(se)[, cols], 2, function(x){
+  y <- gsub("-", "", x)   # Remove "-"
+  z <- gsub(" ", "_", y)  # Change " " (space) by "_"
+  w <- gsub("/", "_", z)  # Change "/" by "_"
+  return(w)
+})
+#Rename columns to individual id
+colnames(se) <- se$subject_id
+#Remove columns that don't interest us
+colData(se)[, c("subject_id", "time_since_onset", "hospitalized")]  <- NULL
+
+#Remove low-expressed genes
+keep <- filterByExpr(se, group = se$cohort)
+se <- se[keep, ]
+```
+
+Saving and loading the summarized experiment object
+```{r, se object loading}
+#to save the object
+saveRDS(se, "summarized_experiment.rds")
+#to load the object
+se<-readRDS("summarized_experiment.rds")
+```
+
+## Step 2
+
+Normalize the data in the experiment using TMM
+```{r step 2, normalization}
+tmm_normalization<-calcNormFactors(se, method="TMM")
+tmm_normalization
+```
+Calculate CPM and represent the distribution of normalization factors per cohort in boxplots
+```{r step 2, plotting}
+#Calculate CPM(counts per million reads) in case they are needed later
+#Calculating the CPM and add them to the summarized experiment object
+assays(se)$CPM <- cpm(se)
+#Calculate it again but taking the TMM normalization into account
+assays(se)$TMM <- cpm(tmm_normalization, normalized.lib.sizes = TRUE)
+
+#Use norm.factors from the normalized data object as they are the normalization factors for each one of the 155  elements
+#You relate them with the cohorts, as each of the elements of tmm_normalization$samples has a normalization      factor and the cohort they belong to
+boxplot(tmm_normalization$samples$norm.factors~se$cohort, xlab="Cohorts", ylab="Normalization factors")
+
+```
+```{r step 2 discussion, echo=FALSE}
+cat("We can see that the bacterial cohort presents the smallest average normalization factor and that the healthy  cohort presents the largest average normalization factor\n")
+```
+
