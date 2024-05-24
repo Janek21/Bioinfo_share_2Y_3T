@@ -1,0 +1,79 @@
+---
+title: "Hands-on Roadmap Epigenomics"
+author: "Jan Izquierdo"
+date: "2024-05-24"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Data preparation
+```{r importing and preparing, warning=FALSE}
+source("./bedtools2/BEDtoolsR.R")
+
+metadata<-read.table("./metadata.roadmap_clean.txt", sep="\t")
+View(metadata)
+
+#Distinguish Fetal and Non-fetal(Adult) samples
+metadata$PERIOD<-ifelse(grepl("fetal|Fetal", metadata$V3), "Fetal", "Adult")
+
+#Create a new column with UniqueNames incorporating the tissue, PERIOD and ID information
+metadata$UniqueName<-paste0(metadata$V2, "_", metadata$PERIOD, "_", metadata$V1)
+
+#Choosing tissues
+tissues<-c("Brain", "brain", "Muscle", "muscle", "Digestive", "digestive", "Heart", "heart") 
+
+filtered_metadata<-dplyr::filter(metadata, V2 %in% tissues)$V1 #Teacher's method
+
+filtered_metadata<-metadata[grepl(paste(tissues, collapse="|"), metadata$V2)==TRUE,] #database of only the files that interest us (all that contain any of the words of tissues in column metadata$V2)
+```
+Reading files and storing them in a list
+```{r file content to a list, message=FALSE, results=FALSE}
+roadmap<-list()
+
+for (f in filtered_metadata$V1){ #first column contains the id that differs the files from each other (id of entry as well)
+  filename<-paste0("all.mnemonics.bedFiles/",f,"_18_core_K27ac_mnemonics.bed.gz") #f is the ids
+  if (file.exists(filename)){ #in case that a file does not exist, avoid errors
+    print(f)
+    roadmap[[f]]<-read.table(gzfile(filename)) #all contents of file to roadmap #"dictionary" with the ID as key
+  }
+}
+
+#Changing ID "keys" to UniqueNames that we generated before
+library(plyr)
+names(roadmap)<-mapvalues(names(roadmap), from=metadata$V1, to=metadata$UniqueName)
+
+names(roadmap)
+
+roadmap[["Muscle_Fetal_E089"]] %>% head()
+```
+
+## 1.
+
+```{r 1.calculate pairwise index}
+#Doing the intersection
+state="1_TssA"
+b1<-dplyr::filter(roadmap[["Muscle_Fetal_E090"]], V4==state) #V4 are the promoters (if we did all genomes it'd almost the same), we choose 1 promoter
+b2<-dplyr::filter(roadmap[["Digestive_Adult_E102"]], V4==state)
+
+bedTools.2jac(bed1=b1,bed2=b2)
+
+#do for all members in names(roadmap) and place in a matrix
+rnames<-names(roadmap)
+m<-matrix(nrow=length(rnames), ncol=length(rnames), dimnames=list(rnames), names(roadmap)) #matrix of rnames dimensions
+
+for (i in rnames){
+  for (j in rnames){
+    print(c(i,j))
+    a<-filter(roadmap[[i]], V4==state)
+    b<-filter(roadmap[[j]], V4==state)
+    index_num<-bedTools.2in(bed1=a,bed2=b) #MYFUNCTION
+    m[i,j]<-index_num
+  }
+}
+
+#create function calculate Jaccard (even tho we have a jaccard calculating function in BEDtools file)
+```
+
