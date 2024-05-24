@@ -4,7 +4,8 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --partition=nodo.q
 #SBATCH --array=0-4
-#trobar com canviar el 4 pel numero de files
+# posar aixo enlloc del 4->$(ls names_*.txt | wc -l) #no es pot
+
 
 # print initial date and time
 echo "Start UPPERCASE JOB  at $(date)"
