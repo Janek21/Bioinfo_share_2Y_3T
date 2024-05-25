@@ -4,7 +4,6 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --partition=nodo.q
 #SBATCH --array=0-4
-# posar aixo enlloc del 4->$(ls names_*.txt | wc -l) #no es pot
 
 
 # print initial date and time
@@ -29,7 +28,13 @@ sort $f | tr [:lower:] [:upper:] > "$uppername.txt" # sort the contents of each 
 
 cat summary_$Tid.txt >> summary.txt
 
-rm summary_$Tid.txt
+rm summary_$Tid.txt #unclog the directory
 
 # print initial date and time
 echo "End UPPERCASE JOB at $(date)"
+
+#If we were to use another sbatch command we would use it in the following manner (without the #)
+#sbatch submit_example.<slurm or sh>
+#and to get the job id we are to use $SLURM_JOB_ID as a variable
+#to create a dependending execution the command would be
+#sbatch --dependency=<ID of the one the next task depends on> submit_example.<slurm or sh>
