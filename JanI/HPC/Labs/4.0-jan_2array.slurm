@@ -1,6 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=array-job
-#SBATCH --nodes=1
+#SBATCH --job-name=uppercase_sumup-job
+#SBATCH --nodes=5
+#SBATCH --ntasks=5
 #SBATCH --ntasks-per-node=1
 #SBATCH --partition=nodo.q
 #SBATCH --array=0-4
@@ -35,6 +36,9 @@ echo "End UPPERCASE JOB at $(date)"
 
 #If we were to use another sbatch command we would use it in the following manner (without the #)
 #sbatch submit_example.<slurm or sh>
+#for example:
+#sbatch summary.sh names_*.txt
+#this would get the summary results in a file named slurm-<jobID>.out
 #and to get the job id we are to use $SLURM_JOB_ID as a variable
 #to create a dependending execution the command would be
 #sbatch --dependency=<ID of the one the next task depends on> submit_example.<slurm or sh>
