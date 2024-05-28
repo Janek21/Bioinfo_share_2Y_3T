@@ -1,0 +1,418 @@
+---
+title: <img src="http://www.ub.edu/molevol/PG&ME/UB-logo.png" style="float:right;" width="40%"/></br></br>**Neutrality tests based on polymorphism and divergence data**
+date: "May 27, 2024"
+output:
+  html_document:
+    self_contained: yes
+    theme: yeti
+    font: 16px
+  pdf_document: default
+  word_document: default
+subtitle: Computer practice 5 - Population Genetics & Molecular Evolution - Bachelor's Degree in Bioinformatics
+---
+
+```{r setup, include=FALSE}
+library(reticulate)
+use_python("/home/jj/anaconda3/bin/python")
+```
+
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/v4-shims.css">
+  <meta name="viewport" content="width=device-width;initial-scale=1.0">
+</head>
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+
+<div style="background-color: #86CBBB; 1px; height:3px"></div>
+<br>
+<div style = "background-color:#86CBBB; padding: 10px">
+  <i class="fas fa-bullseye" style="font-size:20px;"></i> **Main goals of the session**
+
+1. Understand the assumptions and requirements of the statistical tests of neutrality based on **polymorphism and divergence** data
+2. Calculate and interpreting the results of the **HKA-test**
+3. Calculate and interpreting the results of the **MK-test**
+</div>
+
+## 1. Practical organization
+
+The main goal of this practical class is to reproduce a few examples of the application of the HKA [(Hudson, Kreitman and Aguadé 1987)](https://www.genetics.org/content/116/1/153) and MK [(McDonald and Kreitman 1991)](https://www.nature.com/articles/351652a0) methods to test for selective neutrality in the recent past of different genomic regions. Both tests are based on important predictions of the Neutral Theory of Molecular Evolution [(Kimura 1983)](https://www.cambridge.org/core/books/neutral-theory-of-molecular-evolution/0FF60E9F47915B17FFA2620C49400632). The HKA test contrasts the levels of nucleotide polymorphism (variability within population) with the levels of nucleotide divergence (fixed substitutions between species) for different loci (**at least one of these loci is expected to be evolving under neutrality**). All neutral loci across the genome must have the same ratio of polymorphism to divergence. This is because both estimates of nucleotide variation are proportional to the mutation rate. The MK test is based on the same assumption but it compares nucleotide variation at different classes of sites within the same gene (i.e. synonymous -or silent- versus non-synonymous sites) rather than across genes. If all amino acid substitutions between two species are neutral, we expect the same number of non-synonymous and synonymous (or silent) changes, the latter reflecting the neutral mutation rate. In this practice, you will work with polymorphism data from two different _Drosophila_ species, _Drosophila melanogaster_ and _Drosophila subobscura_, and divergence data from other two drosophilid species, _Drosophila simulans_ and _Drosophila guanche_ (see Fig. 1).</br></br>
+
+***
+
+![](http://www.ub.edu/molevol/PG&ME/P5/image1.png){width=70%}
+
+**Figure 1.** _Drosophila_ species used in this practical lesson and their phylogenetic relationships.
+
+***
+
+Throughout the document you will see different icons whose meaning is:
+
+> <p><i class="fas fa-info-circle" style="font-size:15px;"></i><font size=2> : Additional or useful information</font></p>
+> <p><i class="fa fa-cogs" style="font-size:15px;"></i><font size=2>  : Practical exercise</font></p>
+> <p><i class="fa fa-key" style="font-size:15px;"></i><font size=2>  : Hint to solve an exercise or to do a task</font></p> 
+> <p><i class="fas fa-comment-dots" style="font-size:15px;"></i><font size=2>  : Slot to answer a question</font></p>
+> <p><i class="fas fa-tasks" style="font-size:15px;"></i><font size=2>  : Problem or task to be solved</font></p>
+
+***
+
+## 2. Installing R packages
+
+You can use either the `R` console in the terminal or `RStudio` for this practice. If you don't have `R` installed, you can download the appropriate package for your system [here](https://cran.rstudio.com/). To install `RStudio`, go to [this page](https://posit.co/download/rstudio-desktop/) and follow the instructions.
+
+Before starting the exercises, you will need to install some necessary libraries for manipulating and analyzing DNA sequence data. Open the `R` console in the terminal (or in `RStudio`) and type:
+
+<!-- replace R with {r} to execute the code when knit -->
+```{r}
+# install.packages("ape")
+devtools::install_github("pievos101/PopGenome")
+
+install.packages("remotes")
+remotes::install_github("andrewparkermorgan/sfsr")
+```
+
+***
+
+## 3. Data files
+
+1. **Data files**: link and description (click on the file name to access the file) :
+
+   + <i class="fa fa-file"></i> [**rpL32.fas**](http://www.ub.edu/molevol/PG&ME/P5/rpL32.fasta): This file contains the sequence of the _rpL32_ gene for 18 individuals (one sequence per individual) of a natural population of _D. subobscura_ (J) and one sequence from a closely related species, _D. guanche_ (Dgua). All sequences of _D. subobscura_ are from the same chromosomal arrangement (_O_<sub>3+4</sub>). **For this practical, use the 18 sequences of <i>D. subobscura</i> as the polymorphism data and the sequence of <i>D. guanche</i> for divergence estimations.**</br>
+ 
+   + <i class="fa fa-file"></i> [**Acph.fas**](http://www.ub.edu/molevol/PG&ME/P5/Acph.fasta). This file contains the sequence of the _Acph_ gene for 42 individuals (one sequence per individual) of a natural population of _D. subobscura_ (TB) and one sequence of a closely related species, _D. guanche_ (Dgua). The sequences of _D. subobscura_ are from two different chromosomal arrangements (_O_<sub>3+4+8</sub> and _O_<sub>3+4+23</sub>). **For this practical, use the 18 sequences of <i>D. subobscura</i> as the polymorphism data and the sequence of <i>D. guanche</i> for divergence estimations.**</br>
+      
+   + <i class="fa fa-file"></i> [**OS.fas**](http://www.ub.edu/molevol/PG&ME/P5/OS.fasta). This file contains the sequence of the OS locus of 14 individuals (one sequence per individual) of an European population of _D. melanogaster_ (M) and 2 individuals of _D. simulans_ (S). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
+ 
+   + <i class="fa fa-file"></i> [**E9.fas**](http://www.ub.edu/molevol/PG&ME/P5/E9.fasta). This file contains the sequence of the E9 locus of 15 individuals (one sequence per individual) of world wide sample of _D. melanogaster_ (MEL_) and 1 individual (one sequence per individual) of _D. simulans_ (SIM_). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
+   
+   + <i class="fa fa-file"></i> [**E10.fas**](http://www.ub.edu/molevol/PG&ME/P5/E10.fasta). This file contains the sequence of the E10 locus for 15 individuals (one sequence per individual) of an African population of _D. melanogaster_ (mel-) and one sequence from a closely related species, _D. simulans_ (Dsim). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
+   
+***
+
+## 3. Example 1. The HKA test
+
+Under neutrality, the amount of polymorphism in a species should be correlated with the levels of divergence between species for all loci across the genome due to the dependence of both on the neutral mutation rate ([Kimura 1983)](https://www.cambridge.org/core/books/neutral-theory-of-molecular-evolution/0FF60E9F47915B17FFA2620C49400632). The HKA test evaluates the fit of the observed polymorphism and divergence data to this specific prediction (Fig. 2).</br>
+
+***
+
+![](http://www.ub.edu/molevol/PG&ME/P5/imageHKA.png){width=70%}
+
+**Figure 2.** The HKA test.
+
+***
+
+Open the `R` console in the terminal (or `RSsudio`), load the library `PopGenome`, create a new folder for the gene, copy the fasta file to this folder, and read the folder with the function `readData`. This function creates an object of class `GENOME`. Then, indicate which samples are from the population of _D. subobscura_ and of _D.guanche_ using the function `set.populatons`.
+
+<!-- replace R with {r} to execute the code when knit -->
+```{r}
+    library(PopGenome)
+      
+    ## create a new working directory for this gene region and copy the fasta file to this folder
+    dir.create("rpL32")
+    file.copy(from = "rpL32.fasta",
+          to="rpL32/rpL32.fasta")
+    
+    ## read the fasta file
+    rp <- readData("rpL32")
+      
+    ## summary of the data
+    get.sum.data(rp)
+      
+    ## set populations
+    get.individuals(rp)
+    rp <- set.populations(rp,list(
+            c(get.individuals(rp)[[1]][1:18]), 
+            c(get.individuals(rp)[[1]][19]))
+            )
+    rp@region.data@populations
+    rp@region.data@populations2 
+    rp<-set.outgroup(rp,c("Dgua"))
+```
+      
+> <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="3"> To know which indices to use in the function `set.populations()`, we use the function `get.individuals()`. Check the result of the commands `region.data@populations` and `region.data@populations2` to make sure you have set the populations correctly.</font> 
+
+First, let's have a look at the variability in the region we are studying. The sliding windonw analysis is very useful for this task. To examine the distribution of the nucleotide polymorphism across the rp32L region, use the `sliding.window.transform()` function to create a new object (`rpsw`) where regions correspond to a set of windows into which you divide your region (in the `rp` object, regions correspond to the entire gene region). You will set a window size of 200 bp and a step size of 10 bp. For example, you can estimate and plot the number of segregating sites across the gene region:
+      
+<!-- replace R with {r} to execute the code when knit -->
+```{r}
+    ## divide the region in windows
+    rpsw <- sliding.window.transform(rp,width=200, jump=10,type=2,whole.data=TRUE)
+    
+    ## calculate segregating sites (and other statistics) 
+    rpsw <- neutrality.stats(rpsw)
+    
+    ## calculate fixed diferences (and other statistics)
+    rpsw<-calc.fixed.shared(rpsw)
+    
+    ## get segregating sites in D. subobscura
+    s<-as.data.frame(rpsw@n.segregating.sites[,1])
+    
+    ## get fixed differences between D. subobscura and D. melanogaster
+    d<-rpsw@n.fixed.sites
+    
+    ## plot the results of the sliding windows analysis
+    PopGplot(s,span=0.1,xlab="position (rp32L gene region)", ylim=c(min(s,na.rm=TRUE),max(s,na.rm=TRUE)))
+    lines(d)
+    legend("topright", legend = c("polymorphism", "divergence"), 
+     col = c("red", "black"), lty = 1)
+```
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Questions
+</h3>
+</div>
+**1\. Is the observed variation (visually) in agreement with expectations under the neutral theory of molecular evolution? Why?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r}
+cat("The synchronization of the graphs represents the correlation between polymorphism and divergence within and between species, which suggests that the neutral mutation rate is the primary driver.")
+```
+
+
+**2\. What would the plot look like if positive selection (=selective sweep) had recently acted on the 3' half of the gene? and if balancing selection had acted on the 5' half of the gene??**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r}
+cat("If positive selection had recently acted on the 3' half of the gene we would observe a heavy reduction in this region beacuse of a possible fixation. If balancing selection acted on the 5' half of the gene there would be an increase in variations, as  it means that there is no fixation")
+```
+
+</div>
+
+***
+
+To make sure you are on the right track, you can apply the HKA test to both halves of the _rpL32_ gene region. The `hka()` function from the `sfsr` package can be used to do this. **However, this function only accepts the site frequency spectrum (SFS) as input for this calculation**. Therefore, you must first obtain the SFS of the regions you wish to compare in the HKA test. Just to give you an example, in code bellow you can see how to obtain the SFS and perform the HKA test on the entire _rpL32_ gene:
+
+<!-- replace R with {r} to execute the code when knit -->
+```{r}
+    library(sfsr)
+
+    ## extract the sample size
+    n<-length(rp@populations[[1]])
+
+    ## get the minor allele frequencies
+    rp<-detail.stats(rp)
+    ma<-as.data.frame(rp@region.stats@minor.allele.freqs[1]) ## IMPORTANT: see info section bellow
+
+    ma<-ma[1,]
+
+    ## obtain the unfolded site frequency spectrum in population 1 (including fixed differences with respect to poopulation 2)
+    ma<-ma*n
+    sfs<-c()
+    for (i in 1:n) {
+       a<-sum(ma==i)
+       sfs<-c(sfs, a)
+    }
+    sfs
+    monomorphic<-rp@n.valid.sites - sum(sfs)
+    rp.sfs<-c(monomorphic)
+    rp.sfs<-c(rp.sfs, sfs)
+    
+    
+    ## plot the SFS
+    cols <- c("blue", "red")[(sfs >= sfs[n]) + 1 ]
+    barplot(sfs, main="Site Frequency Spectrum", names.arg=c(1:n), col=cols)
+    legend("topleft", legend = c("polymorphic", "fixed"), fill=c("blue","red"))
+    
+    ## run the HKA test:
+    rp.sfs2<-rp.sfs ## IMPORTANT: see info section bellow
+    hka_rp<-hka_test(rp.sfs, rp.sfs2)
+    ## p-value of the HKA test
+    hka_rp$p.value
+    ## observed values
+    hka_rp$observed
+    ## expected values
+    hka_rp$expected
+    ## residuals
+    hka_rp$residuals
+```
+
+> <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="3"> **IMPORTANT: note that in the example above we have compared one SFS against itself, which doesn't make any sense!!!**. In real cases, you must to compare the SFS from two different regions, one of which should be evolving under neutrality. **Also note that when you have more than one fasta file in the input folder, the object contains as many regions as fasta files in the folder. Use `get.sum.data()` to know the order of each region and use the correct index when extracting minor.allele.freqs**.</font>
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Exercise 1
+</h3>
+</div>
++ Using the functions and commands you already know (from this and the previous practical), create two fasta files, one with the sequences of the 5' half (e.g. "rpL32_5.fasta") and the other with the sequences of the 3' half (e.g. "rpL32L_3.fasta") of the _rpL32_ gene region.
+   - Since the alignment is 1798 sites long, divide the region into two parts of exactly equal length (1-899 and 900-1798).</br>
+
+
+
+```{python}
+def fasta_writer(filename):
+  content=[]
+  sequence=[]
+  with open(filename) as f:
+    for line in f:
+      if ">" in line: #when its header, append previous sequence to list and start over with the new header
+        sequence.append(content)
+        content=[line.strip("\n")]
+      else:
+        content+=line.strip("\n")
+  sequence=sequence[1:] #remove first empty content entry (entry[0])
+  with open("rpL32_5.fasta", "w") as f5:
+    with open("rpL32_3.fasta", "w") as f3:
+      for entry in sequence: #iterate over all the sequences, they all are (header, nucl1, nucl2,...)
+        header="".join(entry[:1]) #get the header
+        seqthree="".join(entry[1:900]) #get the first sequence fragment (899+1 because header)
+        seqfive="".join(entry[900:]) #get the second fragment (899+1 1798+1(:) because header)
+        print(header, "\n", seqthree, file=f3, sep="")
+        print(header, "\n", seqfive, file=f5, sep="")
+
+fasta_writer("rpL32.fasta")
+```
+
+
++ Apply the HKA test to the two halves of the _rpL32_ gene and answer the following questions:
+
+**3\. Do the two halves of the _rpL32_ gene region evolve as expected under the neutral model?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r}
+```
+
+
+**4\. Is there any chance that the region being analysed has been subject to positive selection? Maybe even the entire region?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+```
+
+```
+
+</div>
+
+*** 
+
+## 3. The MK test
+
+The MK test also compares polymorphism and divergence data but, in this case, between two types of sites within the same gene (coding region), **synonymous** (neutral class) and **nonsynonymous** sites (Figure 3). Under the null hypothesis, all nonsynonymous mutations are expected to be neutral and then the ratio of nonsynonymous to synonymous variation within species (Pn/Ps) is expected to equal the ratio of nonsynonymous to synonymous variation between species (Dn/Ds). However, these ratios will not be equal if part of the nonsynonymous variation is under either positive (i.e., mutations that increase individual fitness) or negative selection (i.e., mutations that are negatively selected but not highly deleterious).
+
+***
+
+![](http://www.ub.edu/molevol/PG&ME/P5/imageMK.png){width=70%}
+
+**Figure 3.** The MK test.
+
+***
+
+We will use the same genomic region to see an example of how the MK test is applied to real data. The `PopGenome` package has a function to run this test in `R`. As noted above, the test is based on synonymous and non-synonymous polymorphisms and substitutions, so the first task is to extract the coding regions from the alignment of the whole genomic region (the original alignment includes non-coding regions):
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```R
+    library(ape)
+    
+    ## Create new folder for the cds file in the working directory of this gene
+    dir.create("rpL32/rpL32_cds")
+    
+    ## create a new alignment only with cds sequences
+    aln<-read.dna(file="rpL32/rpL32.fasta", format="fasta")
+    cds<-aln[,c(932:1024,1122:1430)]
+    write.dna(cds, file="rpL32/rpL32_cds/rpL32_cds.fasta", format="fasta")
+    
+    ## read the cds sequences with PopGenome
+    rpc<-readData("rpL32/rpL32_cds")
+      
+    ## summary of the data
+    get.sum.data(rpc)
+      
+    ## set populations
+    get.individuals(rpc)
+    rpc <- set.populations(rpc,list(
+            c(get.individuals(rpc)[[1]][1:18]), 
+            c(get.individuals(rpc)[[1]][19]))
+            )
+    rpc<-set.outgroup(rpc,c("Dgua"))
+    
+    ## MK test - fisher test
+    rpc<-MKT(rpc, do.fisher.test=TRUE)
+    get.MKT(rpc)
+
+   ```
+
+***
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Questions
+</h3>
+</div>
+
+**5\. What is the result of this test? Can we infer the action of positive selection from the divergence of _rpL32_ between these two species?**
+
+```
+
+```
+
+**6\. How many amino acid changes have occurred in the RpL32 protein since the divergence of _D. subobscura_ and _D. guanche_? And how many synonymous changes? Discuss these results in relation to the evolutionary rate estimated for this protein in the final assignment of practical 4).**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+</div>
+
+***
+
+<div style="background-color:#faeae1">
+<div style="background-color:#d1926d">
+<h3>
+<i class="fa fa-cogs"></i> Final assignment
+</h3>
+</div>
++ Run an HKA test comparing the _E9_ and _E10_ gene regions of _D. melanogaster_ (using _D. simulans_ for divergence calculations)
++ Run the MK test in the coding region of the _OS_ gene of _D. melanogaster_ (using _D. simulans_ for divergence calculations).
+   - The coordinates of the coding region in the alignment are: 2334:2405,2468:2542,2595:2868.
++ Run the MK test in the coding region of the _Acph_ gene of _D. subobscura_ (using _D. guanche_ for divergence calculations).
+   - The coordinates of the coding region in the alignment are: 292:475,604:702,769:1458,1522:1780,1838:1944.
+
+Based on the results of these test, answer the following questions:
+
+**7\. Are the _E9_ or _E10_ gene regions under positive selection in _D. melanogaster_?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+**8\. If I say that the region referred to _E10_ is evolving under neutrality (it is a noncoding region with no functional element), does this modify your answer to question 7?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+**9\. Is there evidence of selection in two genes analysed by the MK test? What type of selection (positive or negative)?**.
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+</div>
+
+***
+
+<h1>Deliver info</h1>
+<p><i class="fa fa-upload"></i><strong> Deliver this document in <a href="https://aula.esci.upf.edu/mod/assign/view.php?id=242852">AULAESCI</a> with your answers</strong></p>
+<p><i class="fa fa-clock"></i> <strong>Deadline</strong>: June 28, 2024 - 23:59</p>
+<p><i class="fa fa-envelope"></i> <strong>Doubts?</strong> <a href="mailto:alejandro.sanchez@prof.esci.upf.edu" class="email">alejandro.sanchez@prof.esci.upf.edu</a></p>
+
+***
+   
