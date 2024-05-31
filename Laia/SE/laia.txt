@@ -1,0 +1,40 @@
+@startuml
+left to right direction
+
+actor "User" as U #FDFD96
+actor "Administrator" as A #FDFD96
+actor "Database Manager" as DB #FDFD96
+
+rectangle "MedGlobal" #89CFF0  {
+    usecase "Registration and Login" as UC1 #FDFD96
+    usecase "Cross-Platform Accessibility" as UC2 #FDFD96
+    usecase "Review and Rating System" as UC3 #FDFD96
+    usecase "Emergency Services" as UC4 #FDFD96
+    usecase "Interactive Map" as UC5 #FDFD96
+    usecase "Search Ability" as UC6 #FDFD96
+    usecase "International Language Support" as UC7 #FDFD96
+    usecase "Profile Management" as UC8 #FDFD96 
+    usecase "Management" as UC9 #FDFD96
+    usecase "Database Connectivity" as UC10 #FDFD96
+
+    U -- UC1
+    U -- UC2
+    U -- UC3
+    U -- UC4
+    U -- UC5
+    U -- UC6
+    U -- UC7
+    U -- UC8
+
+    A -- UC2
+    A -- UC9
+
+    DB -- UC10
+
+    UC6 .> UC10 : include
+
+
+
+
+}
+@enduml

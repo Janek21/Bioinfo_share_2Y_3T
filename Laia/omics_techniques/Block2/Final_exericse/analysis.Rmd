@@ -1,0 +1,197 @@
+---
+title: "**DGE ANALYSIS AND GO ENRICHMENT**<img src='https://www.construction21.org/espana/data/sources/users/8/images/logoesci-fons-blanc.png' style='position:absolute;top:0px;right:0px;' width='10%'/>"
+subtitle: "Final Exercice"
+author: "Lucas Silva (107706), Taras Yuviv (NIA), Julia Prenafeta (NIA), Laia Barcenilla (107694)"
+date: "28 May 2024"
+---
+
+Start up by downloading all needed libraries and data from Bioconductor and GEO. 
+```{r setup, include=FALSE}
+library(edgeR)  # 'edgeR' also loads 'limma' 
+library(EnsDb.Hsapiens.v86)
+library(Glimma)
+library(SummarizedExperiment)
+#library(factoextra)
+library(pheatmap)
+```
+
+Once the libraries are loaded, we can download the data from GEO. 
+```{r}
+# Load the data
+files_to_load <- c("GSE161731_counts.csv.gz", "GSE161731_counts_key.csv.gz")
+
+# Download them
+for (f in files_to_load) {
+  url <- paste0("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE161nnn/GSE161731/suppl/", f)
+  download.file(url, destfile = f)
+}
+```
+
+Once we have the data, we can load it into R. 
+```{r}
+counts <- read.csv("GSE161731_counts.csv.gz", row.names = 1,
+                   header = TRUE, check.names = FALSE)
+
+metadata <- read.csv("GSE161731_counts_key.csv.gz", row.names = 1,
+                     header = TRUE, check.names = FALSE)
+
+# Obtain the gene annotations
+genes <- genes(EnsDb.Hsapiens.v86)
+```
+
+Now that we have the data loaded, we can start the analysis.
+
+We will start by building a SummarizedExperiment object. 
+```{r}
+# First, we need to select those that are present in counts and in metadata at the same time, we will store them in comm.s. In comm.g we will store the elements present in counts and in the gene annotations.
+comm.s <- intersect(colnames(counts), rownames(metadata))
+comm.g <- intersect(rownames(counts), genes$gene_id)
+
+se <- SummarizedExperiment(assay = list("counts" = counts[comm.g, comm.s]),
+                           colData = metadata[comm.s, ], 
+                           rowRanges = genes[comm.g])
+
+# See how the table with our cohorts has ended up
+table(se$cohort)
+```
+
+Once we have our data loaded, before starting any analysis, we should keep in mind cleaning up our data.
+For starters, we'll remove any duplicates in the data, we will make sure that the class of the variables is correct and we'll do a metadata cleanup, modifying any columns that need it.
+
+First of all, we will remove all the duplicates, keeping only the fist appearance to make it arbitrary.
+```{r}
+# Check if we have duplicates
+table(table(se$subject_id))
+
+# Remove duplicates
+se <- se[, !duplicated(se$subject_id)] # Keeping only the first it finds 
+
+# Check that we have removed duplicates
+table(se$cohort)
+table(table(se$subject_id))
+```
+
+To ensure the class of the variables is correct we'd have to check each of the 8 variables.
+
+After going through all variables on a separate R script, we can safely say that out of the 8 columns of variables, the only one that needs a change is $age. From string(character) to int.
+
+In order to not get NA as a result of the transformation of ">89" to int, we transform it to "90", and after we can change the class.
+``` {r}
+class(se$age)
+
+# Replace >89 by 90
+se$age <- gsub(">89", "90", se$age)
+# Change the class
+se$age <- as.numeric(as.character(se$age))
+
+# Check that the object's class has been correctly modified.
+class(se$age)
+```
+
+To start the metadata cleanup, we'll modify some characters from cohort and race columns, rename others, and remove some columns we don't need.
+``` {r}
+# Remove/modify some characters in the "cohort" and "race" columns
+cols <- c("cohort", "race")
+colData(se)[, cols] <- apply(colData(se)[, cols], 2, function(x){
+   y <- gsub("-", "", x)   # Remove "-" 
+   z <- gsub(" ", "_", y)  # Change " " (space) by "_"
+   w <- gsub("/", "_", z)  # Change "/" by "_"
+   return(w)
+})
+   
+# Rename columns to individual id
+colnames(se) <- se$subject_id
+ 
+# Remove uninteresting columns
+colData(se)[, c("time_since_onset", "hospitalized")]  <- NULL 
+   
+# Check out the SummarizedExperiment object:
+se 
+colData(se)
+```
+
+Then, we need to filter the samples to obtain only those we are interested in. We will keep the 5 cohorts: COVID19, CoV_other, Influenza, Bacterial and healthy.
+```{r}
+cohorts_of_interest <- c("COVID19", "CoV_other", "Influenza", "Bacterial", "healthy")
+se <- se[, se$cohort %in% cohorts_of_interest]
+table(se$cohort)
+```
+
+We are keeping a copy of the SummarizedExperimend object for later usage
+```{r}
+se0 <- se
+```
+
+
+
+Once we have cleaned up the data, we should remove all lowly expressed genes in our data set.
+Genes that have a very low count across all samples are removed, since it is justified that it will have no importance not only at biological but also at statistical level.
+In this case, we will count the expression by count-per-million (CPM), and will be done using the _edgeR_ package not favour library sizes.
+``` {r}
+DE_genes <- filterByExpr(se, group = se$cohort)
+
+# The following table contains the number of genes that will be kept and removed. 
+table(DE_genes)
+```
+
+We now subset the Summarized Experiment (se) in order to only retain the needed genes (the differential expressed ones).
+``` {r}
+se <- se[DE_genes, ]
+se
+```
+
+
+Now we can start with the data normalization process, where we will perform the normalization by trimmed mean of M values (TMM), commonly used in RNA-seq data analysis to account for differences in sequencing depth and RNA composition across all sample. 
+This method helps to ensure that observed differences in gene expression are due to biological variation rather than technical artifacts.
+``` {r}
+dgl <- calcNormFactors(se, method = "TMM")
+dgl
+```
+
+A normalization factor below 1 means a few high-count genes dominate the sequencing, making other genes' counts lower than expected. This scales down the effective library size for that sample.
+``` {r}
+# Calculate CPMs and add them to the SummarizedExperiment object.
+assays(se)$CPM <- cpm(se)
+
+# Calculate CPM based on effective library size using TMM normalization factors
+assays(se)$TMM <- cpm(dgl, normalized.lib.sizes = T)
+```
+
+Now, we want to represent the distribution of the TMM normalization factor per cohort. We will start by storing in variable y the <DGEList> object, which is a list of objects that contain the counts and the group of each sample. We will then calculate the normalization factors using the TMM method thank to <calcNormFactors> function from the _EdgeR_ package.
+``` {r}
+y <- edgeR::DGEList(counts=assay(se), group=se$cohort)
+y <- edgeR::calcNormFactors(y, method="TMM")
+```
+
+Once we have the normalization factors, we can plot them using a boxplot to see the distribution of the TMM normalization factors per cohort.
+``` {r}
+# Create a boxplot of the TMM normalization
+boxplot(y$samples$norm.factors ~ y$samples$group, 
+        main="TMM normalization factors per cohort", 
+        xlab="Cohorts", 
+        ylab="TMM normalization factors", 
+        col=c(6, 2, 3, 4, 5))
+```
+
+This plot can be interpreted as follows:
+First of all, we need to identify the thick horizontal line in each cohort, which represents the median. The two upper and lower lines of the box represent the first (25% of the data) and third (75% of the data) quartile. The lines extending from the quartiles up and down represent the highest/lowest values that are not considered outliers. Any values higher or lower than the limits of this line will be considered outliers and marked with a circle.
+
+From the results obtained, we can see that the normalization factors are quite similar across all cohorts, which is a good sign that the normalization process has been successful. We can also spot some outliers in the data, on cohort CoV_other and COVID19.
+
+From the boxplot, we can see that the Bacterial cohort has the smallest normalization factors, while the healthy cohort has the largest. 
+
+
+
+
+# PCA
+
+With the data normalized, we can perform a Principal Component Analysis (PCA) on the expression data.
+``` {r}
+CA <- prcomp(log2(t(assays(se)$TMM)+1))
+fviz_pca_ind(PCA, addEllipses = T,
+              col.ind = se$cohort,
+              # try others e.g. se$race, se$gender, se$age
+              pointsize = 3) 
+```
+
+
