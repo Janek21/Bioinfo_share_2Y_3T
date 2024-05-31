@@ -1,0 +1,52 @@
+@startuml
+|User|
+start
+:Insert Card;
+:Enter PIN;
+
+|ATM|
+:Verify Code;
+if (not OK for the 1st or 2nd time) then
+  :Verify Code;
+else
+  if (not OK for the 3rd time) then
+    :Transaction Cancelled;
+    stop
+  else
+    :Request Visa Authorisation;
+    if (withdraw refused) then
+      :Transaction Cancelled;
+      stop
+    else
+      :Enter Amount;
+      if (amount > limit) then
+        :Request Visa Authorisation;
+        if (withdraw refused) then
+          :Transaction Cancelled;
+          stop
+        else
+          :Process Transaction;
+        endif
+      else
+        :Process Transaction;
+      endif
+    endif
+  endif
+endif
+
+:Dispense Cash;
+|User|
+:Take Cash;
+
+|ATM|
+if (receipt was requested) then
+  :Print Receipt;
+  :Eject Card;
+else
+  :Eject Card;
+endif
+
+|User|
+:Remove Card;
+stop
+@enduml

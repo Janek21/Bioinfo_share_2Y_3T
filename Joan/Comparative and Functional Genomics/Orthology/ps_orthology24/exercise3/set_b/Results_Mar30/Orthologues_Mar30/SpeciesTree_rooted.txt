@@ -1,0 +1,1 @@
+(SIPHA:0.5,(MYZPE:1,ACYPI:1)1:0.5);
