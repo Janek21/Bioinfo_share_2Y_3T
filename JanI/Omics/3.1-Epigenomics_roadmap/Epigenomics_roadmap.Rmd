@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Data preparation
 ```{r importing and preparing, warning=FALSE}
+library(dplyr)
 source("/home/jj/bedtools2/BEDtoolsR.R")
 
 metadata<-read.table("/home/jj/Desktop/Bioinformatics/2nd_year/3term/Omics_Techniques/Seminars/3.1-Epigenomics_roadmap/metadata.roadmap_clean.txt", sep="\t")
@@ -117,12 +118,57 @@ pheatmap(m,
 
 Set up variables and consult the index
 ```{r 3.define variables for each}
+#m<-readRDS("jaccard_matrix.rds")
+#o bé
+rownames(m)<-rnames
 
 #E071 on filtered -> Name in UniqueNames -> m[name1] is row of name -> m[name1, name2] is row and column of names
 E071_Unique<-filtered_metadata$UniqueName[filtered_metadata$V1=="E071"]
 E074_Unique<-filtered_metadata$UniqueName[filtered_metadata$V1=="E074"]
 
 m[E071_Unique, E074_Unique]
+```
 
+## 4.Perform muldimensional scaling on a distance matrix based on 1-jaccardIndex.
+
+Creation of the 1-jaccard distance matrix and performing the multidimensional scaling
+```{r 4.creating the distance matrix}
+#distance matrix is 1-jaccard distance
+dm<-1-m
+
+#Perform the multimensional scaling, k=4 for 4 dimensions ( using 4 for the next exercise )
+multi_d_scaling <- cmdscale(dm, k = 4)
+
+```
+
+## 5.Plot 1:2 and 3:4 dimensions and color by tissue, shape by fetal/adult.
+
+Create a new dataframe for plotting the dimensions
+```{r 5.create a new dataframe to plot the dimensions}
+#rename the coluns from [,1] to their corresponding dimension and transorm it into a dataframe
+colnames(multi_d_scaling)<-c("MDS1", "MDS2", "MDS3", "MDS4")
+df_multi_d_scaling <- as.data.frame(multi_d_scaling)
+
+#Create a column with the rownames, for easier joining with filtered_metadata (needed for PERIOD and tissue)
+df_multi_d_scaling$Name<-rownames(df_multi_d_scaling)
+df_multi_d_scaling <- df_multi_d_scaling %>%
+  left_join(filtered_metadata, by = c("Name" = "UniqueName"))
+```
+
+Plot for dimensions 1 and 2
+```{r 5.Plot dimensions 1 and 2}
+ggplot(df_multi_d_scaling, aes(x = MDS1, y = MDS2, color = V2, shape = PERIOD))+geom_point(size = 5)+ labs(x="Dimension 1", y="Dimension 2")
+```
+
+Plot for dimensions 3 and 4
+```{r 5.Plot dimensions 3 and 4}
+ggplot(df_multi_d_scaling, aes(x = MDS3, y = MDS4, color = V2, shape = PERIOD))+geom_point(size = 5)+ labs(x="Dimension 3", y="Dimension 4")
+```
+
+## 6.Compute hierarchical clustering in jaccard distance matrix with R function “hclust”, cut the dendrogram at different Ks using R function “cutree” and plot the dendrogram coloring the obtained clusters of samples. (You can use the R Package dendextend)
+
+Prepare the data
+```{r 6.Data preparation}
+library(dendextend)
 ```
 
