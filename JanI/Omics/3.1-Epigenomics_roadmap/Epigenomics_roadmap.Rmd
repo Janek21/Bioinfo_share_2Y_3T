@@ -1,5 +1,5 @@
 ---
-title: "Hands-on Roadmap Epigenomics"
+title: "Epigenomics Roadmap Hands-on"
 author: "Jan Izquierdo"
 date: "2024-05-24"
 output: pdf_document
@@ -14,7 +14,10 @@ Data preparation
 library(dplyr)
 source("/home/jj/bedtools2/BEDtoolsR.R")
 
-metadata<-read.table("/home/jj/Desktop/Bioinformatics/2nd_year/3term/Omics_Techniques/Seminars/3.1-Epigenomics_roadmap/metadata.roadmap_clean.txt", sep="\t")
+gen_path<-"/home/jj/Desktop/Bioinformatics/2nd_year/3term/"
+fullpath<-paste0(gen_path,"Omics_Techniques/Seminars/3.1-Epigenomics_roadmap/metadata.roadmap_clean.txt")
+
+metadata<-read.table(fullpath ,sep="\t")
 #View(metadata)
 
 #Distinguish Fetal and Non-fetal(Adult) samples
@@ -28,24 +31,29 @@ tissues<-c("Brain", "brain", "Muscle", "muscle", "Digestive", "digestive", "Hear
 
 filtered_metadata<-dplyr::filter(metadata, V2 %in% tissues)$V1 #Teacher's method
 
-filtered_metadata<-metadata[grepl(paste(tissues, collapse="|"), metadata$V2)==TRUE,] #database of only the files that interest us (all that contain any of the words of tissues in column metadata$V2)
+filtered_metadata<-metadata[grepl(paste(tissues, collapse="|"), metadata$V2)==TRUE,] #database of only 
+#the files that interest us (all that contain any of the words of tissues in column metadata$V2)
 ```
+
 Reading files and storing them in a list
 ```{r file content to a list, message=FALSE, results=FALSE}
 roadmap<-list()
 
-for (f in filtered_metadata$V1){ #first column contains the id that differs the files from each other (id of entry as well)
+for (f in filtered_metadata$V1){ #first column contains the id that differs the files from each other 
+                                 #(id of entry as well)
   filename<-paste0("all.mnemonics.bedFiles/",f,"_18_core_K27ac_mnemonics.bed.gz") #f is the ids
   if (file.exists(filename)){ #in case that a file does not exist, avoid errors
     print(f)
-    roadmap[[f]]<-read.table(gzfile(filename)) #all contents of file to roadmap #"dictionary" with the ID as key
+    roadmap[[f]]<-read.table(gzfile(filename)) #all contents of file to roadmap 
+                                               #"dictionary" with the ID as key
   }
 }
 
 #Changing ID "keys" to UniqueNames that we generated before
 library(plyr)
 names(roadmap)<-mapvalues(names(roadmap), from=metadata$V1, to=metadata$UniqueName)
-
+```
+```{r part 2 to be able to see results}
 names(roadmap)
 
 roadmap[["Muscle_Fetal_E089"]] %>% head()
@@ -63,19 +71,20 @@ roadmap<-readRDS("roadmap.rds")
 
 #Doing the intersection
 state="1_TssA"
-b1<-dplyr::filter(roadmap[["Muscle_Fetal_E090"]], V4==state) #V4 are the promoters (if we did all genomes it'd almost the same), we choose 1 promoter
+b1<-dplyr::filter(roadmap[["Muscle_Fetal_E090"]], V4==state) #V4 are the promoters 
+#(if we did all genomes it'd almost the same), we choose 1 promoter
 b2<-dplyr::filter(roadmap[["Digestive_Adult_E102"]], V4==state)
 
 bedTools.2jac(bed1=b1,bed2=b2)
 
 #do for all members in names(roadmap) and place in a matrix
 rnames<-names(roadmap)
-m<-matrix(nrow=length(rnames), ncol=length(rnames), dimnames=list(rnames)) #,names(roadmap)) #matrix of rnames dimensions
+m<-matrix(nrow=length(rnames), ncol=length(rnames), dimnames=list(rnames)) #matrix of rnames dimensions
 colnames(m)<-rnames
 ```
 
 Fill the jaccard matrix
-```{r 1.fill and save the matrix, results=FALSE}
+```{r 1.fill and save the matrix, results=FALSE, warning=FALSE}
 
 for (i in 1:length(rnames)){
   for (j in 1:length(rnames)){
@@ -98,10 +107,11 @@ m<-readRDS("jaccard_matrix.rds")
 ## 2.Visualize Jaccard Index matrix in a heatmap, indicating tissue of origin and PERIOD
 
 Prepare the data for the heatmap and create it
-```{r 2. m in heatmap}
+```{r 2. m in heatmap, warning=FALSE}
 library(pheatmap)
 
-annotation_col <- data.frame( Tissue = filtered_metadata$V2, Period = filtered_metadata$PERIOD, row.names = filtered_metadata$UniqueName)
+annotation_col <- data.frame( Tissue = filtered_metadata$V2, Period = filtered_metadata$PERIOD, 
+                              row.names = filtered_metadata$UniqueName)
 m <- as.matrix(m)
 m <- apply(m, 2, as.numeric)
 
@@ -122,7 +132,8 @@ Set up variables and consult the index
 #o bé
 rownames(m)<-rnames
 
-#E071 on filtered -> Name in UniqueNames -> m[name1] is row of name -> m[name1, name2] is row and column of names
+#E071 on filtered -> Name in UniqueNames -> m[name1] is row of name -> m[name1, name2] 
+#m[name1, name2] is row and column of names
 E071_Unique<-filtered_metadata$UniqueName[filtered_metadata$V1=="E071"]
 E074_Unique<-filtered_metadata$UniqueName[filtered_metadata$V1=="E074"]
 
@@ -149,7 +160,7 @@ Create a new dataframe for plotting the dimensions
 colnames(multi_d_scaling)<-c("MDS1", "MDS2", "MDS3", "MDS4")
 df_multi_d_scaling <- as.data.frame(multi_d_scaling)
 
-#Create a column with the rownames, for easier joining with filtered_metadata (needed for PERIOD and tissue)
+#Create a column with the rownames,for easier join with filtered_metadata(needed for PERIOD and tissue)
 df_multi_d_scaling$Name<-rownames(df_multi_d_scaling)
 df_multi_d_scaling <- df_multi_d_scaling %>%
   left_join(filtered_metadata, by = c("Name" = "UniqueName"))
@@ -157,12 +168,15 @@ df_multi_d_scaling <- df_multi_d_scaling %>%
 
 Plot for dimensions 1 and 2
 ```{r 5.Plot dimensions 1 and 2}
-ggplot(df_multi_d_scaling, aes(x = MDS1, y = MDS2, color = V2, shape = PERIOD))+geom_point(size = 5)+ labs(x="Dimension 1", y="Dimension 2")
+library(ggplot2)
+ggplot(df_multi_d_scaling, aes(x = MDS1, y = MDS2, color = V2, shape = PERIOD))+geom_point(size = 5)+
+  labs(x="Dimension 1", y="Dimension 2")
 ```
 
 Plot for dimensions 3 and 4
 ```{r 5.Plot dimensions 3 and 4}
-ggplot(df_multi_d_scaling, aes(x = MDS3, y = MDS4, color = V2, shape = PERIOD))+geom_point(size = 5)+ labs(x="Dimension 3", y="Dimension 4")
+ggplot(df_multi_d_scaling, aes(x = MDS3, y = MDS4, color = V2, shape = PERIOD))+geom_point(size = 5)+
+  labs(x="Dimension 3", y="Dimension 4")
 ```
 
 ## 6.Compute hierarchical clustering in jaccard distance matrix with R function “hclust”, cut the dendrogram at different Ks using R function “cutree” and plot the dendrogram coloring the obtained clusters of samples. (You can use the R Package dendextend)
