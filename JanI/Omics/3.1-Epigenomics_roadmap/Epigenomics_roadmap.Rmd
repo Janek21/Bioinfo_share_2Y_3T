@@ -11,10 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Data preparation
 ```{r importing and preparing, warning=FALSE}
-source("./bedtools2/BEDtoolsR.R")
+source("/home/jj/bedtools2/BEDtoolsR.R")
 
-metadata<-read.table("./metadata.roadmap_clean.txt", sep="\t")
-View(metadata)
+metadata<-read.table("/home/jj/Desktop/Bioinformatics/2nd_year/3term/Omics_Techniques/Seminars/3.1-Epigenomics_roadmap/metadata.roadmap_clean.txt", sep="\t")
+#View(metadata)
 
 #Distinguish Fetal and Non-fetal(Adult) samples
 metadata$PERIOD<-ifelse(grepl("fetal|Fetal", metadata$V3), "Fetal", "Adult")
@@ -48,11 +48,18 @@ names(roadmap)<-mapvalues(names(roadmap), from=metadata$V1, to=metadata$UniqueNa
 names(roadmap)
 
 roadmap[["Muscle_Fetal_E089"]] %>% head()
+
+#avoid executing this chink every time by saving roadmap
+#saveRDS(roadmap, "roadmap.rds")
 ```
 
-## 1.
+## 1.Calculate pairwise Jaccard index
 
-```{r 1.calculate pairwise index}
+Prepare the data and create the matrix
+```{r 1.preparation}
+#Load roadmap if the previous chunk hasn't been executed
+roadmap<-readRDS("roadmap.rds")
+
 #Doing the intersection
 state="1_TssA"
 b1<-dplyr::filter(roadmap[["Muscle_Fetal_E090"]], V4==state) #V4 are the promoters (if we did all genomes it'd almost the same), we choose 1 promoter
@@ -62,18 +69,60 @@ bedTools.2jac(bed1=b1,bed2=b2)
 
 #do for all members in names(roadmap) and place in a matrix
 rnames<-names(roadmap)
-m<-matrix(nrow=length(rnames), ncol=length(rnames), dimnames=list(rnames), names(roadmap)) #matrix of rnames dimensions
+m<-matrix(nrow=length(rnames), ncol=length(rnames), dimnames=list(rnames)) #,names(roadmap)) #matrix of rnames dimensions
+colnames(m)<-rnames
+```
 
-for (i in rnames){
-  for (j in rnames){
-    print(c(i,j))
-    a<-filter(roadmap[[i]], V4==state)
-    b<-filter(roadmap[[j]], V4==state)
-    index_num<-bedTools.2in(bed1=a,bed2=b) #MYFUNCTION
-    m[i,j]<-index_num
+Fill the jaccard matrix
+```{r 1.fill and save the matrix, results=FALSE}
+
+for (i in 1:length(rnames)){
+  for (j in 1:length(rnames)){
+    a<-dplyr::filter(roadmap[[i]], V4==state)
+    b<-dplyr::filter(roadmap[[j]], V4==state)
+    index_num<-bedTools.2jac(bed1=a,bed2=b) #MYFUNCTION #2jac for testing
+    colnames(index_num)<-make.names(index_num[1,])
+    index_num<-index_num[2,]
+    m[i,j]<-index_num$jaccard #store jac2 indexes there #or intersection?
   }
 }
+saveRDS(m, "jaccard_matrix.rds")
+```
 
-#create function calculate Jaccard (even tho we have a jaccard calculating function in BEDtools file)
+Load the jaccard matrix
+```{r 1.load the matrix}
+m<-readRDS("jaccard_matrix.rds")
+```
+
+## 2.Visualize Jaccard Index matrix in a heatmap, indicating tissue of origin and PERIOD
+
+Prepare the data for the heatmap and create it
+```{r 2. m in heatmap}
+library(pheatmap)
+
+annotation_col <- data.frame( Tissue = filtered_metadata$V2, Period = filtered_metadata$PERIOD, row.names = filtered_metadata$UniqueName)
+m <- as.matrix(m)
+m <- apply(m, 2, as.numeric)
+
+pheatmap(m,
+  annotation_col = annotation_col,
+  main = "Heatmap of Jaccard Indexes",
+  cluster_rows = TRUE,
+  cluster_cols = TRUE,
+  show_rownames = FALSE,
+)
+```
+
+## 3.Report jaccard index between sample E071 and sample E074
+
+Set up variables and consult the index
+```{r 3.define variables for each}
+
+#E071 on filtered -> Name in UniqueNames -> m[name1] is row of name -> m[name1, name2] is row and column of names
+E071_Unique<-filtered_metadata$UniqueName[filtered_metadata$V1=="E071"]
+E074_Unique<-filtered_metadata$UniqueName[filtered_metadata$V1=="E074"]
+
+m[E071_Unique, E074_Unique]
+
 ```
 
