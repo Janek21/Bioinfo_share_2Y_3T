@@ -185,9 +185,7 @@ Prepare the data and compute the clustering
 ```{r 6.Data preparation and hclus execution}
 library(dendextend)
 
-#jaccard distance matrix is m or dm?
-
-dmatrix_prep<-as.dist(m)
+dmatrix_prep<-as.dist(dm)
 computed_clusters<-hclust(dmatrix_prep, method="complete")
 
 plot(computed_clusters, sub="", xlab="", cex=0.9)
@@ -196,13 +194,36 @@ plot(computed_clusters, sub="", xlab="", cex=0.9)
 Cluster separation and plotting with cutree
 ```{r 6.Unsing cutree to cut and represent the data}
 
-cluster_numbers<-c(2, 4, 6, 8)
+cluster_numbers<-c(2, 3, 4, 6, 8)
 
 #par(mfrow = c(1, length(cluster_numbers)/2))
 for (cl in cluster_numbers){
   clusters <- cutree(computed_clusters, k = cl)
   dend <- color_branches(as.dendrogram(computed_clusters), k = cl)
-  plot(dend, main=paste0("Diagram of ", cl, " clusters"))
+  par(mar = c(10, 4, 2, 2)+0.1)
+  plot(dend, main=paste0("Diagram of ", cl, " clusters"), cex=0.9)
 }
 
+```
+
+### Do you see a logic in the clusters using epigenomes?
+
+```{r 6.Discussion 1, echo=FALSE}
+cat("Most clusters seem to be separated by tissue and the separation occurs by earliest branch 
+division (On 2 clusters, it divides by red and blue instead of creating a division out of 
+green, which is the new cluster created in the 3 clusters plot)\n")
+```
+
+### Which major sub-divisions can you see?
+
+```{r 6.Discussion 2, echo=FALSE}
+cat("The main subdivisons on 3 clusters are Muscle+Small muscle, Brain and Digestive+Heart, which 
+we can observe that also get separated when we increase the number of clusters in later plots\n")
+```
+
+### All states convey similar information?
+
+```{r 6.Discussion 3, echo=FALSE}
+#NO HO SE
+cat("The further away 2 samples are, the more epigenomic differences they present.\n")
 ```
