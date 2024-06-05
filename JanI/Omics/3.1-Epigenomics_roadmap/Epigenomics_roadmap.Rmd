@@ -7,10 +7,11 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
 ```
 
 Data preparation
-```{r importing and preparing, warning=FALSE}
+```{r importing and preparing, warning=FALSE, message=FALSE}
 library(dplyr)
 source("/home/jj/bedtools2/BEDtoolsR.R")
 
@@ -31,17 +32,19 @@ tissues<-c("Brain", "brain", "Muscle", "muscle", "Digestive", "digestive", "Hear
 
 filtered_metadata<-dplyr::filter(metadata, V2 %in% tissues)$V1 #Teacher's method
 
-filtered_metadata<-metadata[grepl(paste(tissues, collapse="|"), metadata$V2)==TRUE,] #database of only 
-#the files that interest us (all that contain any of the words of tissues in column metadata$V2)
+filtered_metadata<-metadata[grepl(paste(tissues, collapse="|"), metadata$V2)==TRUE,] 
+#database of only the files that interest us (all that contain any of the words of 
+#tissues in column metadata$V2)
 ```
 
 Reading files and storing them in a list
 ```{r file content to a list, message=FALSE, results=FALSE}
 roadmap<-list()
 
-for (f in filtered_metadata$V1){ #first column contains the id that differs the files from each other 
-                                 #(id of entry as well)
-  filename<-paste0("all.mnemonics.bedFiles/",f,"_18_core_K27ac_mnemonics.bed.gz") #f is the ids
+for (f in filtered_metadata$V1){ #first column contains the id that differs the files 
+                                 #from each other (id of entry as well)
+  filename<-paste0("all.mnemonics.bedFiles/",f,"_18_core_K27ac_mnemonics.bed.gz") 
+  #f is the ids
   if (file.exists(filename)){ #in case that a file does not exist, avoid errors
     print(f)
     roadmap[[f]]<-read.table(gzfile(filename)) #all contents of file to roadmap 
@@ -65,7 +68,7 @@ roadmap[["Muscle_Fetal_E089"]] %>% head()
 ## 1.Calculate pairwise Jaccard index
 
 Prepare the data and create the matrix
-```{r 1.preparation}
+```{r 1.preparation, message=FALSE}
 #Load roadmap if the previous chunk hasn't been executed
 roadmap<-readRDS("roadmap.rds")
 
@@ -75,11 +78,20 @@ b1<-dplyr::filter(roadmap[["Muscle_Fetal_E090"]], V4==state) #V4 are the promote
 #(if we did all genomes it'd almost the same), we choose 1 promoter
 b2<-dplyr::filter(roadmap[["Digestive_Adult_E102"]], V4==state)
 
-bedTools.2jac(bed1=b1,bed2=b2)
+b<-bedTools.2jac(bed1=b1,bed2=b2)
+b
+
+rdmap<-list()
+for (id in names(roadmap)){#for 2 states
+  rdmap[[id]] <- dplyr::filter(roadmap[[id]], V4 == "12_ZNF/Rpts" | V4 == state) 
+  #another V4 can be: 13_Het, and more
+}
+roadmap<-rdmap
 
 #do for all members in names(roadmap) and place in a matrix
 rnames<-names(roadmap)
-m<-matrix(nrow=length(rnames), ncol=length(rnames), dimnames=list(rnames)) #matrix of rnames dimensions
+m<-matrix(nrow=length(rnames), ncol=length(rnames), dimnames=list(rnames)) 
+#matrix of rnames dimensions
 colnames(m)<-rnames
 ```
 
@@ -90,10 +102,10 @@ for (i in 1:length(rnames)){
   for (j in 1:length(rnames)){
     a<-dplyr::filter(roadmap[[i]], V4==state)
     b<-dplyr::filter(roadmap[[j]], V4==state)
-    index_num<-bedTools.2jac(bed1=a,bed2=b) #MYFUNCTION #2jac for testing
+    index_num<-bedTools.2jac(bed1=a,bed2=b)
     colnames(index_num)<-make.names(index_num[1,])
     index_num<-index_num[2,]
-    m[i,j]<-index_num$jaccard #store jac2 indexes there #or intersection?
+    m[i,j]<-index_num$jaccard #store jac2 indexes there
   }
 }
 saveRDS(m, "jaccard_matrix.rds")
@@ -160,7 +172,8 @@ Create a new dataframe for plotting the dimensions
 colnames(multi_d_scaling)<-c("MDS1", "MDS2", "MDS3", "MDS4")
 df_multi_d_scaling <- as.data.frame(multi_d_scaling)
 
-#Create a column with the rownames,for easier join with filtered_metadata(needed for PERIOD and tissue)
+#Create a column with the rownames
+#Easier join with filtered_metadata later (needed for PERIOD and tissue)
 df_multi_d_scaling$Name<-rownames(df_multi_d_scaling)
 df_multi_d_scaling <- df_multi_d_scaling %>%
   left_join(filtered_metadata, by = c("Name" = "UniqueName"))
@@ -169,20 +182,20 @@ df_multi_d_scaling <- df_multi_d_scaling %>%
 Plot for dimensions 1 and 2
 ```{r 5.Plot dimensions 1 and 2}
 library(ggplot2)
-ggplot(df_multi_d_scaling, aes(x = MDS1, y = MDS2, color = V2, shape = PERIOD))+geom_point(size = 5)+
-  labs(x="Dimension 1", y="Dimension 2")
+ggplot(df_multi_d_scaling, aes(x = MDS1, y = MDS2, color = V2, shape = PERIOD))+
+  geom_point(size = 5)+labs(x="Dimension 1", y="Dimension 2")
 ```
 
 Plot for dimensions 3 and 4
 ```{r 5.Plot dimensions 3 and 4}
-ggplot(df_multi_d_scaling, aes(x = MDS3, y = MDS4, color = V2, shape = PERIOD))+geom_point(size = 5)+
-  labs(x="Dimension 3", y="Dimension 4")
+ggplot(df_multi_d_scaling, aes(x = MDS3, y = MDS4, color = V2, shape = PERIOD))+
+  geom_point(size = 5)+labs(x="Dimension 3", y="Dimension 4")
 ```
 
 ## 6.Compute hierarchical clustering in jaccard distance matrix with R function “hclust”, cut the dendrogram at different Ks using R function “cutree” and plot the dendrogram coloring the obtained clusters of samples. (You can use the R Package dendextend)
 
 Prepare the data and compute the clustering
-```{r 6.Data preparation and hclus execution}
+```{r 6.Data preparation and hclus execution, message=FALSE}
 library(dendextend)
 
 dmatrix_prep<-as.dist(dm)
@@ -211,19 +224,22 @@ for (cl in cluster_numbers){
 ```{r 6.Discussion 1, echo=FALSE}
 cat("Most clusters seem to be separated by tissue and the separation occurs by earliest branch 
 division (On 2 clusters, it divides by red and blue instead of creating a division out of 
-green, which is the new cluster created in the 3 clusters plot)\n")
+green, which is the new cluster created in the 3 clusters plot). This clustering also seems to 
+happen classified by Tissue and Period\n")
 ```
 
 ### Which major sub-divisions can you see?
 
 ```{r 6.Discussion 2, echo=FALSE}
-cat("The main subdivisons on 3 clusters are Muscle+Small muscle, Brain and Digestive+Heart, which 
-we can observe that also get separated when we increase the number of clusters in later plots\n")
+cat("The main subdivisons on 3 clusters are Muscle, Brain and Digestive+Heart(and some small muscle).
+We observe that Fetal and Adult separate when we increase the number of clusters in later 
+plots, although they aren't the first to get separated when increasing the cluster number due
+to the reasons mentioned previously\n")
 ```
 
 ### All states convey similar information?
 
 ```{r 6.Discussion 3, echo=FALSE}
-#NO HO SE
-cat("The further away 2 samples are, the more epigenomic differences they present.\n")
+cat("The further away 2 samples are, the more epigenomic differences they present,
+in this case most are similar.\n")
 ```
