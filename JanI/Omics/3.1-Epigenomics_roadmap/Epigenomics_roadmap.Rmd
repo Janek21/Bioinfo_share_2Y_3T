@@ -68,7 +68,7 @@ roadmap[["Muscle_Fetal_E089"]] %>% head()
 ## 1.Calculate pairwise Jaccard index
 
 Prepare the data and create the matrix
-```{r 1.preparation, message=FALSE}
+```{r 1.preparation, message=FALSE, results=FALSE}
 #Load roadmap if the previous chunk hasn't been executed
 roadmap<-readRDS("roadmap.rds")
 
@@ -79,6 +79,8 @@ b1<-dplyr::filter(roadmap[["Muscle_Fetal_E090"]], V4==state) #V4 are the promote
 b2<-dplyr::filter(roadmap[["Digestive_Adult_E102"]], V4==state)
 
 b<-bedTools.2jac(bed1=b1,bed2=b2)
+```
+```{r 1.Continued preparation(hide bedtools result), message=FALSE}
 b
 
 rdmap<-list()
