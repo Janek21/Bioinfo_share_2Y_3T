@@ -1,0 +1,23 @@
+1.1)Search for the gliP gene (Gliotoxin biosynthesis protein P, AFUA_6G09660) in the search bar. Ask the browser to show you 50 kb around the gene of interest. List the names of the six PROTEINS that are on either side of gliP.
+#AFUA_6G09670, AFUA_6G09710, AFUA_6G09650, AFUA_6G09640, AFUA_6G09630, AFUA_6G09690
+
+2.4) What may be the advantages of using GFF files to explore genome features over online Genome Browsers? 
+#The information is more condensed and its easier to view the information of genes at the same time, its more user friendly, as more people know how to work with regular files that a specific website. You can also use it in scripts and it's accessible offline.
+
+3.1)Are the mitochondrial genomes conserved? Why? What do you think the empty spaces represent?
+#Yes, the line marks the regions as homologous. The empty spaces represent parts of the sequence that aren't homologous, non-conserved regions.
+
+3.3)In this exercise we have explored the mitochondrial genomes of two individuals that belong to the same species (olive tree) and in the previous exercise two different species (mouse and cow, less related). Is this represented in the results? If not, why do you think this could be happening?
+#Not represented. Plants can survive with more changes in the order of the genome than animals do, therefore 2 olive plants can have a very different genome order and still be functional where animals wouldn't. Animal genomes will always be more similar between species.
+
+4.1)How do you interpret the graph? What do the blue lines mean? Which genomic variation does the line inside the red circle represent?
+#The blue lines are base-base correspondences form the 2 species. The variant means an inversion.
+
+4.3)Take a look at chromosome 4 from Rattus norvegicus compared to Mus musculus. What genetic phenomenon explains this display, and which M. musculus chromosomes are involved?
+#There is a translocation of chromosome 4 of Rattus norvegicus to chromosome 6 of Mus musculus. A fragment also transloactes to chromosome 5.
+
+5.1)Do all the proteins in this network connect directly with your protein of interest? What does it mean that so many proteins interact with your protein of interest?
+#Yes, all these proteins interact with my protein of interest. The broadness of the interactions implies that my protein is essential to the cellular function of the organism, thus its probably involved in various processes doing different roles.
+
+5.3)As we saw a few sessions ago, proteins can be grouped into groups using clustering strategies. In this case the proteins will be clustered not by sequence similarity but by interactivity. Expand the network again (press 3 times +more). Go to Clusters and apply the two available clustering methods: mcl and k-means with default parameters. Do the two methods agree? Which method do you think makes more sense?
+#Both methodologies produce similar results, but k-means creates 1 cluster with 1 protein which means that MCL is a better choice.s
