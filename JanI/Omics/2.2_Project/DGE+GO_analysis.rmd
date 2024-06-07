@@ -38,8 +38,8 @@ files_to_download <- c("GSE161731_counts.csv.gz",      # Name of gene expression
                        "GSE161731_counts_key.csv.gz")  # Name of metadata file
 
 for (f in files_to_download) { #Download files
-  url <- paste0("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE161nnn/GSE161731/suppl/", f)
-  download.file(url, destfile = f)
+  #url <- paste0("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE161nnn/GSE161731/suppl/", f)
+  #download.file(url, destfile = f)
 }
 ```
 
@@ -98,7 +98,7 @@ Normalize the data in the experiment using TMM
 
 ```{r step 2, normalization}
 tmm_normalization<-calcNormFactors(se, method="TMM")
-tmm_normalization
+head(tmm_normalization)
 ```
 
 - Calculate CPM and represent the distribution of normalization factors per cohort in boxplots
@@ -116,7 +116,7 @@ boxplot(tmm_normalization$samples$norm.factors~se$cohort, xlab="Cohorts", ylab="
 
 ```
 
-```{r step 2 discussion, echo=FALSE}
+```{r step 2 discussion, echo=FALSE, comment=""}
 cat("Smallest average normalization factor belongs to the bacterial cohort\n")
 cat("Largest average normalization factor belongs to the healthy cohort\n\n")
 cat("The cohort with the lowest normalization factor is the one where the total RNA content from the samples was the highest. The reason why the bacterial cohort may posses the highest RNA content might be because there is also a higher level of gene expression in those samples. While the reason the healthy cohort has a higher normalization factor is because of the same reason, the total RNA content is the lowest among the samples. This also may be because of the lower level of gene expression in the smaples, which makes sense as healthy individuals have less biological activity compared to ill ones.\n")
@@ -158,7 +158,7 @@ PCA <- prcomp(log2(t(assays(se)$TMM)+1))
 fviz_pca_ind(PCA, addEllipses = T,col.ind = se$cohort, pointsize = 3)
 ```
 
-```{r step 3 discussion, echo=FALSE}
+```{r step 3 discussion, echo=FALSE, comment=""}
 cat("Based on the plot, the cohort that differs the most from the others regarding gene expression is likely to be the bacterial cohort. This is because bacteria are fundamentally different from viruses (like Influenza and COVID-19). Viruses hijack the host's machinery, leading to some overlap in the host gene expression response between viral infections. However, bacteria are independent organisms with their own genetic code, resulting in a distinct host gene expression response compared to viral infections. This distinction would be reflected in the plot by the centroid for the bacterial cohort being furthest away from the centroids of all the other cohorts (healthy, Influenza, COVID-19, and potentially CoV_other).
 Regarding the most similar cohorts, assuming the healthy, Influenza, COVID-19, and CoV_other groups remain relatively close together, then the  Healthy & COVID19 cohorts would still likely be the most similar. Their centroids would be closest together on the plot, indicating a more similar average gene expression pattern compared to the significant difference expected between the bacterial cohort and the others.\n")
 ```
@@ -169,7 +169,7 @@ Regarding the most similar cohorts, assuming the healthy, Influenza, COVID-19, a
 
 - Generate a clustering/heatmap plot
 
-```{r step 4 Clustering/heatmap, include=FALSE}
+```{r step 4 Clustering/heatmap}
 phe<-pheatmap(log2(assays(se)$TMM + 1), 
               show_rownames = FALSE, 
               annotation_col = as.data.frame(colData(se)),
@@ -177,7 +177,7 @@ phe<-pheatmap(log2(assays(se)$TMM + 1),
               fontsize = 5)
 ```
 
-```{r step 4 discussion, echo=FALSE}
+```{r step 4 discussion, echo=FALSE, comment=""}
 cat("This graph is a UMAP (Uniform Manifold Approximation and Projection) plot that shows the distribution of gene expression data for different cohorts of patients. The x-axis and y-axis represent two dimensions of the UMAP embedding, which are derived from a complex analysis of the gene expression data. Each point on the plot represents an individual patient, and the color of the point indicates the patient's cohort.
 
 The graph shows that the different cohorts are clustered together in distinct regions of the plot. This suggests that the gene expression patterns of patients within each cohort are more similar to each other than they are to the gene expression patterns of patients in other cohorts.
@@ -194,9 +194,9 @@ Overall, the two graphs show that the gene expression patterns of patients in di
 
 The most relevant confounders to include in the design matrix for differential gene expression analysis in this scenario are:
 
-- Race: Race is a complex social construct that encompasses various biological and genetic factors. While it's important to be cautious about using race as a biological variable, there is evidence suggesting that race can influence gene expression patterns, because as we can see in the pheatmap above only some specific races afect a core (COVID is mostly affected by Native Hawaian Pacific Islander, helthy one also has a pattern of a pair of races). Therefore, including race as a confounder can help to account for these potential differences.
+- Race: Race is a complex social construct that encompasses various biological and genetic factors. While it's important to be cautious about using race as a biological variable, there is evidence suggesting that race can influence gene expression patterns, because as we can see in the heatmap above only some specific races afect a core (COVID is mostly affected by Native Hawaian Pacific Islander, helthy one also has a pattern of a pair of races). Therefore, including race as a confounder can help to account for these potential differences.
 
-- Age: Age is a significant factor that can influence gene expression patterns. As happens with race, COVID for example is more affected as we increase the age of the individual as we can see in the pheatmap. Therefore, it's important to include age as a confounder to adjust for these age-related changes.
+- Age: Age is a significant factor that can influence gene expression patterns. As happens with race, COVID for example is more affected as we increase the age of the individual as we can see in the heatmap. Therefore, it's important to include age as a confounder to adjust for these age-related changes.
 
 Other possible cofounders like the gender or batch could not be significant factors because they are well distributed through all cohorts, we cannot make distintion as to wheter it affects one cohort or another more
 
@@ -210,7 +210,7 @@ By including race and age confounders in the design matrix, we can statistically
 - Obtaining the design matrix
 
 ```{r step 5 obtain design for confounders}
-#In the pheatmap above we can see that the cases with COVID tend to be more related to certain ages or races, so we include them in the design matrix as covariates
+#In the heatmap above we can see that the cases with COVID tend to be more related to certain ages or races, so we include them in the design matrix as covariates
 #Design variable for all covariates
 cohort <- as.factor(se$cohort)
 race <- as.factor(se$race)
@@ -221,7 +221,7 @@ colnames(design)[6:11]<-levels(race)[2:length(levels(race))]
 head(design)
 ```
 
-```{r step 5 text display, echo=FALSE}
+```{r step 5 text display, echo=FALSE, comment=""}
 cat("Race and age were chosen as covariates because in the pheatmap above we can observe that cases with COVID seem to be more correlated to certain ages or races, which means that they may be covariates, for that, we include them in the design matrix\n")
 ```
 
@@ -272,7 +272,7 @@ fit <- lmFit(rm_mean_variance, design)
 fit <- contrasts.fit(fit, contrast_all)
 # Empirical Bayes shrinkage of standard errors 
 fit <- eBayes(fit)
-fit
+head(fit)
 ```
 
 - Examining the number of DE genes
@@ -299,11 +299,9 @@ glMDPlot (fit, status=dt, side.main="ENSEMBL", counts=log2(assays(se)$TMM+1), gr
 #Volcano plot
 tmm_normalization$samples$group <- tmm_normalization$samples$cohort
 glimmaVolcano(fit, dge = tmm_normalization)
-
 ```
 
 ```{r step 6 heatmap}
-library(pheatmap)
 pheatmap(log2(assays(se)$TMM[rownames(results.5fdr), ] + 1),
         show_rownames = FALSE,
         annotation_col = as.data.frame(colData(se)),
@@ -311,7 +309,7 @@ pheatmap(log2(assays(se)$TMM[rownames(results.5fdr), ] + 1),
         fontsize=5)
 ```
 
-```{r 6.conclusion, echo=FALSE}
+```{r 6.conclusion, echo=FALSE, comment=""}
 cat("It is possible to know that the pair with the most DE genes is COVID19 vs Bacteria after looking at the dt table. It comprises a total of 6225 upregulated genes and 5066 downregulated genes. Conversely, the one whose fewest DE genes are shown is COVID19 vs Healthy since it has only 292 upregulated and 473 downregulated genes.
 
 In each pair, the upregulated and downregulated genes are similar as shown by the pheatmap. Implicit in such an observation is the fact that under different conditions, differentially expressed genes could be involved in various biological processes or pathways that affect the cohorts differently.
@@ -347,7 +345,7 @@ down_GO <- topGO(go, n=10, sort = 'down')#10 most downregulated from GO
 up_GO <- topGO(go, n=10, sort = 'up')#10 most upregulated from GO 
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, comment=""}
 cat("The top 10 upregulated genes from GO are:\n")
 up_GO
 cat("The top 10 downregulated genes from GO are:\n")
@@ -361,14 +359,14 @@ down_KEGG <- topKEGG(keg, n=10, sort = 'down')#10 most downregulated from KEGG
 up_KEGG <- topKEGG(keg, n=10, sort = 'up')#10 most upregulated from KEGG
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, comment=""}
 cat("The top 10 upregulated genes from KEGG are:\n")
 up_KEGG
 cat("The top 10 downregulated genes from KEGG are:\n")
 down_KEGG
 ```
 
-```{r, 7. Discussion, echo=FALSE}
+```{r, 7. Discussion, echo=FALSE, comment=""}
 cat("The GO enrichment analysis shows that the most significantly upregulated biological processes in influenza patients compared to healthy controls are primarily related to immune and defense responses. These processes include responses to biotic and external stimuli, which align with the body’s efforts to fight off viral infections. This is consistent with the activation of the immune system in response to influenza infection.
 
 The KEGG pathway analysis of upregulated genes also highlights immune and viral response pathways. The enrichment of pathways like NOD-like receptor signaling, Influenza A, Hepatitis C, and other viral infections indicates that the host immune system is actively responding to the viral presence. These pathways are crucial for recognizing pathogens and initiating immune responses.
@@ -400,14 +398,14 @@ write.table(revigo_input, file="revigo_input.txt", sep="\t", row.names=FALSE, co
 #Use bash command sed -i '' 's/"//g' revigo_input.txt to remove the quotes.
 ```
 
-REVIGO WEB ANALYSIS
-```{r obtaining the information, echo=FALSE}
+### Web revigo analysis
+```{r obtaining the information, echo=FALSE, comment=""}
 cat("- Go to the REVIGO website and upload the content of revigo_input.txt -> start REVIGO.
 - In the result of each of Biological Process, Cellular Component and Molecular Function, we have the Scatterplot and Tree Map of each of them come from.
 - In each of the plots we have the option to Export to R script for plotting and we join the revigo.names data of each Scatterplot into one and the same with the Tree Map.")
 ```
 
-```{r, 8. Discussion, echo=FALSE}
+```{r, 8. Discussion, echo=FALSE, comment=""}
 cat("Biological Processes:
 The REVIGO analysis highlights several down-regulated biological processes, including cytoplasmic translation, translation, peptide metabolic process, peptide biosynthetic process, amide biosynthetic process, ribonucleoprotein complex biogenesis, and amide metabolic process. These processes are crucial for various cellular functions, including protein synthesis, metabolism, and ribosome biogenesis. The down-regulation of these processes suggests a significant disruption in cellular activities associated with protein synthesis and metabolism in response to influenza infection.
 
@@ -465,7 +463,7 @@ p1 <- p1 + ylim(min(one.data$plot_Y)-one.y_range/10,max(one.data$plot_Y)+one.y_r
 p1
 ```
 
-```{r 8.scatterplot discussion, echo=FALSE}
+```{r 8.scatterplot discussion, echo=FALSE, comment=""}
 cat("We can see in this scatter plot that many GO terms remain close together in the plot, which means that they are similar to each other. We can observe this event in the amide metabolic process, structural constituent of ribosome, ribosome subunit, protein-containing complex and ribonucleoprotein complex biogenesis.")
 ```
 
@@ -509,13 +507,15 @@ TreeMap <- treemap(
 )
 ```
 
-```{r 8.treemap discussion, echo=FALSE}
+```{r 8.treemap discussion, echo=FALSE, comment=""}
 cat("We can observe that the largest part of the TreeMap corresponds to cytoplasmic translation and the second biggest part corresponds to ribosome subunit.")
 ```
 
-```
-Step 1,2 and 5: Jan Izquierdo
-Step 3 and 4: Paula Martin
-Step 6: Alexandra Caus
-Steps 7 and 8: Jiaqui Li
-```
+
+*Step 1,2 and 5: Jan Izquierdo*
+
+*Step 3 and 4: Paula Martin*
+
+*Step 6: Alexandra Caus*
+
+*Steps 7 and 8: Jiaqui Li*
