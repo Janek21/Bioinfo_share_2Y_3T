@@ -1,0 +1,521 @@
+---
+title: "DGE analysis and GO enrichment"
+author: "Alexandra Caus, Jan Izquierdo, Jiaqui Li, Paula Martin"
+date: "2024-05-20"
+output:
+  html_document:
+    css: styles.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Libraries
+
+```{r libraries, results=FALSE, message=FALSE, warning=FALSE}
+library(edgeR)
+library(EnsDb.Hsapiens.v86)
+library(Glimma)
+library(SummarizedExperiment)
+library(factoextra)
+library(pheatmap)
+library(GO.db)
+library(org.Hs.eg.db)
+library(ggplot2)
+library(scales)
+library(treemap)
+```
+
+## Step 1
+
+**Download an preprocess the GSE161731 dataset as in the hands-on session (section 3), but now keep all the 5 cohorts: COVID19, CoV_other, Influenza, Bacterial and healthy.**
+
+- Downloading the data
+
+```{r step 1, downloading, results=FALSE}
+files_to_download <- c("GSE161731_counts.csv.gz",      # Name of gene expression (count matrix) file
+                       "GSE161731_counts_key.csv.gz")  # Name of metadata file
+
+for (f in files_to_download) { #Download files
+  url <- paste0("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE161nnn/GSE161731/suppl/", f)
+  download.file(url, destfile = f)
+}
+```
+
+- Setting up the parameters and preparing the experiment
+
+```{r step 1, preparation}
+counts <- read.csv("GSE161731_counts.csv.gz", header = TRUE, check.names = FALSE, row.names = 1)
+metadata <- read.csv("GSE161731_counts_key.csv.gz", header = TRUE, check.names = FALSE, row.names = 1)
+
+#Prepare an experiment object
+genes <- genes(EnsDb.Hsapiens.v86)
+comm.s <- intersect(colnames(counts), rownames(metadata))
+comm.g <- intersect(rownames(counts), genes$gene_id)
+se <- SummarizedExperiment(assay = list("counts" = counts[comm.g, comm.s]), colData = metadata[comm.s, ], rowRanges = genes[comm.g])
+
+#Remove duplicates
+se <- se[, !duplicated(se$subject_id)]
+
+#Set data to appropriate class (age as numeric)
+se$age <- gsub(">89", "90", se$age)
+se$age <- as.numeric(as.character(se$age))
+
+#Re-format the data in cohort and race columns
+cols <- c("cohort", "race")
+
+colData(se)[, cols] <- apply(colData(se)[, cols], 2, function(x){
+  y <- gsub("-", "", x)   # Remove "-"
+  z <- gsub(" ", "_", y)  # Change " " (space) by "_"
+  w <- gsub("/", "_", z)  # Change "/" by "_"
+  return(w)
+})
+#Rename columns to individual id
+colnames(se) <- se$subject_id
+#Remove columns that don't interest us
+colData(se)[, c("subject_id", "time_since_onset", "hospitalized")]  <- NULL
+
+#Remove low-expressed genes
+keep <- filterByExpr(se, group = se$cohort)
+se <- se[keep, ]
+```
+
+- Saving and loading the summarized experiment object
+
+```{r, se object loading}
+#to save the object
+saveRDS(se, "summarized_experiment.rds")
+#to load the object
+se<-readRDS("summarized_experiment.rds")
+```
+
+## Step 2
+
+**Represent (e.g. via boxplots) the distribution of the TMM normalization factors per cohort. Which cohort has the smallest/largest (on average) normalization factors? How do you interpret this result?**
+
+Normalize the data in the experiment using TMM
+
+```{r step 2, normalization}
+tmm_normalization<-calcNormFactors(se, method="TMM")
+tmm_normalization
+```
+
+- Calculate CPM and represent the distribution of normalization factors per cohort in boxplots
+
+```{r step 2, plotting}
+#Calculate CPM(counts per million reads) in case they are needed later
+#Calculating the CPM and add them to the summarized experiment object
+assays(se)$CPM <- cpm(se)
+#Calculate it again but taking the TMM normalization into account
+assays(se)$TMM <- cpm(tmm_normalization, normalized.lib.sizes = TRUE)
+
+#Use norm.factors from the normalized data object as they are the normalization factors for each one of the 155  elements
+#You relate them with the cohorts, as each of the elements of tmm_normalization$samples has a normalization factor and the cohort they belong to
+boxplot(tmm_normalization$samples$norm.factors~se$cohort, xlab="Cohorts", ylab="Normalization factors", col=c())
+
+```
+
+```{r step 2 discussion, echo=FALSE}
+cat("Smallest average normalization factor belongs to the bacterial cohort\n")
+cat("Largest average normalization factor belongs to the healthy cohort\n\n")
+cat("The cohort with the lowest normalization factor is the one where the total RNA content from the samples was the highest. The reason why the bacterial cohort may posses the highest RNA content might be because there is also a higher level of gene expression in those samples. While the reason the healthy cohort has a higher normalization factor is because of the same reason, the total RNA content is the lowest among the samples. This also may be because of the lower level of gene expression in the smaples, which makes sense as healthy individuals have less biological activity compared to ill ones.\n")
+```
+
+## Step 3
+
+**Perform Principal Component Analysis (PCA) on the normalized expression data. Do you identify any outlier individual? If so, remove it and re-generate the PCA plot. Based on the plot: which cohort differs the most from the others regarding gene expression? Out of the following cohort pairs: healthy & Influenza, healthy & COVID19, CoV_other & Influenza, which are the most similar cohorts regarding their average gene expression (you can use the group centroids to compare them)? Hypothesize and discuss which could be the biological reason behind the expression similarities/differences between the cohorts. Remember that we are looking at the expression of genes in the patients' whole blood. You may use also the results of the clustering below**
+
+- Perform Principal Component Analysis (PCA) on the normalized expression data
+
+```{r step 3 PCA}
+se0 <- se
+PCA <- prcomp(log2(t(assays(se0)$TMM)+1))
+fviz_pca_ind(PCA, addEllipses = T,col.ind = se0$cohort, pointsize = 3)
+```
+
+- When we perform the PCA we found out that there are 2 outliers so we have to remove them
+
+```{r step 3 outliers elimination}
+se <- se[, colnames(se) != "896282"]
+se <- se[, colnames(se) != "613015"]
+```
+
+- Note that above we removed lowly expressed genes based on the information of all the samples. However we have now dropped 2 outliers samples. Ideally, we should repeat all the previous steps
+
+```{r step 3 repeat after fixing}
+keep <- filterByExpr(se, group = se$cohort)
+se <- se[keep, ]
+tmm_normalization<-calcNormFactors(se, method="TMM")
+assays(se)$CPM <- cpm(se)
+assays(se)$TMM <- cpm(tmm_normalization, normalized.lib.sizes = TRUE)
+```
+
+- Now we generate the PCA again
+
+```{r step 3 PCA regenerated}
+PCA <- prcomp(log2(t(assays(se)$TMM)+1))
+fviz_pca_ind(PCA, addEllipses = T,col.ind = se$cohort, pointsize = 3)
+```
+
+```{r step 3 discussion, echo=FALSE}
+cat("Based on the plot, the cohort that differs the most from the others regarding gene expression is likely to be the bacterial cohort. This is because bacteria are fundamentally different from viruses (like Influenza and COVID-19). Viruses hijack the host's machinery, leading to some overlap in the host gene expression response between viral infections. However, bacteria are independent organisms with their own genetic code, resulting in a distinct host gene expression response compared to viral infections. This distinction would be reflected in the plot by the centroid for the bacterial cohort being furthest away from the centroids of all the other cohorts (healthy, Influenza, COVID-19, and potentially CoV_other).
+Regarding the most similar cohorts, assuming the healthy, Influenza, COVID-19, and CoV_other groups remain relatively close together, then the  Healthy & COVID19 cohorts would still likely be the most similar. Their centroids would be closest together on the plot, indicating a more similar average gene expression pattern compared to the significant difference expected between the bacterial cohort and the others.\n")
+```
+
+## Step 4
+
+**Generate a clustering/heatmap plot. Analyze it together with the PCA plot colored by different variables. Discuss which variables could be potential confounders that should be included in your design matrix for differential gene expression analysis.**
+
+- Generate a clustering/heatmap plot
+
+```{r step 4 Clustering/heatmap, include=FALSE}
+phe<-pheatmap(log2(assays(se)$TMM + 1), 
+              show_rownames = FALSE, 
+              annotation_col = as.data.frame(colData(se)),
+              legend=TRUE,
+              fontsize = 5)
+```
+
+```{r step 4 discussion, echo=FALSE}
+cat("This graph is a UMAP (Uniform Manifold Approximation and Projection) plot that shows the distribution of gene expression data for different cohorts of patients. The x-axis and y-axis represent two dimensions of the UMAP embedding, which are derived from a complex analysis of the gene expression data. Each point on the plot represents an individual patient, and the color of the point indicates the patient's cohort.
+
+The graph shows that the different cohorts are clustered together in distinct regions of the plot. This suggests that the gene expression patterns of patients within each cohort are more similar to each other than they are to the gene expression patterns of patients in other cohorts.
+
+The Influenza cohort is the most distinct from the other cohorts. This is because the Influenza cohort is located in a region of the plot that is far away from the other clusters. This suggests that the gene expression patterns of Influenza patients are very different from the gene expression patterns of patients in the other cohorts.
+
+The Healthy cohort and the COVID19 cohort are the most similar to each other. This is because the Healthy cohort and the COVID19 cohort are located in a region of the plot that is close together. This suggests that the gene expression patterns of Healthy patients and COVID19 patients are more similar to each other than they are to the gene expression patterns of patients in the other cohorts.
+
+In comparison with the PCA: PCA shows that the Bacterial cohort is the most distinct from the other cohorts. This is because the Bacterial cohort is located in a region of the plot that is far away from the other clusters. This suggests that the gene expression patterns of Bacterial patients are very different from the gene expression patterns of patients in the other cohorts.
+
+The Healthy cohort and the COVID19 cohort are still the most similar to each other. This is because the Healthy cohort and the COVID19 cohort are located in a region of the plot that is close together. This suggests that the gene expression patterns of Healthy patients and COVID19 patients are more similar to each other than they are to the gene expression patterns of patients in the other cohorts.
+
+Overall, the two graphs show that the gene expression patterns of patients in different cohorts are distinct from each other. The Influenza cohort and the Bacterial cohort are the most distinct from the other cohorts, while the Healthy cohort and the COVID19 cohort are the most similar to each other.
+
+The most relevant confounders to include in the design matrix for differential gene expression analysis in this scenario are:
+
+- Race: Race is a complex social construct that encompasses various biological and genetic factors. While it's important to be cautious about using race as a biological variable, there is evidence suggesting that race can influence gene expression patterns, because as we can see in the pheatmap above only some specific races afect a core (COVID is mostly affected by Native Hawaian Pacific Islander, helthy one also has a pattern of a pair of races). Therefore, including race as a confounder can help to account for these potential differences.
+
+- Age: Age is a significant factor that can influence gene expression patterns. As happens with race, COVID for example is more affected as we increase the age of the individual as we can see in the pheatmap. Therefore, it's important to include age as a confounder to adjust for these age-related changes.
+
+Other possible cofounders like the gender or batch could not be significant factors because they are well distributed through all cohorts, we cannot make distintion as to wheter it affects one cohort or another more
+
+By including race and age confounders in the design matrix, we can statistically adjust for their effects and obtain more reliable results regarding the true differences in gene expression between the groups of interest.\n")
+```
+
+## Step 5
+
+**Obtain the design matrix. Include the relevant covariates, selected based on the exploratory data analysis results (justify your selection). Obtain the contrast matrices corresponding to the following comparisons: a) COVID19 vs healthy, b) all pairwise comparisons c) healthy vs the rest (average)**
+
+- Obtaining the design matrix
+
+```{r step 5 obtain design for confounders}
+#In the pheatmap above we can see that the cases with COVID tend to be more related to certain ages or races, so we include them in the design matrix as covariates
+#Design variable for all covariates
+cohort <- as.factor(se$cohort)
+race <- as.factor(se$race)
+age<-se$age
+design <- model.matrix(~0 + cohort + race + age)#create matrix removing intercept term, and include all covariates
+colnames(design)[1:5] <- levels(cohort)
+colnames(design)[6:11]<-levels(race)[2:length(levels(race))]
+head(design)
+```
+
+```{r step 5 text display, echo=FALSE}
+cat("Race and age were chosen as covariates because in the pheatmap above we can observe that cases with COVID seem to be more correlated to certain ages or races, which means that they may be covariates, for that, we include them in the design matrix\n")
+```
+
+- Obtain contrasts, for comparison between COVID19 and healthy, all pairwise and healthy vs average of the rest
+
+```{r step 5 using library functions}
+#a) Covid vs healthy
+contrast_C_H<-makeContrasts(COVID19-healthy, levels=colnames(design))
+contrast_C_H
+
+#b) All pairwise
+contrast_all<-makeContrasts(
+  B_H=Bacterial-healthy, 
+  C_H=COVID19-healthy, 
+  Co_H=CoV_other-healthy,
+  I_H=Influenza-healthy,
+  C_B=COVID19-Bacterial,
+  Co_B=CoV_other-Bacterial,
+  I_B=Influenza-Bacterial,
+  Co_C=CoV_other-COVID19,
+  I_C=Influenza-COVID19,
+  I_Co=Influenza-CoV_other,
+  levels=colnames(design))
+contrast_all
+
+#c) Healthy vs average of the rest
+contrast_H_A<-makeContrasts(
+  H_average=healthy-((Bacterial+COVID19+Influenza+CoV_other)/4), levels=colnames(design))
+contrast_H_A
+
+```
+
+## Step 6
+
+**Use the design and contrast matrices corresponding to b), to perform a differential gene expression analysis via voom+limma. Represent and summarize the results for each pairwise comparison. Compare the number of differentially (up and down) expressed genes using custom Rmd tables and Venn diagrams or UpSet plots. Interpret, discuss and hypothesize thoughtfully about the results obtained: which pair of conditions displays a larger number of DE genes? and the smallest? how many up/down regulated? are they shared or different between conditions? why you think so? what does a positive/negative log fold-change mean?, etc. Compare and discuss your results with those published by McClain et al.**
+
+- Obtain the voom plot to remove mean-variance relationship from count data
+
+```{r step 6 remove mean-variance relationship from count data}
+rm_mean_variance <- voom(tmm_normalization, design, plot = TRUE) 
+```
+
+- Fitting linear models for comparisons of interest
+
+```{r step 6 fitting linear models for comparisons of interest}
+fit <- lmFit(rm_mean_variance, design)
+# Estimate contrast for each gene
+fit <- contrasts.fit(fit, contrast_all)
+# Empirical Bayes shrinkage of standard errors 
+fit <- eBayes(fit)
+fit
+```
+
+- Examining the number of DE genes
+
+```{r step 6 examining the number of DE genes}
+results <- topTable(fit, n = Inf)
+results.5fdr <- subset(results, adj.P.Val < 0.05)
+head(results.5fdr)
+```
+
+- Compare the number of differentially (up and down) expressed genes from the total of pairwise comparisons
+
+```{r step 6 count up-down regulated for each pair comparisons}
+dt <- decideTests(fit, adjust.method = "fdr", p.value = 0.05)
+summary(dt)
+```
+
+- Graphical representation of DE results
+
+```{r Step 6 plots}
+#Mean-difference plot
+glMDPlot (fit, status=dt, side.main="ENSEMBL", counts=log2(assays(se)$TMM+1), groups=se$cohort)
+
+#Volcano plot
+tmm_normalization$samples$group <- tmm_normalization$samples$cohort
+glimmaVolcano(fit, dge = tmm_normalization)
+
+```
+
+```{r step 6 heatmap}
+library(pheatmap)
+pheatmap(log2(assays(se)$TMM[rownames(results.5fdr), ] + 1),
+        show_rownames = FALSE,
+        annotation_col = as.data.frame(colData(se)),
+        legend=TRUE,
+        fontsize=5)
+```
+
+```{r 6.conclusion, echo=FALSE}
+cat("It is possible to know that the pair with the most DE genes is COVID19 vs Bacteria after looking at the dt table. It comprises a total of 6225 upregulated genes and 5066 downregulated genes. Conversely, the one whose fewest DE genes are shown is COVID19 vs Healthy since it has only 292 upregulated and 473 downregulated genes.
+
+In each pair, the upregulated and downregulated genes are similar as shown by the pheatmap. Implicit in such an observation is the fact that under different conditions, differentially expressed genes could be involved in various biological processes or pathways that affect the cohorts differently.
+
+A positive log fold-change indicates that the gene exhibits higher expression levels in the test condition relative to the reference condition, signifying upregulation. Conversely, a negative log fold-change denotes that the gene shows lower expression levels in the test condition compared to the reference condition, indicating downregulation.
+
+It seems that our results match the ones presented by McClain et al. in their article which underscores that SARS-CoV-2 infection significantly evokes distinguishable transcriptional responses from those triggered by other respiratory infections.")
+```
+
+## Step 7
+
+**Perform GO (Biological Process) and KEGG enrichment analyses of the up- and down- regulated genes in Influenza with respect to healthy controls, and have a look at the top 10 most significantly enriched terms in each case. Discuss your results.**
+
+- Extract the gene lists and sort the top 10
+
+```{r 7.Gene list definition and extraction for GO, results=FALSE}
+n7<-tmm_normalization
+n7<-n7[!is.na(n7$genes$entrezid), ]
+n7<-n7[!duplicated(n7$genes$entrezid), ]
+n7<-n7[!grepl(" ",n7$genes$entrezid), ]
+rownames(n7)<-as.character(n7$genes$entrezid)
+
+rm_mv_2<- voom(n7, design, plot = F)
+fit2 <- lmFit(rm_mv_2, design)                      
+fit2 <- contrasts.fit(fit2, contrast_all)      
+fit2 <- eBayes(fit2)
+
+fit2 <- fit2[, "I_H", drop=FALSE] #Influenza respect to healthy
+
+#Define for GO terms
+go <- goana(fit2, species="Hs") #Homo sapiens
+down_GO <- topGO(go, n=10, sort = 'down')#10 most downregulated from GO 
+up_GO <- topGO(go, n=10, sort = 'up')#10 most upregulated from GO 
+```
+
+```{r, echo=FALSE}
+cat("The top 10 upregulated genes from GO are:\n")
+up_GO
+cat("The top 10 downregulated genes from GO are:\n")
+down_GO
+```
+
+```{r 7.Gene list definition and extraction for KEGG, results=FALSE}
+#Define for KEGG terms
+keg <- kegga(fit2, species="Hs")
+down_KEGG <- topKEGG(keg, n=10, sort = 'down')#10 most downregulated from KEGG
+up_KEGG <- topKEGG(keg, n=10, sort = 'up')#10 most upregulated from KEGG
+```
+
+```{r, echo=FALSE}
+cat("The top 10 upregulated genes from KEGG are:\n")
+up_KEGG
+cat("The top 10 downregulated genes from KEGG are:\n")
+down_KEGG
+```
+
+```{r, 7. Discussion, echo=FALSE}
+cat("The GO enrichment analysis shows that the most significantly upregulated biological processes in influenza patients compared to healthy controls are primarily related to immune and defense responses. These processes include responses to biotic and external stimuli, which align with the body’s efforts to fight off viral infections. This is consistent with the activation of the immune system in response to influenza infection.
+
+The KEGG pathway analysis of upregulated genes also highlights immune and viral response pathways. The enrichment of pathways like NOD-like receptor signaling, Influenza A, Hepatitis C, and other viral infections indicates that the host immune system is actively responding to the viral presence. These pathways are crucial for recognizing pathogens and initiating immune responses.
+
+Conversely, the GO analysis of downregulated genes indicates a suppression of ribosome-related processes, including structural constituents of the ribosome, translation, and peptide biosynthesis. This suggests a potential reduction in protein synthesis machinery, which might be a strategy by the host to limit viral replication, as viruses rely on host ribosomes to produce their proteins.
+
+The KEGG pathway analysis shows a significant downregulation in pathways related to ribosome function and diseases like COVID-19, oxidative phosphorylation, and neurodegenerative diseases. The downregulation of the ribosome pathway is particularly noteworthy and supports the idea of translational shutdown as a response to viral infection. The involvement of pathways related to oxidative phosphorylation and neurodegenerative diseases may indicate broader systemic effects of the influenza infection, impacting cellular energy metabolism and possibly contributing to symptoms like fatigue and malaise.")
+```
+
+## Step 8
+
+**Subset the GO terms corresponding to the down-regulated genes in Influenza with respect to healthy controls and their corresponding P-values. Correct these P-values by multiple testing via FDR, setting an FDR threshold of 0.05. Use REVIGO to summarize and represent those terms, and include the obtained plots in your report. Discuss your results.**
+
+```{r 8.data preparation}
+down_all_go<-topGO(go, sort = 'down')
+down_all_go$FDR <- p.adjust(down_all_go$P.Down, method = "fdr")
+down_all_go_filtered <- down_all_go[down_all_go$FDR < 0.05, ]
+significant_go_ids <- rownames(down_all_go_filtered)
+
+#Prepare data for REVIGO: all GO terms corresponding to the down-regulated genes in Influenza with respect to healthy controls and their corresponding P-values
+revigo_input <- data.frame(
+  GO_ID = significant_go_ids,
+  P_Value = down_all_go_filtered$FDR
+)
+
+#Create the table in revigo_input.txt
+write.table(revigo_input, file="revigo_input.txt", sep="\t", row.names=FALSE, col.names=TRUE)
+
+#Use bash command sed -i '' 's/"//g' revigo_input.txt to remove the quotes.
+```
+
+REVIGO WEB ANALYSIS
+```{r obtaining the information, echo=FALSE}
+cat("- Go to the REVIGO website and upload the content of revigo_input.txt -> start REVIGO.
+- In the result of each of Biological Process, Cellular Component and Molecular Function, we have the Scatterplot and Tree Map of each of them come from.
+- In each of the plots we have the option to Export to R script for plotting and we join the revigo.names data of each Scatterplot into one and the same with the Tree Map.")
+```
+
+```{r, 8. Discussion, echo=FALSE}
+cat("Biological Processes:
+The REVIGO analysis highlights several down-regulated biological processes, including cytoplasmic translation, translation, peptide metabolic process, peptide biosynthetic process, amide biosynthetic process, ribonucleoprotein complex biogenesis, and amide metabolic process. These processes are crucial for various cellular functions, including protein synthesis, metabolism, and ribosome biogenesis. The down-regulation of these processes suggests a significant disruption in cellular activities associated with protein synthesis and metabolism in response to influenza infection.
+
+Cellular Components:
+The results reveal down-regulation in key cellular components such as ribosomes and ribonucleoprotein complexes. Ribosomes are essential cellular structures responsible for protein synthesis, and their down-regulation indicates a decrease in protein production, consistent with the observed changes in biological processes. Additionally, the decrease in ribonucleoprotein complexes further supports the notion of impaired cellular activities associated with RNA processing and protein synthesis.
+
+Molecular Functions:
+The molecular function analysis highlights the down-regulation of RNA binding, structural constituent of ribosome, and structural molecule activity. RNA binding is critical for various cellular processes, including mRNA processing, transport, and translation initiation. The down-regulation of this function suggests disruptions in RNA-related processes, contributing to the observed decrease in protein synthesis. Similarly, the down-regulation of structural constituents of the ribosome and structural molecule activity further supports the impairment in protein synthesis machinery and cellular structure organization.")
+```
+
+REVIGO results:
+
+- Scatterplot: In each of the plots we have the option to Export to R script for plotting and we join the revigo.names data of each Scatterplot into one.
+```{r 8.scatterplot}
+revigo.names <- c("term_ID","description","frequency","plot_X","plot_Y","log_size","value","uniqueness","dispensability");
+revigo.data <- rbind(c("GO:0002181","cytoplasmic translation",0.3974763229665376,4.4439538823909785,3.37595533661687,5.207542813955311,-81.39214503789259,0.34062157393134684,0),
+c("GO:0006412","translation",4.38869169324396,4.574978188741832,1.7712042114535231,6.250564173903532,-62.09861258417825,0.20708814311615314,0.6792736),
+c("GO:0022613","ribonucleoprotein complex biogenesis",2.5375929564430133,-5.173166739819308,0.5895230558679634,6.012651239385551,-35.024063090428236,0.9833560875047309,0.01145303),
+c("GO:0043603","amide metabolic process",6.707376287050344,3.582327124168561,-4.0395396966820325,6.434781688128081,-44.39489027688843,0.7036104571149179,0.13247309),
+c("GO:1901566","organonitrogen compound biosynthetic process",14.093783560518295,5.02314053449266,-0.49163598117215135,6.75725653104848,-41.0309756034129,0.5154670618666625,0.25191605),
+c("GO:0005840","ribosome",2.633182012829237,4.30701317018005,3.5645201115866656,6.025196048625903,-91.37567499300901,0.38928137862586254,0.54092541),
+c("GO:0032991","protein-containing complex",19.75554538569037,-5.287929183327334,0.1356897312913079,6.900403837280107,-32.90641498356375,1,-0),
+c("GO:0044391","ribosomal subunit",1.9821488551869784,4.395528319594242,-0.07878849898719158,5.901851569419728,-94.91051876375728,0.13668441157575786,0),
+c("GO:1990904","ribonucleoprotein complex",4.315842197772249,3.719119389806808,-4.550477068973193,6.239780566048521,-68.04431195700906,0.6233387064856493,0.36845351),
+c("GO:0003723","RNA binding",6.099813894661886,-3.1542663580946413,4.835694063474829,6.43945443714506,-42.5036527755147,1,-0),
+c("GO:0003735","structural constituent of ribosome",2.128498588986873,5.764967082946122,0.31382776467516926,5.982211513442491,-93.99133726489481,1,0),
+c("GO:0005198","structural molecule activity",3.1132296844467198,-2.6107007248514806,-5.149521828149997,6.147349166483066,-44.297306803619776,1,-0));
+
+one.data <- data.frame(revigo.data);
+names(one.data) <- revigo.names;
+one.data <- one.data [(one.data$plot_X != "null" & one.data$plot_Y != "null"), ];
+one.data$plot_X <- as.numeric( as.character(one.data$plot_X) );
+one.data$plot_Y <- as.numeric( as.character(one.data$plot_Y) );
+one.data$log_size <- as.numeric( as.character(one.data$log_size) );
+one.data$value <- as.numeric( as.character(one.data$value) );
+one.data$frequency <- as.numeric( as.character(one.data$frequency) );
+one.data$uniqueness <- as.numeric( as.character(one.data$uniqueness) );
+one.data$dispensability <- as.numeric( as.character(one.data$dispensability) );
+#head(one.data);
+
+p1 <- ggplot( data = one.data );
+p1 <- p1 + geom_point( aes( plot_X, plot_Y, colour = value, size = log_size), alpha = I(0.6) );
+p1 <- p1 + scale_colour_gradientn( colours = c("blue", "green", "yellow", "red"), limits = c( min(one.data$value), 0) );
+p1 <- p1 + geom_point( aes(plot_X, plot_Y, size = log_size), shape = 21, fill = "transparent", colour = I (alpha ("black", 0.6) ));
+p1 <- p1 + scale_size( range=c(5, 30)) + theme_bw(); # + scale_fill_gradientn(colours = heat_hcl(7), limits = c(-300, 0) );
+ex <- one.data [ one.data$dispensability < 0.15, ];
+p1 <- p1 + geom_text( data = ex, aes(plot_X, plot_Y, label = description), colour = I(alpha("black", 0.85)), size = 3 );
+p1 <- p1 + labs (y = "semantic space x", x = "semantic space y");
+p1 <- p1 + theme(legend.key = element_blank()) ;
+one.x_range = max(one.data$plot_X) - min(one.data$plot_X);
+one.y_range = max(one.data$plot_Y) - min(one.data$plot_Y);
+p1 <- p1 + xlim(min(one.data$plot_X)-one.x_range/10,max(one.data$plot_X)+one.x_range/10);
+p1 <- p1 + ylim(min(one.data$plot_Y)-one.y_range/10,max(one.data$plot_Y)+one.y_range/10);
+
+p1
+```
+
+```{r 8.scatterplot discussion, echo=FALSE}
+cat("We can see in this scatter plot that many GO terms remain close together in the plot, which means that they are similar to each other. We can observe this event in the amide metabolic process, structural constituent of ribosome, ribosome subunit, protein-containing complex and ribonucleoprotein complex biogenesis.")
+```
+
+- Tree map: In each of the plots we have the option to Export to R script for plotting and we join the revigo.names data of each Tree Map into one.
+```{r 8.treemap}
+revigo.names <- c("term_ID","description","frequency","value","uniqueness","dispensability","representative");
+revigo.data <- rbind(c("GO:0002181","cytoplasmic translation",0.3974763229665376,81.39214503789259,0.34062157393134684,0,"cytoplasmic translation"),
+c("GO:0006412","translation",4.38869169324396,62.09861258417825,0.20708814311615314,0.6792736,"cytoplasmic translation"),
+c("GO:0043603","amide metabolic process",6.707376287050344,44.39489027688843,0.7036104571149179,0.13247309,"cytoplasmic translation"),
+c("GO:1901566","organonitrogen compound biosynthetic process",14.093783560518295,41.0309756034129,0.5154670618666625,0.25191605,"cytoplasmic translation"),
+c("GO:0022613","ribonucleoprotein complex biogenesis",2.5375929564430133,35.024063090428236,0.9833560875047309,0.01145303,"ribonucleoprotein complex biogenesis"),
+c("GO:0032991","protein-containing complex",19.75554538569037,32.90641498356375,1,-0,"protein-containing complex"),
+c("GO:0044391","ribosomal subunit",1.9821488551869784,94.91051876375728,0.13668441157575786,0,"ribosomal subunit"),
+c("GO:0005840","ribosome",2.633182012829237,91.37567499300901,0.38928137862586254,0.54092541,"ribosomal subunit"),
+c("GO:1990904","ribonucleoprotein complex",4.315842197772249,68.04431195700906,0.6233387064856493,0.36845351,"ribosomal subunit"),
+c("GO:0003723","RNA binding",6.099813894661886,42.5036527755147,1,-0,"RNA binding"),
+c("GO:0003735","structural constituent of ribosome",2.128498588986873,93.99133726489481,1,0,"structural constituent of ribosome"),
+c("GO:0005198","structural molecule activity",3.1132296844467198,44.297306803619776,1,-0,"structural molecule activity"));
+
+stuff <- data.frame(revigo.data);
+names(stuff) <- revigo.names;
+
+stuff$value <- as.numeric( as.character(stuff$value) );
+stuff$frequency <- as.numeric( as.character(stuff$frequency) );
+stuff$uniqueness <- as.numeric( as.character(stuff$uniqueness) );
+stuff$dispensability <- as.numeric( as.character(stuff$dispensability) );
+
+# check the tmPlot command documentation for all possible parameters
+TreeMap <- treemap(
+  stuff,
+  index = c("representative","description"),
+  vSize = "value",
+  type = "categorical",
+  vColor = "representative",
+  title = "Revigo TreeMap",
+  inflate.labels = FALSE,      # set this to TRUE for space-filling group labels - good for posters
+  lowerbound.cex.labels = 0,   # try to draw as many labels as possible (still, some small squares may not get a label)
+  bg.labels = "#CCCCCCAA",   # define background color of group labels
+								 # "#CCCCCC00" is fully transparent, "#CCCCCCAA" is semi-transparent grey, NA is opaque
+  position.legend = "none"
+)
+```
+
+```{r 8.treemap discussion, echo=FALSE}
+cat("We can observe that the largest part of the TreeMap corresponds to cytoplasmic translation and the second biggest part corresponds to ribosome subunit.")
+```
+
+```
+Step 1,2 and 5: Jan Izquierdo
+Step 3 and 4: Paula Martin
+Step 6: Alexandra Caus
+Steps 7 and 8: Jiaqui Li
+```

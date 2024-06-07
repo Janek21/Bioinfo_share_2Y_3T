@@ -1,0 +1,5 @@
+pre {
+  white-space: pre-wrap; /* Wrap lines only at spaces */
+  word-break: normal; /* Avoid breaking words */
+}
+
