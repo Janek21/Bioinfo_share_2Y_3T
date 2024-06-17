@@ -1,0 +1,115 @@
+---
+title: "Single Cell- Tabula Muris"
+author: "Jan Izquierdo"
+date: "2024-05-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load libraries
+```{r, messages=FALSE, warning=FALSE}
+library(Seurat)
+library(dplyr)
+library(Matrix)
+library(stringr)
+library(readr)
+```
+
+Prepare the data
+```{r, warning=FALSE}
+FACS_files = list.files("TabulaMuris/FACS/", full.names = TRUE)
+FACS_files <- grep("Brain|Thymus" ,FACS_files, value = TRUE)
+raw.data.list <- list()
+for (file in FACS_files){
+  raw.data <- read.csv(file, row.names = 1)
+  raw.data <- Matrix(as.matrix(raw.data), sparse = TRUE)
+  raw.data.list <- append(raw.data.list, raw.data)
+}
+raw.data <- do.call(cbind, raw.data.list)
+#raw.data <- raw.data[,-which(duplicated(colnames(raw.data)))]
+
+meta.data <- read.csv("TabulaMuris/metadata_FACS.csv")
+plates <- str_split(colnames(raw.data),"[.]", simplify = TRUE)[,2]
+
+rownames(meta.data) <- meta.data$plate.barcode
+cell.meta.data <- meta.data[plates,]
+rownames(cell.meta.data) <- colnames(raw.data)
+
+erccs <- grep(pattern = "^ERCC-", x = rownames(x = raw.data), value = TRUE)
+percent.ercc <- Matrix::colSums(raw.data[erccs, ])/Matrix::colSums(raw.data)
+ercc.index <- grep(pattern = "^ERCC-", x = rownames(x = raw.data), value = FALSE)
+raw.data <- raw.data[-ercc.index,]
+```
+
+Create a Seurat object
+```{r, warning=FALSE}
+tiss <- CreateSeuratObject(counts = raw.data)
+tiss <- AddMetaData(object = tiss, cell.meta.data)
+tiss <- AddMetaData(object = tiss, percent.ercc, col.name = "percent.ercc")
+
+VlnPlot(tiss, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
+
+tiss <- subset(tiss, subset = nFeature_RNA >500 & nCount_RNA > 50000)
+
+VlnPlot(tiss, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
+
+tiss <- NormalizeData(object = tiss, scale.factor = 1e6)
+tiss <- ScaleData(object = tiss)
+```
+
+Calculate PCA of top variable genes
+```{r}
+tiss <- FindVariableFeatures(object = tiss)
+VariableFeatures(tiss)
+top10 <- head(VariableFeatures(tiss), 10)
+plot1 <- VariableFeaturePlot(tiss)
+plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
+plot1 + plot2
+```
+
+Choose a number of PCs based on the elbow plot.
+```{r}
+tiss <- RunPCA(tiss, features = VariableFeatures(object = tiss))
+ElbowPlot(tiss, ndims = 50)
+```
+
+Let's find clusters
+```{r}
+tiss <- FindNeighbors(tiss, dims = 1:43)
+tiss <- FindClusters(tiss, resolution = 0.5)
+```
+
+Run UMAP to visualize them:
+```{r}
+tiss <- RunUMAP(tiss, dims = 1:43)
+DimPlot(tiss, reduction = "umap", group.by = 'tissue')
+DimPlot(tiss, reduction = "umap", group.by = 'subtissue')
+DimPlot(tiss, reduction = "umap", label = TRUE)
+```
+
+Find marker genes
+```{r}
+### Only if you have time you can calculate markers for al clusters.
+tiss.markers <- FindAllMarkers(tiss, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+
+### Otherwise find what are the markers for cluster 2
+
+cluster2.markers <- FindMarkers(tiss, ident.1 = 2, min.pct = 0.25)
+```
+
+Order by fold change and plot their expression using the function FeaturePlot
+Find out real annotation
+```{r}
+anno <- read_csv("TabulaMuris/annotations_FACS.csv")
+tiss@meta.data$cell <- rownames(tiss@meta.data)
+meta2 <- tiss@meta.data %>% left_join(anno[,c(1,3)], by='cell')
+tiss <- AddMetaData(object = tiss, meta2$cell_ontology_class)
+tiss@meta.data$cell_ontology_class[is.na(tiss@meta.data$cell_ontology_class)] <- "unknown"
+tiss$cell_ontology_class <-as.factor(tiss$cell_ontology_class)
+
+DimPlot(tiss, reduction = "umap", group.by = 'celltype')
+```
+
