@@ -1,0 +1,48 @@
+Gene expression: genes need to be expressed to function
+Transcriptome: Collection of transcripts present in a cell/tissue/organ at a given time
+	Transcription levels are regulated across time and organ/tissue/etc
+	Regulation: enhancers and promoters
+	Alternative splicing: alternative transcripts according to intron/exon cuts
+
+RNA-seq: RNA->cDNA (Nanopore and PacBio can use RNA directly)
+
+	Obtention protocol:
+		Fragmentation
+		RNA->cDNA
+		Re-synthesize
+		Adapter ligation
+		Final amplification
+	From all RNA we only want mRNA
+		Deplete ribosomal RNA
+			Very specific
+		Capture mRNA using polyA+ selection
+			Bacteria don't have those
+	
+Bioinformatics analysis:
+	Assembly
+		Mapping to reference genome
+		De novo
+	Fullpath:
+		Get RNA -> LIbrary construction -> Sequencing -> QC -> Assembly (map or deNovo) -> Analysis
+	
+Measure expression:
+	Reads that map to gene accounting for read length and total reads
+	
+	Count reads, each once, discard if
+		no unique map
+		aln overlaps with too many genes
+		bad quality
+
+Sequence count~=transcript abundance -> depends on sequence depth
+
+Corregulated/coexpressed = functionally related -> develop network -> clusters -> Co-expression networks used to discover
+	Pathways
+	New interactions
+	Unknown functions
+
+Other approaches to understand functions: DNA-methylation(methyl-seq), Chip-seq, etc.
+		
+
+
+
+

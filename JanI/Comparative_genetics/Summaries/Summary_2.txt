@@ -1,0 +1,44 @@
+In most common ancestor:
+Duplication: paralogs
+Speciation: orthologs
+
+
+Why orthology is important?
+Orthologs represent underlying species evolution (speciation events)
+orthology is the most exact way of comparing 2+ genomes
+relevant for functional inference (more likely to share function)
+	Duplication: copy will be lost due to deleterious mutation / copy gets new function /each half of the copies get a function
+	Speciation(orthologs): tend to have more similar function
+
+Gene families
+	Group of genes that have a common ancestor(homologs)
+	Hierarchical evolutionary relationship
+	There can be orth and par in a family
+	Orthologous group is part of a family
+	Evolbe by duplication and loss
+
+
+Orthology prediction methods
+	Classic (1 gene tree)(manual)
+	Genome wide (programs)
+		Similarity based:
+		
+			Best bidirectional hits: blast of A -> B then Blast of B si ->A = orthologs (only does 1<->1 relations)
+			InParanoid: Bidiriectional hits -> search in own genome, keep paralogs 
+				Inparalogs: Duplicated after ortholog speciation (nodes closer to B1 than B1 is to ortholog)
+				Outparalogs: Duplication before ortholog speciation
+			Network-based methods: Comparison from multiple species(multidirectional hits) to build network -> derive groups(clusters)
+				Clusters created include Orthologs and inparalogs, each group has an implicit speciation node
+		
+		Phylogeny based: reconstruct evolution of a gene family, detect node types, predict orthology
+			
+			Tree reconciliation: Compare species and gene tree, adjust gene tree to fit species(duplications and gene loss)
+				Can result in incorrect predictions when done automatic -> new method
+			Species-overlap: Calulates species overlap for all nodes (all branches of a node)
+				No overlap: speciation
+				Overlap: duplication
+			MetaPhOrs: Uses existing tree databases to infer orthology
+				
+			
+			
+			
