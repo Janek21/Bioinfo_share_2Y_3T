@@ -1,1 +1,0 @@
-(ACYPI:1,MYZPE:1,SIPHA:1);

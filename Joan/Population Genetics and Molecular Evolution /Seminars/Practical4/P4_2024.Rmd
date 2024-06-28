@@ -1,0 +1,586 @@
+---
+title: <img src="http://www.ub.edu/molevol/PG&ME/UB-logo.png" style="float:right;" width="40%"/></br></br>**Estimation of nucleotide divergences and evolutionary rates**
+date: "May 22, 2024"
+output:
+  html_document:
+    self_contained: yes
+    theme: yeti
+    font: 16px
+  pdf_document: default
+  word_document: default
+subtitle: Computer practice 4 - Population Genetics & Molecular Evolution - Bachelor's Degree in Bioinformatics
+---
+
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/v4-shims.css">
+  <meta name="viewport" content="width=device-width;initial-scale=1.0">
+</head>
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+<div style="background-color: #86CBBB; 1px; height:3px"></div>
+<br>
+<div style = "background-color:#86CBBB; padding: 10px">
+  <i class="fas fa-bullseye" style="font-size:25px;"></i> **Main goals of the session**
+  
+  1. Retrieve sequences from databases and build **multiple sequence alignments**.
+  2. Estimate species **divergence** at different functional gene regions
+  3. Calculate and compare evolutionary rates of two proteins with **different functions**.
+
+</div>
+
+***
+
+## 1. Practicals organization
+
+To put into practice the concepts of species divergence and evolutionary rates that you will learn in the theory lessons, you will analyse nucleotide divergence in two genes (_obp83b_ and _rpL32_) with different biological functions in five closely related species of the genus _Drosophila_.
+
+Throughout the document you will see different icons whose meaning is:
+
+> <p><i class="fas fa-info-circle" style="font-size:15px;"></i><font size=2> : Additional or useful information</font></p>
+> <p><i class="fa fa-cogs" style="font-size:15px;"></i><font size=2>  : Practical exercise</font></p>
+> <p><i class="fa fa-key" style="font-size:15px;"></i><font size=2>  : Hint to solve an exercise or to do a task</font></p> 
+> <p><i class="fas fa-comment-dots" style="font-size:15px;"></i><font size=2>  : Slot to answer a question</font></p>
+> <p><i class="fas fa-tasks" style="font-size:15px;"></i><font size=2>  : Problem or task to be solved</font></p>
+
+***
+
+## 2. Installing R packages
+
+You can use either the `R` console in the terminal or `RStudio` for this practice. If you don't have `R` installed, you can download the appropriate package for your system [here](https://cran.rstudio.com/). To install `RStudio`, go to [this page](https://posit.co/download/rstudio-desktop/) and follow the instructions.
+
+Before starting the exercises, you will need to install some necessary libraries for downloading sequences from the [_GenBank_](https://www.ncbi.nlm.nih.gov/genbank/) database, performing multiple sequence alignments, building phylogenetic trees, and calibrating these trees. Open the `R` console in the terminal (or in `RStudio`) and type:
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```{r}
+    packages <- c("reutils", "ape", "seqinr", "phangorn", "phylotools")
+    install.packages(setdiff(packages, rownames(installed.packages())))
+   ```
+
+***
+
+## 3. Retrieving sequence data
+
+You can use the `efetch()` function implemented in the `reutils` package to retrieve sequences from databases. These functions allow you to connect to _GenBank_ and download the sequences directly to your computer in FASTA format. You will need the _GenBank_ identifier of either the gene region or the complete genome sequence of the species and the coordinates of the desired gene region in that genome. **Note that for some species the gene is encoded in the reverse complement sequence relative to the reference in the database. In these cases you will need to specify the strand in `efetch`**. In the example below
+
+Let's see how to retrieve the coding regions (CDS) of the _obp83b_ gene in different species. Table 1 lists the identifiers and coordinates of this gene region in the five species:
+
+***
+
+**Table 1**. Identifiers and genomic coordinates of the _obp83b_ gene in different _Drosophila_ species.
+
+<div style="overflow-x:auto;">
+  <table align="left" style="width:100%;">
+    <tr align="left">
+      <th>Species</th>
+      <th>ID</th>
+      <th>Coordinates in the genome</th>
+      <th>Strand</th>
+    </tr>
+    <tr>
+      <td>_D. melanogaster_</td>
+      <td> NT_033777</td>
+      <td>5976177-5976817</td>
+      <td>2</td>
+    </tr>  
+    <tr>
+      <td>_D. simulans_</td>
+      <td> NC_052523</td>
+      <td>2470507-2471257</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>_D. erecta_</td>
+      <td> NW_020825194</td>
+      <td>26500029-26500718</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>_D. elegans_</td>
+      <td> NW_024545863</td>
+      <td>12746083-12746802</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>_D. pseudopobscura_</td>
+      <td> NC_046679</td>
+      <td>16336491-16337172</td>
+      <td>1</td>
+    </tr>
+  </table>
+</div>
+</br>
+
+***
+
+> <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="2"> GenBank_ identifiers can be obtained from the literature (articles) by starting a search with R libraries such as `rentrez`, directly from the web page of this database, using `esearch()` from `reutils`, or using other programmes and more advanced bioinformatics tools.
+.</font> 
+
+To download and write a file in FASTA format with the CDS sequence of the _obp83b_ gene in these species, you can use the `efetch()` function of `reutils`.
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```{r}
+    library(reutils)
+
+    ## create a new working directory
+    dir.create("divergence")
+
+    ## example for D. subobscura:
+    efetch("NC_046679", db="nucleotide", rettype="fasta_cds_na", retmode="text", strand=1, seqstart=16336491, seqstop=16337172, outfile="./divergence/Dpse_obp83b_cds.fasta")
+   ```
+
+> <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="2"> `db`, specifies the database; `rettype`, specifies the subsequence to be extracted (=CDS) and the format (=FASTA); `retmode`, specifies the file format (=plain text); `strand`, 1: positive strand, 2: negative (reverse complement with respect to the reference in the database); `seqstart` and `seqstop`, are the coordinates of the sequence to be downloaded (required if we are extracting gene regions from the complete genome sequence set).</font>
+
+***
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Exercise 1
+</h3>
+</div>
+1. Download the rest of CDS sequences of the _obp83b_ gene in the "divergence" folder and name the files as in the example (starting with a three-letter code identifying the species).
+2. Create a new file (e.g. "obp83b_cds.fasta") with the CDS of the five species in fasta format (multi-fasta file).</br>
+<i class="fa fa-key" style="font-size:15px;"></i> You can do this manually or, for example, use the `read.dna()` and `write.dna()` functions in the `ape` package.
+</div>
+
+***
+
+## 4. Multiple sequence alignment
+
+To identify the nucleotide substitutions that have occurred in the coding region of the _opb83b_ gene during the divergence of the four species, one must first predict which positions are homologous (i.e. derived from a common ancestor). There are many algorithms and programs for constructing multiple sequence alignments of DNA sequences. For purely practical reasons, in this session you will use `ape`, an `R` package that implements some of these algorithms.
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```{r}
+    library(ape)
+
+    ## read the sequences
+    myseqs<-read.dna("divergence/obp83b_cds.fasta", format="fasta")
+
+    ## visualize the sequences
+    myseqs
+
+    ## multiple sequence alignment
+     myalign <- clustal(myseqs)
+
+    ## partial visualization of the generated alignment
+    myalign
+
+    ## write a file (maintaining the gaps introduced in the msa step)
+    write.dna(myalign, file="divergence/obp83b_cds_aln.fasta", format="fasta")
+   ```
+   
+***
+
+## 5. Divergence at synonymous and nonsynonymous sites
+
+Coding regions are special for molecular evolutionary analyses because they contain two different types of positions in terms of the functional consequences of mutations, namely **synonymous** and **nonsynonymous** positions. Synonymous **changes** are those that do not alter the amino acid encoded by the codon, whereas nonsynonymous changes cause an amino acid substitution in the protein. Consequently, synonymous **sites** are sites where if a change occurs, it will be a synonymous change. The same applies to nonsynonymous sites. Studying and comparing the variability of these two types of sites is very informative about selective constraints and the functional consequences of mutations. 
+
+Divergence is estimated as the number of substitutions **per site** (this allows the divergence of regions of different lengths to be compared). Therefore, to estimate synonymous and nonsynonymous divergence, we first need to calculate the number of sites of each type in the coding regions of interest. The most commonly used method to estimate these sites is the **Nei-Gojobori (N-G)** method (Figure 1). The N-G approach consists of estimating the proportion of changes that would be synonymous and nonsynonymous in a given codon after considering all nine possible nucleotide changes (based on the genetic code).
+
+![](http://www.ub.edu/molevol/PG&ME/P5/N-G.png){width=45%}
+
+***
+
+<font size="2">**Figure 1.** Nei-Gojobori method for estimating the number of synonymous and nonsynonymous sites in a codon</font>
+
+***
+
+Here are some examples of functions for working with changes and synonymous sites:
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```R
+    library(seqinr)
+   
+    translate<-seqinr::translate
+    
+    ## function to translate a codon:
+    dna_to_aa <- function(codon) {
+ 	  dna<-s2c(codon)
+ 	  aa<-translate(dna, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE)
+ 	  return (aa)
+    }  
+
+    ## function to determine if a change between two codons is synonym
+    is_synonymous<-function(codon1, codon2) {
+	  return (dna_to_aa(codon1) == dna_to_aa(codon2))
+    }
+
+    ## function to estimate the number of synonymous sites in a codon:
+    synpos<-function(codon) {
+	  pos<-s2c(codon)
+	  for (i in 1:length(pos)) {
+		   base = pos[i]
+		   BASES = c('A', 'G', 'T', 'C')
+		   other_bases = BASES[BASES!=base]
+		   syn=0
+			 for (new_base in other_bases) {
+				  new_pos=c(pos[0:(i-1)], new_base, pos[-(1:i)])
+				  new_codon=paste(new_pos, collapse="")
+			  	s<-(is_synonymous(codon, new_codon))
+				  syn <- syn + length(s[s==TRUE])
+			 }
+		   synp <- syn/3
+	  }
+    return (synp)
+    }
+   ```
+
+*** 
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Exercise 2
+</h3>
+</div>
+Calculate the number of synonymous and nonsynonymous **changes** and **sites** in this coding sequence alignment using the functions above:
+
+<p style="font-family: courier new">
+**Seq 1** ATGATGCAGAGTCTGTAA</br>
+**Seq 2** ATGAGGCACAGTCTGTAA</br>
+</p>
+<i class="fa fa-key" style="font-size:15px;"></i> The number of sites of each class in each sequence is the sum over all codons in the sequence, and the total number of sites of each class in the alignment is the average over all sequences. **You can apply the functions separately for each codon, or consider a loop integrating functions such as `s2c()` and `splitseq()` from the `seqinr` package**
+</div>
+
+***
+
+Fortunately, you will not need to repeat this calculation for all the gene sequences we will be studying in this lab. There are `R` functions that can be used to calculate the synonymous and nonsynonymous divergence of a coding region directly from the CDS alignment. The `seqinr` package implements the `KaKs()` function, which allows the calculation of these divergences. Before proceeding with the calculations, we will change the sequence names in the fasta file to make it easier to identify the species in the results matrix (now the identifiers are very long and some of them do not contain the species name):
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```R
+    library(phylotools)
+    
+    old_names<-get.fasta.name("divergence/obp83b_cds_aln.fasta")
+    ## new names must be in the same order than old names...
+    new_names<-c("Dmel_obp83b", 
+                 "Dsim_obp83b", 
+                 "Dere_obp83b", 
+                 "Dele_obp83b", 
+                 "Dpse_obp83b")
+    ref2 <- data.frame(old_names, new_names)
+    rename.fasta(infile = "divergence/obp83b_cds_aln.fasta", ref_table = ref2, outfile = "divergence/obp83b_cds_renamed_aln.fasta")
+
+    cds <- read.alignment("divergence/obp83b_cds_renamed_aln.fasta",format="fasta")
+
+    ## matrix with synonymous divergences (Ks)
+    kaks(cds)$ks
+
+    ## matrix with nonsynonymous divergences (Ka)
+    kaks(cds)$ka
+   ```
+
+***
+
+## 6. Divergence at noncoding sites
+
+In addition to the CDS, noncoding sequences are also found in eukaryotic genes. These sequences correspond to introns, exonic untranslated regions (5' or 3') or 5' proximal regions, often containing promoters and regulatory elements. Here, you will analyse the divergence in the 5' proximal region and the introns of the obp83b gene in the same five species.
+
+First, you will obtain noncoding sequences of this gene for all species. To do this, you need to know exon coordinates. Again, you can use `reutils` functions to read the GenBank entries in your `R` terminal:
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```R
+    ## example for D. pseudoobscura:
+    x<-efetch("NC_046679", db="nucleotide", rettype="gb", retmode="text", strand=1, seqstart=16336491, seqstop=16337172)
+    con <- content(x, as = "textConnection")
+    readLines(con)
+   ```
+> <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="2"> The `readLines()` function prints the entry in GenBank format. Locate the feature "CDS" to find the coordinates of the coding region of the gene _obp83b_ in this species.</font>
+
+Once you know the coordinates of CDS, you can extract 5' and intron sequences:
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```R
+    ## example for D.pseudobscura
+    ## download the complete gene region
+    efetch("NC_046679", db="nucleotide", rettype="fasta", retmode="text", strand=1, seqstart=16336491,      seqstop=16337172, outfile="divergence/Dpse_opb83.fasta")
+
+    ## create an object with the sequence of the complete gene region
+    seq<-read.dna("divergence/Dpse_obp83b.fasta", format="fasta")
+
+    ## create a new sequence with only intron sequences
+    ## CDS = join(54..128,186..261,317..594)
+    ## 5' region = 1-53
+    ## intron 1 = 129-185
+    ## intron2 = 262-316
+    seqnc<-seq
+    seqnc=seqnc[,c(1:53,129:185,262:316)]
+    
+    ## change species label
+    seqnc<-updateLabel(seqnc, labels(seqnc), "Dpse_obp83b")
+
+    ## write a fasta file with noncoding sequences of the opb83b gene of ALL SPECIES (with append=TRUE, if your run this script for all species, all sequences will be added to the same file; remember to change the ids in each case)
+    write.dna(seqnc, format="fasta", file="divergence/obp83b_nc.fasta", append=TRUE)
+   ```
+
+Now we can align the non-coding sequences and estimate the number of substitutions per site (_K_<sub>NC</sub>) of the _obp83b_ gene. For nucleotide divergences (without any distinction of positions, just total divergence) you can use the function `dist.dna()` from the package `ape`.
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```R
+    ## read the noncoding sequences
+    myseqs<-read.dna("divergence/obp83b_nc.fasta", format="fasta")
+
+
+    ## visualize the sequences
+    myseqs
+
+    ## multiple sequence alignment
+    myalign <- clustal(myseqs)
+
+    ## partial visualization of the generated alignment
+    myalign
+
+    ## write the alignment to file
+    write.dna(myalign, file="divergence/obp83b_nc_aln.fasta", format="fasta")
+    
+    ## read the noncoding alignment
+    nc <- read.dna("divergence/obp83b_nc_aln.fasta", format="fasta")
+
+    ## noncoding divergences in the opb83b gene
+    dist.dna(nc)
+   ```
+***
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Exercise 3
+</h3>
+</div>
+Fill empty cells in the following tables with the results obtained in the different divergence analyses and answer the questions:
+
+**Table 1.** Divergence in the coding region of the gene _opb83b_(**_K_<sub>a</sub> and _K_<sub>s</sub> values are above and below the diagonal, respectively**)
+```{r echo=FALSE, results='asis'}
+cells <- c("**---------**","","","","","","**---------**","","","","","","**---------**","","","","","","**---------**","","","","","","**---------**")
+table <- matrix(cells, nrow=5, ncol=5, byrow=T)
+colnames(table) <- c("Dmel", "Dsim", "Dyak", "Dana", "Dpse")
+rownames(table) <- c("Dmel", "Dsim", "Dyak", "Dana", "Dpse")
+knitr::kable(table)
+```
+
+
+Divergence in the non-coding regions of the gene _opb83b_ (**Fill in the table with _K_<sub>NC</sub> values above the diagonal**)
+```{r echo=FALSE, results='asis'}
+cells <- c("**---------**","","","","","**---------**","**---------**","","","","**---------**","**---------**","**---------**","","","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**")
+table <- matrix(cells, nrow=5, ncol=5, byrow=T)
+colnames(table) <- c("Dmel", "Dsim", "Dyak", "Dana", "Dpse")
+rownames(table) <- c("Dmel", "Dsim", "Dyak", "Dana", "Dpse")
+knitr::kable(table)
+```
+
+**Questions:**
+
+**1\. Is the _obp83b_ gene evolving rapidly? And the Obp83b protein?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+**2\. In which of the analysed positions (synonymous, nonsynonymous or noncoding) are evolutionary distances higher? What is the reason for this, in your opinion?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+**3\. Could you consider some of the observed changes as selectively neutral? Which ones?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+**4\. Which species would share a more recent common ancestor? In which evolutionary distances (synonymous, nonsynonymous or noncoding) should we focus to know that?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+</div>
+
+***
+
+## 7. Phylogenetic tree reconstruction and tree calibration
+
+Some of the most direct applications of nucleotide divergence estimates are the reconstruction of phylogenetic relationships and the inference of evolutionary rates. To reconstruct the phylogenetic relationships among the five _Drosophila_ species using the information form the _obp83b_ gene, you can use the functions from `ape` and `phangorn` packages.
+
+As an example, the following code reconstructs the phylogenetic relationships between the five species based on synonymous divergences. It uses the synonymous divergence matrix estimated above and the [Neighbor Joining algorithm](ttps://academic.oup.com/mbe/article/4/4/406/1029664?login=false)
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```R
+    library(phangorn)
+    
+    cds <- read.alignment("divergence/obp83b_cds_renamed_aln.fasta",format="fasta")
+    
+    ## NJ tree
+    syntree <- NJ(kaks(cds)$ka)
+    plot(syntree)
+    write.tree(syntree, file="divergence/obp83b_Ks.tree")
+   ```
+
+By definition, a Neighbor Joining tree is an **unrooted tree**.  There is no root node that is the common ancestor of all species. With an unrooted tree, we can tell the phylogenetic relationships between species (i.e. which species have a more recent common ancestor compared to the other species), but not the direction of evolution (i.e. which species arose more recently). In addition, branch lengths represent substitutions per site, in this case the number of substitutions per site. Sometimes, as in our example, we know which branch contains the root of the species under study (see Figure 2).
+
+
+![](http://www.ub.edu/molevol/PG&ME/P5/drosotree.png){width=250}
+
+**Figure 2**. Phylogenetic relationships among the species of the genus _Drosophila_(modified from Mol Ecol Resour. 2022;22:1559–1581)
+
+To calculate the evolutionary rate of the Obp83b protein, we need an ultrametic tree, i.e. a rooted tree in which the branch lengths represent time (not substitutions) and at least one calibration point (i.e. a dated node). 
+
+<!-- replace R with {r} to execute the code when knit -->
+   ```R
+    ## read the tree to a phylo class object
+    tree<-read.tree(file="divergence/obp83b_Ks.tree")
+
+    ## plot the unroted tree
+    plot(tree, main="Obp gene tree (number of nonsynonymous substitutions per site)")
+
+    ## root the tree using Drosophila pseudoobscura as the outgroup
+    rooted<-root(tree, "Dpse_obp83b")
+    plot(rooted)
+    add.scale.bar(ask=TRUE)
+
+    ## set calibration
+    ## select the node corresponding to the ancestor of D. melanogater, D. simulans and D. erecta, and     specify a range of 6.1-18.9 MYA
+    cal <- makeChronosCalib(rooted, interactive = TRUE)
+
+    ## fit the model (penalized likelihood)
+    chr<-chronos(rooted, model="clock", calibration = cal)
+
+    # plot de calibrated (ultrametric) tree
+    plot(chr, main="calibrated tree (million years)")
+    axisPhylo()
+    tiplabels()
+    nodelabels()
+    chr$edge
+    chr$edge.length
+   ```
+
+> <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="2"> The `tiplabels()` and `nodelabels()` functions will tell you the id of each node in the tree (they are indicated in the tree). With `chr$edge` and `chr$edge.length` you can find the correspondence between edge numbers and edge lengths, and thus **the estimated date in million years of each node**.</font>
+
+You now have all the parameters you need to calculate the evolutionary rate of the Obp83b protein in _Drosophila_.
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Exercise 4
+</h3>
+</div>
+Calculate the evolutionary rate (_r_) of the Obp83b protein in _Drosophila_ using the divergences and times estimated in this practice. Think carefully about which divergence to use for this calculation and apply the formula. 
+</div>
+   
+***
+
+<div style="background-color:#faeae1">
+<div style="background-color:#d1926d">
+<h3>
+<i class="fa fa-cogs"></i> Final assignment
+</h3>
+</div>
+
+**Table 2**. Identifiers and genomic coordinates of the _rpL32_ gene in different _Drosophila_ species.
+
+<div style="overflow-x:auto;">
+  <table align="left" style="width:100%;">
+    <tr align="left">
+      <th>Species</th>
+      <th>ID</th>
+      <th>Coordinates in the genome</th>
+      <th>Strand</th>
+    </tr>
+    <tr>
+      <td>_D. melanogaster_</td>
+      <td> NT_033777</td>
+      <td>30045229-30046161</td>
+      <td>2</td>
+    </tr>  
+    <tr>
+      <td>_D. simulans_</td>
+      <td> NC_052523</td>
+      <td>26165102-26166121</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>_D. erecta_</td>
+      <td> NW_020825194</td>
+      <td>2228933..2229932</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>_D. serrata_</td>
+      <td> NW_018367383</td>
+      <td>6093667..6094458</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>_D. pseudopobscura_</td>
+      <td> NC_046679</td>
+      <td>811678-812625</td>
+      <td>1</td>
+    </tr>
+  </table>
+</div>
+</br>
+
+
+Using the data in Table 2, calculate the rate of evolution of the protein RpL32 in _Drosophila_ and answer the following questions. Note that for this gene _D. elegans_ is replaced by _D. serrata_.
+
+**5\. Which is the evolutionary rate of the RpL32 protein?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+**6\. Are the evolutionary rates of the two proteins studied in this practice different?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+**7\. Can you provide a molecular evolutionary explanation for the answer to question 6?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+
+**8\. Which of the other positions examined here (i.e. nonsynonymous, noncoding, the full cds...) could have been used to reconstruct the phylogenetic tree prior to calibration?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+
+```
+**9\. Looking at your results and the tree in Figure 2, do you think that the fact that some of the species are not the same in both analyses (_D. elegans_ in obp83b and _D. serrata_ in rpL32) influences the results? Discuss**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```
+
+```
+</div>
+
+***
+
+<h1>Deliver info</h1>
+<p><i class="fa fa-upload"></i><strong> Submit this document with your answers (or just a document with your answers to the questions in any readable format, e.g. word, pdf, plain text...), and the `R` code used to complete the final assignment to <a href="https://aula.esci.upf.edu/mod/assign/view.php?id=242848"> AULAESCI</a></strong></p>
+<p><i class="fa fa-clock"></i> <strong>Deadline</strong>: June 28, 2024</p>
+<p><i class="fa fa-envelope"></i> <strong>Doubts?</strong> <a href="mailto:mailto:alejandro.sanchez@prof.esci.upf.edu" class="email">mailto:alejandro.sanchez@prof.esci.upf.edu</a></p>
+
+***
+  
