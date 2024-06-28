@@ -6,8 +6,7 @@ output:
     self_contained: yes
     theme: yeti
     font: 16px
-  pdf_document: default
-  word_document: default
+    css: styles.css
 subtitle: Computer practice 5 - Population Genetics & Molecular Evolution - Bachelor's Degree in Bioinformatics
 ---
 
@@ -70,10 +69,10 @@ Before starting the exercises, you will need to install some necessary libraries
 <!-- replace R with {r} to execute the code when knit -->
 ```{r}
 # install.packages("ape")
-devtools::install_github("pievos101/PopGenome")
+#devtools::install_github("pievos101/PopGenome")
 
-install.packages("remotes")
-remotes::install_github("andrewparkermorgan/sfsr")
+#install.packages("remotes")
+#remotes::install_github("andrewparkermorgan/sfsr")
 ```
 
 ***
@@ -82,15 +81,15 @@ remotes::install_github("andrewparkermorgan/sfsr")
 
 1. **Data files**: link and description (click on the file name to access the file) :
 
-   + <i class="fa fa-file"></i> [**rpL32.fas**](http://www.ub.edu/molevol/PG&ME/P5/rpL32.fasta): This file contains the sequence of the _rpL32_ gene for 18 individuals (one sequence per individual) of a natural population of _D. subobscura_ (J) and one sequence from a closely related species, _D. guanche_ (Dgua). All sequences of _D. subobscura_ are from the same chromosomal arrangement (_O_<sub>3+4</sub>). **For this practical, use the 18 sequences of <i>D. subobscura</i> as the polymorphism data and the sequence of <i>D. guanche</i> for divergence estimations.**</br>
+   + <i class="fa fa-file"></i> [**rpL32.fasta**](http://www.ub.edu/molevol/PG&ME/P5/rpL32.fasta): This file contains the sequence of the _rpL32_ gene for 18 individuals (one sequence per individual) of a natural population of _D. subobscura_ (J) and one sequence from a closely related species, _D. guanche_ (Dgua). All sequences of _D. subobscura_ are from the same chromosomal arrangement (_O_<sub>3+4</sub>). **For this practical, use the 18 sequences of <i>D. subobscura</i> as the polymorphism data and the sequence of <i>D. guanche</i> for divergence estimations.**</br>
  
-   + <i class="fa fa-file"></i> [**Acph.fas**](http://www.ub.edu/molevol/PG&ME/P5/Acph.fasta). This file contains the sequence of the _Acph_ gene for 42 individuals (one sequence per individual) of a natural population of _D. subobscura_ (TB) and one sequence of a closely related species, _D. guanche_ (Dgua). The sequences of _D. subobscura_ are from two different chromosomal arrangements (_O_<sub>3+4+8</sub> and _O_<sub>3+4+23</sub>). **For this practical, use the 18 sequences of <i>D. subobscura</i> as the polymorphism data and the sequence of <i>D. guanche</i> for divergence estimations.**</br>
+   + <i class="fa fa-file"></i> [**Acph.fasta**](http://www.ub.edu/molevol/PG&ME/P5/Acph.fasta). This file contains the sequence of the _Acph_ gene for 42 individuals (one sequence per individual) of a natural population of _D. subobscura_ (TB) and one sequence of a closely related species, _D. guanche_ (Dgua). The sequences of _D. subobscura_ are from two different chromosomal arrangements (_O_<sub>3+4+8</sub> and _O_<sub>3+4+23</sub>). **For this practical, use the 18 sequences of <i>D. subobscura</i> as the polymorphism data and the sequence of <i>D. guanche</i> for divergence estimations.**</br>
       
-   + <i class="fa fa-file"></i> [**OS.fas**](http://www.ub.edu/molevol/PG&ME/P5/OS.fasta). This file contains the sequence of the OS locus of 14 individuals (one sequence per individual) of an European population of _D. melanogaster_ (M) and 2 individuals of _D. simulans_ (S). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
+   + <i class="fa fa-file"></i> [**OS.fasta**](http://www.ub.edu/molevol/PG&ME/P5/OS.fasta). This file contains the sequence of the OS locus of 14 individuals (one sequence per individual) of an European population of _D. melanogaster_ (M) and 2 individuals of _D. simulans_ (S). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
  
-   + <i class="fa fa-file"></i> [**E9.fas**](http://www.ub.edu/molevol/PG&ME/P5/E9.fasta). This file contains the sequence of the E9 locus of 15 individuals (one sequence per individual) of world wide sample of _D. melanogaster_ (MEL_) and 1 individual (one sequence per individual) of _D. simulans_ (SIM_). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
+   + <i class="fa fa-file"></i> [**E9.fasta**](http://www.ub.edu/molevol/PG&ME/P5/E9.fasta). This file contains the sequence of the E9 locus of 15 individuals (one sequence per individual) of world wide sample of _D. melanogaster_ (MEL_) and 1 individual (one sequence per individual) of _D. simulans_ (SIM_). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
    
-   + <i class="fa fa-file"></i> [**E10.fas**](http://www.ub.edu/molevol/PG&ME/P5/E10.fasta). This file contains the sequence of the E10 locus for 15 individuals (one sequence per individual) of an African population of _D. melanogaster_ (mel-) and one sequence from a closely related species, _D. simulans_ (Dsim). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
+   + <i class="fa fa-file"></i> [**E10.fasta**](http://www.ub.edu/molevol/PG&ME/P5/E10.fasta). This file contains the sequence of the E10 locus for 15 individuals (one sequence per individual) of an African population of _D. melanogaster_ (mel-) and one sequence from a closely related species, _D. simulans_ (Dsim). **For this practical, use the 15 sequences of <i>D. melanogaster</i> as the polymorphism data and the sequence of <i>D. simulans</i> for divergence estimations.**</br>
    
 ***
 
@@ -109,29 +108,33 @@ Under neutrality, the amount of polymorphism in a species should be correlated w
 Open the `R` console in the terminal (or `RSsudio`), load the library `PopGenome`, create a new folder for the gene, copy the fasta file to this folder, and read the folder with the function `readData`. This function creates an object of class `GENOME`. Then, indicate which samples are from the population of _D. subobscura_ and of _D.guanche_ using the function `set.populatons`.
 
 <!-- replace R with {r} to execute the code when knit -->
-```{r}
-    library(PopGenome)
-      
-    ## create a new working directory for this gene region and copy the fasta file to this folder
-    dir.create("rpL32")
-    file.copy(from = "rpL32.fasta",
-          to="rpL32/rpL32.fasta")
-    
-    ## read the fasta file
-    rp <- readData("rpL32")
-      
-    ## summary of the data
-    get.sum.data(rp)
-      
-    ## set populations
-    get.individuals(rp)
-    rp <- set.populations(rp,list(
-            c(get.individuals(rp)[[1]][1:18]), 
-            c(get.individuals(rp)[[1]][19]))
-            )
-    rp@region.data@populations
-    rp@region.data@populations2 
-    rp<-set.outgroup(rp,c("Dgua"))
+```{r rpL32.1, results=FALSE, message=FALSE}
+library(PopGenome)
+  
+## create a new working directory for this gene region and copy the fasta file to this folder
+dir.create("rpL32")
+file.copy(from = "rpL32.fasta",
+      to="rpL32/rpL32.fasta")
+
+## read the fasta file
+rp <- readData("rpL32")
+  
+## summary of the data
+get.sum.data(rp)
+  
+## set populations
+get.individuals(rp)
+rp <- set.populations(rp,list(
+        c(get.individuals(rp)[[1]][1:18]), 
+        c(get.individuals(rp)[[1]][19]))
+        )
+rp@region.data@populations
+```
+```{r rpL32.2}
+rp@region.data@populations2
+```
+```{r Dgua}
+rp<-set.outgroup(rp,c("Dgua"))
 ```
       
 > <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="3"> To know which indices to use in the function `set.populations()`, we use the function `get.individuals()`. Check the result of the commands `region.data@populations` and `region.data@populations2` to make sure you have set the populations correctly.</font> 
@@ -139,27 +142,29 @@ Open the `R` console in the terminal (or `RSsudio`), load the library `PopGenome
 First, let's have a look at the variability in the region we are studying. The sliding windonw analysis is very useful for this task. To examine the distribution of the nucleotide polymorphism across the rp32L region, use the `sliding.window.transform()` function to create a new object (`rpsw`) where regions correspond to a set of windows into which you divide your region (in the `rp` object, regions correspond to the entire gene region). You will set a window size of 200 bp and a step size of 10 bp. For example, you can estimate and plot the number of segregating sites across the gene region:
       
 <!-- replace R with {r} to execute the code when knit -->
-```{r}
-    ## divide the region in windows
-    rpsw <- sliding.window.transform(rp,width=200, jump=10,type=2,whole.data=TRUE)
-    
-    ## calculate segregating sites (and other statistics) 
-    rpsw <- neutrality.stats(rpsw)
-    
-    ## calculate fixed diferences (and other statistics)
-    rpsw<-calc.fixed.shared(rpsw)
-    
-    ## get segregating sites in D. subobscura
-    s<-as.data.frame(rpsw@n.segregating.sites[,1])
-    
-    ## get fixed differences between D. subobscura and D. melanogaster
-    d<-rpsw@n.fixed.sites
-    
-    ## plot the results of the sliding windows analysis
-    PopGplot(s,span=0.1,xlab="position (rp32L gene region)", ylim=c(min(s,na.rm=TRUE),max(s,na.rm=TRUE)))
-    lines(d)
-    legend("topright", legend = c("polymorphism", "divergence"), 
-     col = c("red", "black"), lty = 1)
+```{r div/pol graph prep, results=FALSE}
+## divide the region in windows
+rpsw <- sliding.window.transform(rp,width=200, jump=10,type=2,whole.data=TRUE)
+
+## calculate segregating sites (and other statistics) 
+rpsw <- neutrality.stats(rpsw)
+
+## calculate fixed diferences (and other statistics)
+rpsw<-calc.fixed.shared(rpsw)
+
+## get segregating sites in D. subobscura
+s<-as.data.frame(rpsw@n.segregating.sites[,1])
+
+## get fixed differences between D. subobscura and D. melanogaster
+d <- as.data.frame(rpsw@n.fixed.sites)
+```
+```{r div/pol graph}
+## plot the results of the sliding windows analysis
+PopGplot(s,span=0.1,xlab="position (rp32L gene region)", ylim=c(min(s,na.rm=TRUE),max(s,na.rm=TRUE)))
+lines(d[, 1])
+
+legend("topright", legend = c("polymorphism", "divergence"), 
+col = c("red", "black"), lty = 1)
 ```
 
 <div style="background-color:#FFDAA120">
@@ -172,7 +177,7 @@ First, let's have a look at the variability in the region we are studying. The s
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```{r}
+```{r, echo=FALSE, comment=""}
 cat("The synchronization of the graphs represents the correlation between polymorphism and divergence within and between species, which suggests that the neutral mutation rate is the primary driver.")
 ```
 
@@ -181,7 +186,7 @@ cat("The synchronization of the graphs represents the correlation between polymo
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```{r}
+```{r, echo=FALSE, comment=""}
 cat("If positive selection had recently acted on the 3' half of the gene we would observe a heavy reduction in this region beacuse of a possible fixation. If balancing selection acted on the 5' half of the gene there would be an increase in variations, as  it means that there is no fixation")
 ```
 
@@ -192,47 +197,49 @@ cat("If positive selection had recently acted on the 3' half of the gene we woul
 To make sure you are on the right track, you can apply the HKA test to both halves of the _rpL32_ gene region. The `hka()` function from the `sfsr` package can be used to do this. **However, this function only accepts the site frequency spectrum (SFS) as input for this calculation**. Therefore, you must first obtain the SFS of the regions you wish to compare in the HKA test. Just to give you an example, in code bellow you can see how to obtain the SFS and perform the HKA test on the entire _rpL32_ gene:
 
 <!-- replace R with {r} to execute the code when knit -->
-```{r}
-    library(sfsr)
+```{r rp def, results=FALSE}
+library(sfsr)
 
-    ## extract the sample size
-    n<-length(rp@populations[[1]])
+## extract the sample size
+n<-length(rp@populations[[1]])
 
-    ## get the minor allele frequencies
-    rp<-detail.stats(rp)
-    ma<-as.data.frame(rp@region.stats@minor.allele.freqs[1]) ## IMPORTANT: see info section bellow
+## get the minor allele frequencies
+rp<-detail.stats(rp)
+```
+```{r site frequency plot}
+ma<-as.data.frame(rp@region.stats@minor.allele.freqs[1]) ## IMPORTANT: see info section bellow
 
-    ma<-ma[1,]
+ma<-ma[1,]
 
-    ## obtain the unfolded site frequency spectrum in population 1 (including fixed differences with respect to poopulation 2)
-    ma<-ma*n
-    sfs<-c()
-    for (i in 1:n) {
-       a<-sum(ma==i)
-       sfs<-c(sfs, a)
-    }
-    sfs
-    monomorphic<-rp@n.valid.sites - sum(sfs)
-    rp.sfs<-c(monomorphic)
-    rp.sfs<-c(rp.sfs, sfs)
+## obtain the unfolded site frequency spectrum in population 1 (including fixed differences with respect to poopulation 2)
+ma<-ma*n
+sfs<-c()
+for (i in 1:n) {
+    a<-sum(ma==i)
+    sfs<-c(sfs, a)
+}
+sfs
+monomorphic<-rp@n.valid.sites - sum(sfs)
+rp.sfs<-c(monomorphic)
+rp.sfs<-c(rp.sfs, sfs)
     
     
-    ## plot the SFS
-    cols <- c("blue", "red")[(sfs >= sfs[n]) + 1 ]
-    barplot(sfs, main="Site Frequency Spectrum", names.arg=c(1:n), col=cols)
-    legend("topleft", legend = c("polymorphic", "fixed"), fill=c("blue","red"))
+## plot the SFS
+cols <- c("blue", "red")[(sfs >= sfs[n]) + 1 ]
+barplot(sfs, main="Site Frequency Spectrum", names.arg=c(1:n), col=cols)
+legend("topleft", legend = c("polymorphic", "fixed"), fill=c("blue","red"))
     
-    ## run the HKA test:
-    rp.sfs2<-rp.sfs ## IMPORTANT: see info section bellow
-    hka_rp<-hka_test(rp.sfs, rp.sfs2)
-    ## p-value of the HKA test
-    hka_rp$p.value
-    ## observed values
-    hka_rp$observed
-    ## expected values
-    hka_rp$expected
-    ## residuals
-    hka_rp$residuals
+## run the HKA test:
+rp.sfs2<-rp.sfs ## IMPORTANT: see info section bellow
+hka_rp<-hka_test(rp.sfs, rp.sfs2)
+## p-value of the HKA test
+hka_rp$p.value
+## observed values
+hka_rp$observed
+## expected values
+hka_rp$expected
+## residuals
+hka_rp$residuals
 ```
 
 > <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="3"> **IMPORTANT: note that in the example above we have compared one SFS against itself, which doesn't make any sense!!!**. In real cases, you must to compare the SFS from two different regions, one of which should be evolving under neutrality. **Also note that when you have more than one fasta file in the input folder, the object contains as many regions as fasta files in the folder. Use `get.sum.data()` to know the order of each region and use the correct index when extracting minor.allele.freqs**.</font>
@@ -245,10 +252,9 @@ To make sure you are on the right track, you can apply the HKA test to both halv
 </div>
 + Using the functions and commands you already know (from this and the previous practical), create two fasta files, one with the sequences of the 5' half (e.g. "rpL32_5.fasta") and the other with the sequences of the 3' half (e.g. "rpL32L_3.fasta") of the _rpL32_ gene region.
    - Since the alignment is 1798 sites long, divide the region into two parts of exactly equal length (1-899 and 900-1798).</br>
++ Apply the HKA test to the two halves of the _rpL32_ gene and answer the following questions:
 
-
-
-```{python}
+```{python py fasta writing, include=FALSE}
 def fasta_writer(filename):
   content=[]
   sequence=[]
@@ -269,25 +275,92 @@ def fasta_writer(filename):
         print(header, "\n", seqthree, file=f3, sep="")
         print(header, "\n", seqfive, file=f5, sep="")
 
-fasta_writer("rpL32.fasta")
+fasta_writer("rpL32_joined.fasta")
 ```
 
+```{r fasta writing, results=FALSE}
+library(ape)
+#read the file as a sequence, divide it in 2
+rp_seq <- read.dna("rpL32.fasta", format = "fasta")
+rp_3 <- rp_seq[,c(1:899)]
+rp_5 <- rp_seq[,c(900:1798)]
 
-+ Apply the HKA test to the two halves of the _rpL32_ gene and answer the following questions:
+#write each part into a file
+write.dna(rp_3, file = "rpL32_3.fasta", format = "fasta")
+write.dna(rp_5, file = "rpL32_5.fasta", format = "fasta")
+
+#place botg files in the same folder
+dir.create("rpL32_3")
+file.copy(from = "rpL32_3.fasta",
+      to= "rpL32_3/rpL32_3.fasta")
+
+dir.create("rpL32_5")
+file.copy(from = "rpL32_5.fasta",
+      to= "rpL32_5/rpL32_5.fasta")
+
+```
+
+```{r HKA test preparation, results=FALSE}
+
+rp5 <- readData("rpL32_5")
+rp3 <- readData("rpL32_3")
+
+# Set populations
+rp5 <- set.populations(rp5, list(c(get.individuals(rp5)[[1]][1:18]), c(get.individuals(rp5)[[1]][19])))
+rp5 <- set.outgroup(rp5, c("Dgua"))
+
+rp3 <- set.populations(rp3, list(c(get.individuals(rp3)[[1]][1:18]), c(get.individuals(rp3)[[1]][19])))
+rp3 <- set.outgroup(rp3, c("Dgua"))
+
+
+calculate_sfs <- function(rp, pop_index = 1) {
+  n <- length(rp@populations[[pop_index]])
+  
+  # Get the minor allele frequencies
+  rp <- detail.stats(rp)
+  ma <- as.data.frame(rp@region.stats@minor.allele.freqs[[1]])
+  ma <- ma[1,]
+  
+  # Obtain the unfolded site frequency spectrum
+  ma <- ma * n
+  sfs <- sapply(1:n, function(i) sum(ma == i))
+  
+  monomorphic <- rp@n.valid.sites - sum(sfs)
+  rp_sfs <- c(monomorphic, sfs)
+  
+  return(rp_sfs)
+}
+
+# Calculate SFS for the two parts
+rp5_sfs <- calculate_sfs(rp5)
+rp3_sfs <- calculate_sfs(rp3)
+
+```
+
+```{r HKA test}
+# Perform the HKA test
+hka_rp <- hka_test(rp5_sfs, rp3_sfs)
+```
+
 
 **3\. Do the two halves of the _rpL32_ gene region evolve as expected under the neutral model?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```{r}
+```{r, echo=FALSE, comment=""}
+# Results
+cat("P-value of the HKA test:", hka_rp$p.value, "\n")
+cat("Observed values:", hka_rp$observed, "\n")
+cat("Expected values:", hka_rp$expected, "\n")
+cat("Residuals:", hka_rp$residuals, "\n")
 ```
 
 
 **4\. Is there any chance that the region being analysed has been subject to positive selection? Maybe even the entire region?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
-```
-
+```{r, echo=FALSE, comment=""}
+cat("Positive selection is not likely to have occurred in the region under study, as indicated by the high p-value of 0.94. Based on available data, it appears that this area is changing neutrally.")
 ```
 
 </div>
@@ -309,7 +382,7 @@ The MK test also compares polymorphism and divergence data but, in this case, be
 We will use the same genomic region to see an example of how the MK test is applied to real data. The `PopGenome` package has a function to run this test in `R`. As noted above, the test is based on synonymous and non-synonymous polymorphisms and substitutions, so the first task is to extract the coding regions from the alignment of the whole genomic region (the original alignment includes non-coding regions):
 
 <!-- replace R with {r} to execute the code when knit -->
-   ```R
+```{r MK test, results=FALSE}
     library(ape)
     
     ## Create new folder for the cds file in the working directory of this gene
@@ -338,7 +411,7 @@ We will use the same genomic region to see an example of how the MK test is appl
     rpc<-MKT(rpc, do.fisher.test=TRUE)
     get.MKT(rpc)
 
-   ```
+```
 
 ***
 
@@ -351,16 +424,16 @@ We will use the same genomic region to see an example of how the MK test is appl
 
 **5\. What is the result of this test? Can we infer the action of positive selection from the divergence of _rpL32_ between these two species?**
 
-```
-
+```{r, echo=FALSE, comment=""}
+cat("Based on this data, we cannot infer that positive selection has influenced the divergence of rpL32 between these two species. The results indicate that the rpL32 gene is evolving neutrally in this context.")
 ```
 
 **6\. How many amino acid changes have occurred in the RpL32 protein since the divergence of _D. subobscura_ and _D. guanche_? And how many synonymous changes? Discuss these results in relation to the evolutionary rate estimated for this protein in the final assignment of practical 4).**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r, echo=FALSE, comment=""}
+cat("Following the divergence of both species, the RpL32 protein has 0 amino acid changes and just 1 synonymous change. This also indicates low evolutionary rate.")
 ```
 
 </div>
@@ -378,6 +451,84 @@ We will use the same genomic region to see an example of how the MK test is appl
    - The coordinates of the coding region in the alignment are: 2334:2405,2468:2542,2595:2868.
 + Run the MK test in the coding region of the _Acph_ gene of _D. subobscura_ (using _D. guanche_ for divergence calculations).
    - The coordinates of the coding region in the alignment are: 292:475,604:702,769:1458,1522:1780,1838:1944.
+   
+```{r E_data, results=FALSE}
+# Create directories
+dir.create("E9_folder")
+dir.create("E10_folder")
+
+# Move the fasta files to the new directories
+file.copy("E9.fasta", "E9_folder/E9.fasta")
+file.copy("E10.fasta", "E10_folder/E10.fasta")
+
+# Read the fasta files into GENOME objects
+e9 <- readData("E9_folder")
+e10 <- readData("E10_folder")
+```
+```{r E_data_res}
+# Summary of the data
+get.sum.data(e9)
+get.sum.data(e10)
+
+# prepare to populations for e9
+get.individuals(e9)
+
+# prepare to set populations for e10
+get.individuals(e10)
+```
+```{r E_data popset, results=FALSE}
+# Set populations for e9
+e9 <- set.populations(e9, list(
+  c(get.individuals(e9)[[1]][1:15]), 
+  c(get.individuals(e9)[[1]][16])
+))
+e9 <- set.outgroup(e9, c("SIM_ZIM70"))
+
+# Set populations for e10
+e10 <- set.populations(e10, list(
+  c(get.individuals(e10)[[1]][1:15]), 
+  c(get.individuals(e10)[[1]][16])
+))
+e10 <- set.outgroup(e10, c("Dsim"))
+
+
+# Function to calculate SFS for a specific population and region
+calculate_sfs <- function(rp, pop_index, region_index) {
+  # Extract the sample size
+  n <- length(rp@populations[[pop_index]])
+  
+  # Get the minor allele frequencies
+  rp <- detail.stats(rp)
+  ma <- as.data.frame(rp@region.stats@minor.allele.freqs[[region_index]])
+  ma <- ma[1,]
+  
+  # Obtain the unfolded site frequency spectrum
+  ma <- ma * n
+  sfs <- sapply(1:n, function(i) sum(ma == i))
+  
+  monomorphic <- rp@n.valid.sites - sum(sfs)
+  rp_sfs <- c(monomorphic, sfs)
+  
+  return(rp_sfs)
+}
+
+
+# Calculate SFS for two different regions
+e9_sfs <- calculate_sfs(e9, 1, 1) 
+e10_sfs <- calculate_sfs(e10, 1, 1) 
+
+# Run the HKA test
+hka_e <- hka_test(e9_sfs, e10_sfs)
+```
+```{r, echo=FALSE, comment=""}
+# Output HKA test results
+cat("P-value of the HKA test:", hka_e$p.value, "\n")
+cat("Observed values:", hka_e$observed, "\n")
+cat("Expected values:", hka_e$expected, "\n")
+cat("Residuals:", hka_e$residuals, "\n")
+```
+
+
 
 Based on the results of these test, answer the following questions:
 
@@ -385,24 +536,55 @@ Based on the results of these test, answer the following questions:
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r, echo=FALSE, comment=""}
+cat("The observed E9 and E10 regions are not evolving neutrally (p-value of 0.001289523 in HKA test). It is unclear if there is positive or negative selection, as its indistinguishable in the HKA test results.")
 ```
 
 **8\. If I say that the region referred to _E10_ is evolving under neutrality (it is a noncoding region with no functional element), does this modify your answer to question 7?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r, echo=FALSE, comment=""}
+cat("If E10 is neutral, then the deviation in E9 indicates that its positive selection. This because E9 shows greater divergence/polymorhism than expected by reference to E10")
 ```
 
 **9\. Is there evidence of selection in two genes analysed by the MK test? What type of selection (positive or negative)?**.
 
 #### <i class="fas fa-comment-dots"></i> Answer:
-
+```{r MK E individuals}
+get.individuals(e9)
+get.individuals(e10)
 ```
 
+```{r MK evidence, results=FALSE}
+e9 <- set.populations(e9, list(
+  c(get.individuals(e9)[[1]][1:15]), 
+  c(get.individuals(e9)[[1]][16])
+))
+e9 <- set.outgroup(e9, c("SIM_ZIM70"))
+
+e10 <- set.populations(e10, list(
+  c(get.individuals(e10)[[1]][1:15]), 
+  c(get.individuals(e10)[[1]][16])
+))
+e10 <- set.outgroup(e10, c("Dsim"))
+
+e9 <- MKT(e9)
+mk_e9 <- e9@MKT
+
+e10 <- MKT(e10)
+mk_e10 <- e10@MKT
+
+results_e9 <- mk_e9[[1]]
+results_e10 <- mk_e10[[1]]
+```
+
+```{r, echo=FALSE, comment=""}
+cat("E9 gene results: ", results_e9)
+
+cat("E10 gene results: ", results_e10)
+
+cat("\nMK for E9 is 8, meaning netral evolution, while the E10 MK result is 42, showing positive selection, that shows a fixation of advantageous amino acid changes between species.")
 ```
 
 </div>

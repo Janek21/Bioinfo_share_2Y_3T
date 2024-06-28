@@ -6,10 +6,14 @@ output:
     self_contained: yes
     theme: yeti
     font: 16px
-  pdf_document: default
-  word_document: default
+    css: styles.css
 subtitle: Computer practice 4 - Population Genetics & Molecular Evolution - Bachelor's Degree in Bioinformatics
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(comment="")
+```
 
 <head>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
@@ -60,7 +64,7 @@ Before starting the exercises, you will need to install some necessary libraries
 ```{r package installation, message=FALSE, warning=FALSE, results=FALSE}
 packages <- c("reutils", "ape", "seqinr", "phangorn", "phylotools")
 #install.packages(setdiff(packages, rownames(installed.packages())))
-install.packages(packages)
+#install.packages(packages)
 ```
 
 
@@ -128,9 +132,10 @@ To download and write a file in FASTA format with the CDS sequence of the _obp83
 <!-- replace R with {r} to execute the code when knit -->
 ```{r download FASTA}
 library(reutils)
+library(ape)
 
 ## create a new working directory
-dir.create("P4_divergence")
+dir.create("divergence")
 
 ## example for D. pseudopobscura:
 efetch("NC_046679", db="nucleotide", rettype="fasta_cds_na", retmode="text", strand=1, seqstart=16336491, seqstop=16337172, outfile="./divergence/Dpse_obp83b_cds.fasta")
@@ -150,7 +155,22 @@ efetch("NW_020825194", db="nucleotide", rettype="fasta_cds_na", retmode="text", 
 efetch("NW_024545863", db="nucleotide", rettype="fasta_cds_na", retmode="text", strand=2, seqstart=12746083, seqstop=12746802, outfile="./divergence/Dele_obp83b_cds.fasta")
 
 #Command line execution (otherwise use read.dna and write.dna)
-#$cat D*_obp83b_cds.fasta > obp83b_cds.fasta
+#cat D*_obp83b_cds.fasta > obp83b_cds.fasta
+EntryName<-function(folder, name){
+    folder<-paste0("./", folder, "/")
+    f<-paste0(folder, name,"_cds.fasta")
+    sequence<-read.dna(f, format="fasta")
+    seqnc<-updateLabel(sequence, labels(sequence), name)
+    write.dna(seqnc, format="fasta", file=paste0(folder, "obp83b_cds.fasta"), append=TRUE)
+}
+new_names<-c("Dmel_obp83b", 
+             "Dsim_obp83b", 
+             "Dere_obp83b", 
+             "Dele_obp83b", 
+             "Dpse_obp83b")
+for (name in new_names){
+ EntryName("divergence", name) 
+}
 ```
 
 
@@ -274,17 +294,40 @@ seq2<-"ATGAGGCACAGTCTGTAA"
 aa1<-dna_to_aa(seq1)
 aa2<-dna_to_aa(seq2)
 
-syn_list<-is_synonymous(seq1,seq2) #wont work when 2/3 are the same (itll count only 1(it only counts that it fails))
+syn_list<-is_synonymous(seq1,seq2)
+syn<-sum(syn_list)
+nonsyn<-length(syn_list)-syn
 
-nonsyn<-sum(syn_list)
 
-syn<-length(syn_list)-nonsyn
+changeCounter<-function(seq){
+  i=3
+  pre=0
+  seq_Syn=0
+  
+  while (i<=nchar(seq)){
+    s<-substr(seq, pre, i)
+    
+    seq_Syn=seq_Syn+synpos(s)
+    pre=i+1
+    i=i+3
+  }
+  seq_NSyn=nchar(seq)-seq_Syn
+  #syn=paste0("Synonymous: ", seq_Syn)
+  #nsyn=paste0("Non-synonymous: ", seq_NSyn)
+  return(c(seq_Syn, seq_NSyn))
+}
 
-syn1<-synpos(seq1)
-nonsyn1<-nchar(seq1)-syn1
+seq1_data<-changeCounter(seq1)
+seq2_data<-changeCounter(seq2)
 
-syn2<-synpos(seq2)
-nonsyn2<-nchar(seq2)-syn2
+syn_sites<-(seq1_data[1]+seq2_data[1])/2
+nsyn_sites<-(seq1_data[2]+seq2_data[2])/2
+```
+```{r seq conclusions, echo=FALSE}
+cat("Seq1:\n\tSynonymous changes:", seq1_data[1], "\n\tNon-synonymous changes:", seq1_data[2])
+cat("\nSeq2:\n\tSynonymous changes:", seq2_data[1], "\n\tNon-synonymous changes:", seq2_data[2])
+
+cat("\n\nSynonymous sites:", syn_sites, "\nNon-synonymous sites:", nsyn_sites)
 
 ```
 
@@ -332,16 +375,36 @@ First, you will obtain noncoding sequences of this gene for all species. To do t
 x<-efetch("NC_046679", db="nucleotide", rettype="gb", retmode="text", strand=1, seqstart=16336491, seqstop=16337172)
 con <- content(x, as = "textConnection")
 readLines(con)
+
+#Get D.melanogaster
+y<-efetch("NT_033777", db="nucleotide", rettype="gb", retmode="text", strand=2, seqstart=5976177, seqstop=5976817)
+con <- content(y, as = "textConnection")
+#readLines(con)
+
+#Get D.simulans
+z<-efetch("NC_052523", db="nucleotide", rettype="gb", retmode="text", strand=2, seqstart=2470507, seqstop=2471257)
+con <- content(z, as = "textConnection")
+#readLines(con)
+
+#Get D.erecta
+a<-efetch("NW_020825194", db="nucleotide", rettype="gb", retmode="text", strand=1, seqstart=26500029, seqstop=26500718)
+con <- content(a, as = "textConnection")
+#readLines(con)
+
+#Get D.elegans
+b<-efetch("NW_024545863", db="nucleotide", rettype="gb", retmode="text", strand=2, seqstart=12746083, seqstop=12746802)
+con <- content(b, as = "textConnection")
+#readLines(con)
 ```
 > <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="2"> The `readLines()` function prints the entry in GenBank format. Locate the feature "CDS" to find the coordinates of the coding region of the gene _obp83b_ in this species.</font>
 
 Once you know the coordinates of CDS, you can extract 5' and intron sequences:
 
 <!-- replace R with {r} to execute the code when knit -->
-   ```R
+```{r}
     ## example for D.pseudobscura
     ## download the complete gene region
-    efetch("NC_046679", db="nucleotide", rettype="fasta", retmode="text", strand=1, seqstart=16336491,      seqstop=16337172, outfile="divergence/Dpse_opb83.fasta")
+    efetch("NC_046679", db="nucleotide", rettype="fasta", retmode="text", strand=1, seqstart=16336491,      seqstop=16337172, outfile="divergence/Dpse_obp83b.fasta")
 
     ## create an object with the sequence of the complete gene region
     sequence<-read.dna("divergence/Dpse_obp83b.fasta", format="fasta")
@@ -358,15 +421,15 @@ Once you know the coordinates of CDS, you can extract 5' and intron sequences:
     seqnc<-updateLabel(seqnc, labels(seqnc), "Dpse_obp83b")
 
     ## write a fasta file with noncoding sequences of the opb83b gene of ALL SPECIES (with append=TRUE, if your run this script for all species, all sequences will be added to the same file; remember to change the ids in each case)
-    write.dna(seqnc, format="fasta", file="divergence/obp83b_nc.fasta", append=TRUE)
-   ```
+    write.dna(seqnc, format="fasta", file="divergence/obp83b_cds.fasta", append=TRUE)
+```
 
 Now we can align the non-coding sequences and estimate the number of substitutions per site (_K_<sub>NC</sub>) of the _obp83b_ gene. For nucleotide divergences (without any distinction of positions, just total divergence) you can use the function `dist.dna()` from the package `ape`.
 
 <!-- replace R with {r} to execute the code when knit -->
-   ```R
+```{r}
     ## read the noncoding sequences
-    myseqs<-read.dna("divergence/obp83b_nc.fasta", format="fasta")
+    myseqs<-read.dna("divergence/obp83b_cds.fasta", format="fasta")
 
 
     ## visualize the sequences
@@ -386,7 +449,7 @@ Now we can align the non-coding sequences and estimate the number of substitutio
 
     ## noncoding divergences in the opb83b gene
     dist.dna(nc)
-   ```
+```
 ***
 <div style="background-color:#FFDAA120">
 <div style="background-color:#FFDAA1">
@@ -398,20 +461,29 @@ Fill empty cells in the following tables with the results obtained in the differ
 
 **Table 1.** Divergence in the coding region of the gene _opb83b_(**_K_<sub>a</sub> and _K_<sub>s</sub> values are above and below the diagonal, respectively**)
 ```{r echo=FALSE, results='asis'}
-cells <- c("**---------**","","","","","","**---------**","","","","","","**---------**","","","","","","**---------**","","","","","","**---------**")
+cells <- c("**---------**","0.01992201","0.03931737","0.03749267","0.07829961",
+           "0.1256942","**---------**","0.02555604","0.02529429","0.07511411",
+           "0.3234201","0.3617048","**---------**","0.03576413","0.08614269",
+           "0.5494927","0.7103626","0.6182696","**---------**","0.07112614",
+           "0.9158393","0.9289957","1.4340955","1.0414168","**---------**")
 table <- matrix(cells, nrow=5, ncol=5, byrow=T)
-colnames(table) <- c("Dmel", "Dsim", "Dyak", "Dana", "Dpse")
-rownames(table) <- c("Dmel", "Dsim", "Dyak", "Dana", "Dpse")
+colnames(table) <- c("Dmel", "Dsim", "Dere", "Dele", "Dpse")
+rownames(table) <- c("Dmel", "Dsim", "Dere", "Dele", "Dpse")
 knitr::kable(table)
+
 ```
 
 
 Divergence in the non-coding regions of the gene _opb83b_ (**Fill in the table with _K_<sub>NC</sub> values above the diagonal**)
 ```{r echo=FALSE, results='asis'}
-cells <- c("**---------**","","","","","**---------**","**---------**","","","","**---------**","**---------**","**---------**","","","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**","**---------**")
+cells <- c("**---------**","0.06368852","0.12667685","0.11196991","0.14909196",
+           "**---------**","**---------**","0.09786105","0.12706643","0.15745580",
+           "**---------**","**---------**","**---------**","0.13419579","0.22224915",
+           "**---------**","**---------**","**---------**","**---------**","**---------**",
+           "**---------**","**---------**","**---------**","**---------**","**---------**")
 table <- matrix(cells, nrow=5, ncol=5, byrow=T)
-colnames(table) <- c("Dmel", "Dsim", "Dyak", "Dana", "Dpse")
-rownames(table) <- c("Dmel", "Dsim", "Dyak", "Dana", "Dpse")
+colnames(table) <- c("Dmel", "Dsim", "Dere", "Dele", "Dpse")
+rownames(table) <- c("Dmel", "Dsim", "Dere", "Dele", "Dpse")
 knitr::kable(table)
 ```
 
@@ -421,32 +493,33 @@ knitr::kable(table)
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r, echo=FALSE}
+cat("The average values for each species are as follows: Dmel: 0.47611, Dsim: 0.66702, Dere: 1.02618, and Dele: 1.041416. These values show a significant increase, suggesting a rapid evolution of genes.
+For the protein, the averages for non-synonymous substitutions are: Dmel: 0.043757, Dsim: 0.041988, Dere: 0.060953, and Dele: 0.0711261. When we compare these to the synonymous substitution averages, we observe that the non-synonymous averages are significantly lower. This indicates negative selection, suggesting that the protein is also undergoing evolutionary changes.")
 ```
 
 **2\. In which of the analysed positions (synonymous, nonsynonymous or noncoding) are evolutionary distances higher? What is the reason for this, in your opinion?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r, echo=FALSE}
+cat("For synonymous positions. This may be because they don't affect the function of the gene, they have no functional constraints, so more of them can happen without impacting the organism negatively.")
 ```
 
 **3\. Could you consider some of the observed changes as selectively neutral? Which ones?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r, echo=FALSE}
+cat("The mutations in non-coding regions can be considered as selectively neutral changes because they don't affect the evolution of genes")
 ```
 
 **4\. Which species would share a more recent common ancestor? In which evolutionary distances (synonymous, nonsynonymous or noncoding) should we focus to know that?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r, echo=FALSE}
+cat("We have observe the non synonymous regions for the smallest difference, the smallest difference in divergence is Dsim with Dmel with a difference in divergence of 0.0018 aprox.")
 ```
 </div>
 
@@ -459,16 +532,16 @@ Some of the most direct applications of nucleotide divergence estimates are the 
 As an example, the following code reconstructs the phylogenetic relationships between the five species based on synonymous divergences. It uses the synonymous divergence matrix estimated above and the [Neighbor Joining algorithm](ttps://academic.oup.com/mbe/article/4/4/406/1029664?login=false)
 
 <!-- replace R with {r} to execute the code when knit -->
-   ```R
-    library(phangorn)
-    
-    cds <- read.alignment("divergence/obp83b_cds_renamed_aln.fasta",format="fasta")
-    
-    ## NJ tree
-    syntree <- NJ(kaks(cds)$ka)
-    plot(syntree)
-    write.tree(syntree, file="divergence/obp83b_Ks.tree")
-   ```
+```{r}
+library(phangorn)
+
+cds <- read.alignment("divergence/obp83b_cds_renamed_aln.fasta",format="fasta")
+
+## NJ tree
+syntree <- NJ(kaks(cds)$ka)
+plot(syntree)
+write.tree(syntree, file="divergence/obp83b_Ks.tree")
+```
 
 By definition, a Neighbor Joining tree is an **unrooted tree**.  There is no root node that is the common ancestor of all species. With an unrooted tree, we can tell the phylogenetic relationships between species (i.e. which species have a more recent common ancestor compared to the other species), but not the direction of evolution (i.e. which species arose more recently). In addition, branch lengths represent substitutions per site, in this case the number of substitutions per site. Sometimes, as in our example, we know which branch contains the root of the species under study (see Figure 2).
 
@@ -480,33 +553,41 @@ By definition, a Neighbor Joining tree is an **unrooted tree**.  There is no roo
 To calculate the evolutionary rate of the Obp83b protein, we need an ultrametic tree, i.e. a rooted tree in which the branch lengths represent time (not substitutions) and at least one calibration point (i.e. a dated node). 
 
 <!-- replace R with {r} to execute the code when knit -->
-   ```R
-    ## read the tree to a phylo class object
-    tree<-read.tree(file="divergence/obp83b_Ks.tree")
+```{r}
+## read the tree to a phylo class object
+tree<-read.tree(file="divergence/obp83b_Ks.tree")
 
-    ## plot the unroted tree
-    plot(tree, main="Obp gene tree (number of nonsynonymous substitutions per site)")
+## plot the unroted tree
+plot(tree, main="Obp gene tree (number of nonsynonymous substitutions per site)")
 
-    ## root the tree using Drosophila pseudoobscura as the outgroup
-    rooted<-root(tree, "Dpse_obp83b")
-    plot(rooted)
-    add.scale.bar(ask=TRUE)
+## root the tree using Drosophila pseudoobscura as the outgroup
+rooted<-root(tree, "Dpse_obp83b")
+plot(rooted)
 
-    ## set calibration
-    ## select the node corresponding to the ancestor of D. melanogater, D. simulans and D. erecta, and     specify a range of 6.1-18.9 MYA
-    cal <- makeChronosCalib(rooted, interactive = TRUE)
 
-    ## fit the model (penalized likelihood)
-    chr<-chronos(rooted, model="clock", calibration = cal)
+## set calibration
+## select the node corresponding to the ancestor of D. melanogater, D. simulans and D. erecta, and     specify a range of 6.1-18.9 MYA
+mrca_node <- getMRCA(rooted, c("Dmel_obp83b", "Dsim_obp83b", "Dere_obp83b")) 
+cal <- data.frame(
+    node = mrca_node,
+    age.min = 6.1,
+    age.max = 18.9
+)
 
-    # plot de calibrated (ultrametric) tree
-    plot(chr, main="calibrated tree (million years)")
-    axisPhylo()
-    tiplabels()
-    nodelabels()
-    chr$edge
-    chr$edge.length
-   ```
+
+
+## fit the model (penalized likelihood)
+chr<-chronos(rooted, model="clock", calibration = cal)
+
+# plot de calibrated (ultrametric) tree
+plot(chr, main="calibrated tree (million years)")
+axisPhylo()
+tiplabels()
+nodelabels()
+chr$edge
+chr$edge.length
+```
+
 
 > <i class="fas fa-info-circle" style="font-size:20px;"></i><font size="2"> The `tiplabels()` and `nodelabels()` functions will tell you the id of each node in the tree (they are indicated in the tree). With `chr$edge` and `chr$edge.length` you can find the correspondence between edge numbers and edge lengths, and thus **the estimated date in million years of each node**.</font>
 
@@ -520,6 +601,15 @@ You now have all the parameters you need to calculate the evolutionary rate of t
 </div>
 Calculate the evolutionary rate (_r_) of the Obp83b protein in _Drosophila_ using the divergences and times estimated in this practice. Think carefully about which divergence to use for this calculation and apply the formula. 
 </div>
+```{r}
+kaks(cds)$ka
+divergence_times <- c(dele_dere = 21, dele_dpse = 18, dele_dsim = 22, dele_dmel = 22)
+ks_values <- c(dele_dere = 0.03576413, dele_dpse = 0.07112614, dele_dsim = 0.02529429, dele_dmel = 0.03749267)
+evolutionary_rates <- ks_values /2*divergence_times
+mean_evolutionary_rate <- mean(evolutionary_rates)
+mean_evolutionary_rate
+cat("The evolutionary rate is", mean_evolutionary_rate)
+```
    
 ***
 
@@ -577,44 +667,140 @@ Calculate the evolutionary rate (_r_) of the Obp83b protein in _Drosophila_ usin
 
 Using the data in Table 2, calculate the rate of evolution of the protein RpL32 in _Drosophila_ and answer the following questions. Note that for this gene _D. elegans_ is replaced by _D. serrata_.
 
+```{r Final questions}
+
+dir.create("Final_ass")
+
+#RUN ONLY THE FIRST TIME
+#efetch("NT_033777", db="nucleotide", rettype="fasta_cds_na", retmode="text", strand=2, seqstart= 30045229, seqstop=30046161, outfile="./Final_ass/Dmel_cds.fasta")
+
+#efetch("NC_052523", db="nucleotide", rettype="fasta_cds_na", retmode="text", strand=2, seqstart=26165102, seqstop=26166121, outfile="./Final_ass/Dsim_cds.fasta")
+
+#efetch("NW_020825194", db="nucleotide", rettype="fasta_cds_na", retmode="text", strand=1, seqstart=2228933, seqstop=2229932, outfile="./Final_ass/Dere_cds.fasta")
+
+#efetch("NW_018367383", db="nucleotide", rettype="fasta_cds_na", retmode="text", strand=2, seqstart=6093667, seqstop=6094458, outfile="./Final_ass/Dser_cds.fasta")
+
+#efetch("NC_046679", db="nucleotide", rettype="fasta_cds_na", retmode="text", strand=1, seqstart=811678, seqstop=812625, outfile="./Final_ass/Dpse_cds.fasta")
+
+#Delete entry repetitions in Dere_obp83b_cds.fasta, Dmel_obp83b_cds, Dsim_obp83b_cds
+
+new_names<-c("Dmel", 
+             "Dsim", 
+             "Dere", 
+             "Dser", 
+             "Dpse")
+for (name in new_names){
+ EntryName("Final_ass", name)
+}
+system("mv Final_ass/obp83b_cds.fasta Final_ass/fa_cds.fasta")
+```
+
+```{r alignment}
+## read the noncoding sequences
+myseqs<-read.dna("Final_ass/fa_cds.fasta", format="fasta")
+
+## multiple sequence alignment
+myalign <- clustal(myseqs)
+
+## write the alignment to file
+write.dna(myalign, file="Final_ass/fa_aln.fasta", format="fasta")
+a<-read.dna("Final_ass/fa_aln.fasta", format="fasta")
+
+old_names<-get.fasta.name("Final_ass/fa_aln.fasta")
+new_names<-c("Dmel", 
+              "Dsim", 
+              "Dere", 
+              "Dser", 
+              "Dpse")
+ref2 <- data.frame(old_names, new_names)
+rename.fasta(infile = "Final_ass/fa_aln.fasta", ref_table = ref2, outfile = "Final_ass/fa_renamed_aln.fasta")
+
+## read the noncoding alignment
+cds <- read.alignment("Final_ass/fa_renamed_aln.fasta", format="fasta")
+
+kaks(cds)$ks #synonymous
+kaks(cds)$ka #Non-synomymous
+```
+```{r phylogenetic tree}
+library(phangorn)
+
+cds <- read.alignment("Final_ass/fa_renamed_aln.fasta",format="fasta")
+
+syntree <- NJ(kaks(cds)$ks)
+write.tree(syntree, file="Final_ass/fa_Ks.tree")
+plot(syntree)
+
+tree<-read.tree(file="Final_ass/fa_Ks.tree")
+
+rooted<-root(tree, "Dere") #We choose D.erecta as outgroup because it is not in any cluster
+
+mrca_node <- getMRCA(rooted, c("Dser", "Dpse")) #I choose this two because they form a cluster
+
+#I use the same distances that in the example
+cal <- data.frame(
+    node = mrca_node,
+    age.min = 6.1,
+    age.max = 18.9
+)
+  
+    chr<-chronos(rooted, model="clock", calibration = cal)
+
+plot(chr, main="calibrated tree (million years)")
+axisPhylo()
+tiplabels()
+nodelabels()
+chr$edge
+chr$edge.length
+```
+
+
+
 **5\. Which is the evolutionary rate of the RpL32 protein?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
+```{r FA_5}
+divergence_times <- c(dmel_dsim = 6.1, dmel_dere = 66, dmel_dser = 66, dmel_dpse = 66)
+ks_values <- c(dmel_dsim = 0.021182090, dmel_dere = 0.04469301, dmel_dser = 0.01236601, dmel_dpse = 0.01143935)
+evolutionary_rates <- ks_values /2*divergence_times
+mean_evolutionary_rate <- mean(evolutionary_rates)
+mean_evolutionary_rate
+```
+```{r FA_5.1, echo=FALSE}
+cat("The evolutionary rate is", mean_evolutionary_rate)
 ```
 
-```
 
 **6\. Are the evolutionary rates of the two proteins studied in this practice different?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r FA_6, echo=FALSE}
+cat("Yes, the evolutionary rate of obp83b was 0.4265788 while this one is 0.5812629")
 ```
 
 **7\. Can you provide a molecular evolutionary explanation for the answer to question 6?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r FA_7, echo=FALSE}
+cat("Because of difference of presence of variables like functional constraints, selective pressures, genetic redundancy, environmental interactions, and protein essentiality which can account for the more rapid evolutionary rate of one of the 2 proteins")
 ```
 
 **8\. Which of the other positions examined here (i.e. nonsynonymous, noncoding, the full cds...) could have been used to reconstruct the phylogenetic tree prior to calibration?**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
+```{r FA_8, echo=FALSE}
+cat("The CDS could have been used, particularly when combined with synonymous and noncoding regions to balance the evolutionary signals.")
 ```
 
-
-```
 **9\. Looking at your results and the tree in Figure 2, do you think that the fact that some of the species are not the same in both analyses (_D. elegans_ in obp83b and _D. serrata_ in rpL32) influences the results? Discuss**
 
 #### <i class="fas fa-comment-dots"></i> Answer:
 
-```
-
+```{r FA_9, echo=FALSE}
+cat("The fact that they are different species probably does affect the analysis, between species there may be differences like observed evolutionary rates, divergence times, selective pressures, and lineage-specific evolutionary dynamics, which affect the analysis. We chould use the same set of species for both genes for a better analysis.")
 ```
 </div>
 

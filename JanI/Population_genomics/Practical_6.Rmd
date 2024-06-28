@@ -1,0 +1,529 @@
+---
+title: <img src="http://www.ub.edu/molevol/PG&ME/UB-logo.png" style="float:right;" width="40%"/></br></br>**Nucleotide substitution models and sequence evolution**
+date: "June 03, 2024"
+output:
+  html_document:
+    self_contained: yes
+    theme: yeti
+    font: 16px
+    css: styles.css
+subtitle: Computer practice 6 - Population Genetics & Molecular Evolution - Bachelor's Degree in Bioinformatics
+---
+
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/v4-shims.css">
+  <meta name="viewport" content="width=device-width;initial-scale=1.0">
+</head>
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+<div style="background-color: #86CBBB; 1px; height:3px"></div>
+<br>
+<div style = "background-color:#86CBBB; padding: 10px">
+  <i class="fas fa-bullseye" style="font-size:20px;"></i> **Main goals of the session**
+
+  1. Understand the difference between **differences** and **substitutions**
+  2. Estimate **corrected evolutionary distances**
+  3. Select the best-fit **nucleotide substitution model** for a set of aligned sequences
+</div>
+
+***
+
+## 1. Practicals organization
+
+The main aim of this session is to understand the importance of "substitution models" in molecular evolution. In particular, exercises will focus on the important distinction between the number of differences observed when comparing nucleotide sequences and the **actual** number of substitutions that have occurred in their divergence. First, you will work with the [**Jukes and Cantor**](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=2ahUKEwiguNHNw7_pAhWQDxQKHWg_BXUQFjAAegQIBBAB&url=http%3A%2F%2Fgarfield.library.upenn.edu%2Fclassics1990%2FA1990CZ67100002.pdf&usg=AOvVaw1RCaa0DFMshAKZEZBtsdlD) model and the famous distance correction based on this model. You will also simulate nucleotide sequences under a more complex substitution model and use "Model Test" to select the best-fitting model underlying the data.
+
+In this lesson we will assume that
+
+i) **The length of the sequences studied is finite** (i.e. multiple mutations can occur at the same position, some of them even back to an ancestral nucleotide).
+
+ii) **The sequences studied have evolved independently since their divergence from a common ancestor** (i.e. the substitutions that have occurred in each descendant lineage are independent).
+
+iii) **the mutation rate is constant over time and the same for all lineages and positions**.
+
+***
+
+Throughout the document you will see different icons whose meaning is:
+
+> <p><i class="fas fa-info-circle" style="font-size:15px;"></i><font size=2> : Additional or useful information</font></p>
+> <p><i class="fa fa-cogs" style="font-size:15px;"></i><font size=2>  : Practical exercise</font></p>
+> <p><i class="fa fa-key" style="font-size:15px;"></i><font size=2>  : Hint to solve an exercise or to do a task</font></p> 
+> <p><i class="fas fa-comment-dots" style="font-size:15px;"></i><font size=2>  : Slot to answer a question</font></p>
+> <p><i class="fas fa-tasks" style="font-size:15px;"></i><font size=2>  : Problem or task to be solved</font></p>
+
+***
+
+## 2. Installing R packages
+
+You can use either the `R` console in the terminal or `RStudio` for this exercise. If you don't have `R` installed, you can download the appropriate package for your system [here](https://cran.rstudio.com/). To install `RStudio`, go to [this page](https://posit.co/download/rstudio-desktop/) and follow the instructions.
+
+Before starting the exercises, you will need to install the `phangorn` library. This package includes a function for comparing different nucleotide substitution models.
+
+Open the `R` console in the terminal (or in `RStudio`) and type:
+
+<!-- replace R with {r} to execute the code when knit -->
+```{r}
+#install.packages("phangorn") # Do not run if you have installed phangorn in practice 4.
+```
+
+***
+
+> <p><i class="fas fa-info-circle" style="font-size:20px;"></i><font size=2> The most popular and flexible software for performing model selection is **ModelTest** [(Darriba et al. 2019)](https://academic.oup.com/mbe/article/37/1/291/5552155). The latest version of this program can be downloaded [here](https://github.com/ddarriba/modeltest). However, for practical reasons, we decided not to use this software in these exercises, as it requires compilation and depends on some third-party dependencies.</font></p>
+ 
+***
+ 
+## 3. Example 1
+
+Given that DNA sequences can only present four different states (A, T, C, G), the number of observed and actual substitutions can be different when comparing sequences of **finite length** (the more divergent the sequences the greater this difference will be).
+</b>
+
+1. Let’s see an example of this problem. Read carefully the explanation of the different steps we go through for the completion of the simulations and reproduce the process in the `R` terminal (or `RSsudio`):
+
+   + HOW MANY SUBSTITUTIONS actually happened in 2 sequences that diverged G generations ago from a common ancestor (ancestral sequence)? Let's consider a substitution rate (_r_) is $10^-6$ (substitutions per site per generation). **Note that we do not need to know the sequence of these two descendants to calculate the expecter number of substitutions** (Figure 1), which only depends on the mutation rate and the time since the split. The expected number of substitutions in each lineage after G generations can be obtained using the Poisson distribution (which describe the distribution of rare events in a large population):
+
+```{r}
+subst.rate <- 1e-6
+G <- 1e6
+L <- 100
+n.subst.lineage.1 <- rpois(n=1,lambda=subst.rate*L*G)
+n.subst.lineage.1
+n.subst.lineage.2 <- rpois(n=1,lambda=subst.rate*L*G)
+n.subst.lineage.2
+```
+   
+   + Then, the **actual** number of substitutions between the two sequences should be the sum of those occurred in both lineages since the split:
+    
+```{r}
+total.subst <- n.subst.lineage.1 + n.subst.lineage.2
+total.subst
+```
+     
+***
+
+![](http://www.ub.edu/molevol/PG&ME/P6/substitutions.png){width=70%}
+
+**Figure 1**. Expected number of substitutions in two lineages after their split from a common ancestor. The actual number of substitutions in each lineage will be a random sampling from a Poisson distribution with lambda = _r_ x T
+
+***
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Questions
+</h3>
+</div>
+
+**1\. Which would be the actual evolutionary divergence (_K_= number of substitutions per site) between the two descendant sequences in your simulated replicate?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("The evolutionary divergence would be" , total.subst/L)
+```
+
+**2\. If you could compare the sequences after time G, would you see all these substitutions? Why?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("No, the amount of changes can't be observed with only the resulting sequence.\n")
+```
+
+**3\. Should the estimate in Question 1 be corrected, and if so, which substitution model would you use?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("Yes, the estimate should be corrected to account for multiple hits. I would use Jukes and Cantor as it is a simple method")
+```
+
+</div>
+
+***
+
+## 4. Example 2
+
+In this section you will simulate the evolution of two DNA sequences under the same scenario as in Example 1 and the **Jukes and Cantor** model. In this case, you start with an ancestral sequence (a simulated sequence; 100 bp), estimate the number of substitutions in the two lineages, randomly choose a position in the sequence to introduce the substitution, and replace the existing nucleotide with one of the other three (also randomly).
+
+1. Enter the `R` console and type the following commands:
+
+   + generating the ancestral sequence (100 nucleotides):
+    
+```{r} 
+Tnt <- c("A","C","G","T")
+L <- 100
+seq <- sample(x=Tnt, size=L, replace=TRUE, prob=c(0.25,0.25,0.25,0.25))
+seq
+```
+    
+   + set the Jukes and Cantor (JC) Rate matrix `Q`:
+    
+```{r} 
+Q <- matrix(1/3, ncol=4, nrow=4, dimnames=list(c("A","C","G","T"), c("A","C","G","T")))
+for(x in 1:4) {Q[x,x] <- 0; Q[x,x] <- -sum(Q[x,])}
+Q
+```
+    
+2. Let's write an <span style="color:darkblue;">**R function**</span>  defined as: `substitutions.on.sequence ()` to randomly choose the specific nucleotide change (e.g. A->G or A->C, etc..) for each substitution and the site among the L positions in the ancestral sequence `seq` where the change occurred (=to generate the two descendant sequences). The parameters of this function will be: _the ancestral sequence_, _the JC rate matrix_ and the _four possible states (nucleotides)_:
+  
+     <span style="color:darkblue;">`substitutions.on.sequence <- function(seq,substitutions,Q,Tnt) {`</span>
+
+   > <p><i class="fas fa-info-circle" style="font-size:20px;"></i><font size=2>  `seq` is a vector of symbols with length L in which each position can only take four possible states (e.g.., A, T, A, G, C ...etc.), `substitutions` is the total number of expected substitutions, `Q` is the instantaneous substitution rate matrix under a particular model (here the JC) and `Tnt` is a vector of C values containing the different symbols accepted in the sequence (the four nucleotides).</font></p>
+   
+   + The script continues as follows (NOTE that you defined `seq`in the example 2):</br>
+   
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`seq1 <- seq`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`len <- length(seq)`</span>
+      
+   + now, we select the sites where the substitutions will fall on (here we use a uniform probability, that is, all sites are equally likely to mutate):
+  
+
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`position.substitution <- floor(runif(n=substitutions ,min=1, max=len))`</span>
+
+        
+   + then, we check the nucleotide that is in the position that will mutate(`nti` = the position in the matrix that corresponds to the nucleotide that will change, e.g. A = 1) and therefore, which nucleotides can replace it ('rest` = the positions in the matrix that correspond to the three possible changes, e.g. C=2, T=3 and G=4):
+  
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`number.symbols <- c(1:length(Tnt))`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`for(ps in position.substitution) {`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`nti<-which(Tnt==seq1[ps])`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`rest.symbols<-number.symbols[-nti]`</span></br>
+      
+   + In the transition matrix `Q`, the sum of instantaneous rates for each of the three possible changes (`SQ`) is equal to 1 (remember that in `Q`, we do not consider the diagonal for this sum). Consider `cQ` as the cumulative probability of each of these changes (this is a trick to sample from an uniform distribution with probabilities 0.3333; see the loop below): 
+            
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`SQ<- 1`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`cQ<- 0`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`ntj<- 1`</span>
+         
+   + based on this probabilities, which is the new nucleotide (the `ntj` position in the matrix) after the substitution?:
+
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`ranp <- runif(1)`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`while(ntj > 0) {`</span>
+ 
+         
+   + calculate the (cumulative) probability of a substitution from nucleotide `nti` to `ntj`:
+           
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`cQ<-cQ+Q[nti,rest.symbols[ntj]]/SQ`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`if(ranp < cQ) {`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">` seq1[ps] <- Tnt[rest.symbols[ntj]]`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`ntj <- -1`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`}`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`ntj <- ntj+1`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`}`</span></br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`}`</span></br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:darkblue;">`seq1`</span></br>   
+     <span style="color:darkblue;">`}`</span></br>
+
+***
+
+Here you can find the complete R code for the function:
+
+```{r}
+substitutions.on.sequence<-function(seq,substitutions,Q,Tnt) {
+seq1 <- seq
+len <- length(seq)
+position.substitution <- floor(runif(n=substitutions,min=1,max=len))
+number.symbols <- c(1:length(Tnt))
+for(ps in position.substitution) {
+   nti <- which(Tnt==seq1[ps])
+   rest.symbols <- number.symbols[-nti]
+    SQ <- sum(Q[nti,-nti])
+    cQ <- 0
+    ntj <- 1
+    ranp <- runif(1)
+    while(ntj > 0) {
+      cQ <- cQ+Q[nti,rest.symbols[ntj]]/SQ
+      if(ranp < cQ) {
+        seq1[ps] <- Tnt[rest.symbols[ntj]]
+        ntj <- -1
+        }
+      ntj <- ntj+1
+    }
+  }
+seq1
+}
+```
+
+***
+
+3. Now, we can generate the two descendant sequences using the function:
+
+```{r}
+seq.ancestral <- seq
+seq.lineage.1 <- substitutions.on.sequence(seq.ancestral,n.subst.lineage.1,Q,Tnt)
+seq.lineage.2 <- substitutions.on.sequence(seq.ancestral,n.subst.lineage.2,Q,Tnt)
+```
+ 
+4. Now you can compare the three sequences:
+      
+```{r} 
+seq.ancestral
+seq.lineage.1
+seq.lineage.2
+```   
+
+5. Finally, we can build a matrix with the **evolutionary distances** (observed differences) and **actual substitutions** between the descendant sequences and between these sequences and the ancestral sequence:
+
+```{r}
+Diff <- matrix(0, nrow=3, ncol=2, dimnames=list(c("1 vs.2","anc vs.1","anc vs.2"),c("OBS","ACTUAL")))
+Diff[1,1] <- sum(seq.lineage.1 != seq.lineage.2)
+Diff[2,1] <- sum(seq.ancestral != seq.lineage.1)
+Diff[3,1] <- sum(seq.ancestral != seq.lineage.2)
+Diff[1,2] <- n.subst.lineage.1 + n.subst.lineage.2
+Diff[2,2] <- n.subst.lineage.1
+Diff[3,2] <- n.subst.lineage.2
+Diff
+```
+
+***
+
+## 5. Example 3
+
+In the **Jukes and Cantor** model, the relationship between observed (_p_) and actual (_K_) number of nucleotide substitutions per site is given by the following equation:
+
+<center>
+<font size="4">_K_ = - $\frac{3}{4}$ ln (1 – $\frac{4}{3}$ _p_)</font>
+</center>
+
+</br>
+
+Using this formula, we can calculate the theoretical curve of the relationship between these two quantities:
+   
+   + First, we create an incremental list of 30 divergence times (in years; assuming a generation time of 1 year):
+   
+```{r}
+subst.rate <- 1e-6
+par(mfrow=c(1,1))
+G.list <- seq(from=1e3, to=1e6, by=(1e6-1e3)/29)
+```
+
+   + The **expected** (=from theoretical curves) number of substitutions (red) and differences (black) per site for each of these divergence times are:
+     
+```{r}
+y1 <- seq(from=0,to=2*subst.rate*G.list[30], by=2*subst.rate*G.list[30]/29)
+plot(x=2*G.list, y=y1, ylim=c(0,2), type="l", col="red", xlab="Time (years)", ylab="Divergence")
+y2<-c(3/4-3/4*exp(-4/3*subst.rate*2*G.list)) # isolate p from the formula
+lines(x=2*G.list, y=y2, ylim=c(0,2), type="l", col="black")
+```
+      
+   + The number of **simulated** substitutions (red circles) and differences (black circles) per site in a sequence of 100 bp (using the R function generated above):
+  
+      + Simulate a new sequence of length 100:
+      
+```{r a1}
+L<-1e3
+seq.ancestral<-sample(x=Tnt,size=L,replace=TRUE,prob=c(0.25,0.25,0.25,0.25))
+```
+
+   + Set the Jukes and Cantor rate matrix:
+        
+```{r}
+Q.JC <-matrix(1/3, ncol=4, nrow=4,dimnames=list(c("A","C","G","T"), c("A","C","G","T")))
+for(x in 1:4) {Q.JC[x,x] <-0; Q.JC[x,x]<- -sum(Q.JC[x,])}      
+```
+
+  + Estimate actual and corrected divergences at different times (contained in the `G.list` vector, see above):
+       
+```{r}
+p.obs  <- array(0,30)
+K.act <- array(0,30)
+i<-1
+for(g in G.list) {
+    n.subst.lineage.1 <- rpois(n=1,lambda=subst.rate*L*g)
+    n.subst.lineage.2 <- rpois(n=1,lambda=subst.rate*L*g)
+    seq.lineage.1 <- substitutions.on.sequence(seq.ancestral,n.subst.lineage.1,Q.JC,Tnt)
+    seq.lineage.2 <- substitutions.on.sequence(seq.ancestral,n.subst.lineage.2,Q.JC,Tnt)
+    p.obs[i] <- sum(seq.lineage.1 != seq.lineage.2)/length(seq.ancestral)
+    K.act[i] <- (n.subst.lineage.1+n.subst.lineage.2)/length(seq.ancestral)
+    i<-i+1
+ }
+```
+      
+  + Plot together:
+        
+```{r}
+y1 <- seq(from=0,to=2*subst.rate*G.list[30], by=2*subst.rate*G.list[30]/29)
+plot(x=2*G.list, y=y1, ylim=c(0,2), type="l", col="red", xlab="Time (years)", ylab="Divergence")
+y2<-c(3/4-3/4*exp(-4/3*subst.rate*2*G.list))
+lines(x=2*G.list, y=y2, ylim=c(0,2), type="l", col="black")
+lines(x=2*G.list,y=p.obs ,type="p",col="black")
+lines(x=2*G.list,y=K.act, type="p",col="red")
+```
+
+***
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Questions
+</h3>
+</div>
+
+**4\. Why don't the simulated values fit perfectly with those expected from the theory (theoretical curves)?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("Inherent variability of genetic sequences\n")
+```
+
+**5\. Based on the plot, which is the main consequence of not correcting divergences for multiple hits when calculating evolutionary rates?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("Due to the variance not correcting for hits will cause a cascading effect where hits will be more divergent every time")
+```
+
+**6\. Looking at the black curve, do you think there is any limit to the Jukes and Cantor correction? Could this correction be applied in all cases, regardless of divergence times?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("Corrections in Jukes and Cantor are limited because when divergent time increses, so do multiple hits and the model may no t account for all the complexities of the substitution process. This is also why it can't be applied to all cases regardless of divergent times")
+```
+
+</div>
+
+***
+
+## 6. Example 4
+
+Let's now work with a more complex model, the HKY85 model [Hasegawa, Kishino and Yano 1985](https://link.springer.com/article/10.1007/BF02101694), which allows **unequal base frequencies** and distinguishes between **transition and transversion** rates.
+
+   + First, we build the rate matrix using the HKY model for a given set of parameter values. To set unequal equilibrium nucleotide frequencies:
+       
+```{r}
+p.A <- 0.55
+p.C <- 0.06
+p.G <- 0.36
+p.T <- 1-(p.A+p.C+p.G)
+```
+
+   + and different rates for transitions and transversions:
+    
+```{r}
+p.S <- 0.75
+p.V <- 1-p.S
+```
+
+   + the final HKY rate matrix is:
+
+```{r}
+Q.HKY <- c(0,p.C*p.V,p.G*p.S,p.T*p.V,p.A*p.V,0,p.G*p.V,p.T*p.S,p.A*p.S,p.C*p.V,0,p.T*p.V,p.A*p.V,p.C*p.S,p.G*p.V,0)
+Q.HKY <- matrix(Q.HKY,ncol=4,nrow=4,byrow=TRUE,dimnames=list(c("A","C","G","T"), c("A","C","G","T")))
+for(x in 1:4){Q.HKY[x,x] <- 0; Q.HKY[x,x] <- -sum(Q.HKY[x,])}
+Q.HKY
+```
+***
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Exercise
+</h3>
+</div>
+
+**Simulate** an ancestral DNA sequence (`ex4.ancestral.seq`) and two descendant sequences (`ex4.seq.lineage.1` and `ex4.seq.lineage.2`) as in the example 2 (step 1) **but using the nucleotide frequencies in the example 4**. Then, use function `substitutions.on.sequence` with the `Q.HKY` matrix to generate two descendant sequences after G generations.</br>
+
+**Generate a file** (simulated.fasta) with the three sequences **in FASTA format** (the ancestral and the two descendant sequences). To do that, you can use the function `writeLines()` with `sep=""`, to print the clean sequence in the screen. Copy and paste the sequences in the file in a correct fasta format.
+
+</div>
+
+```{r myfunction}
+SeqGen<-function(f_A, f_C, f_G, f_T, L){
+  Tnt <- c("A","C","G","T")
+  seq <- sample(x=Tnt, size=L, replace=TRUE, prob=c(f_A,f_C,f_G,f_T))
+  seq
+}
+
+substitutions.on.sequence <- function(seq, Q, G) {
+  for (gen in 1:G) {
+    pos <- sample(1:length(seq), 1)
+    current_base <- seq[pos]
+    new_base <- sample(c("A", "C", "G", "T"), 1, prob = Q[rownames(Q) == current_base, ])
+    seq[pos] <- new_base
+  }
+  return(seq)
+}
+```
+
+```{r ancestral descendants}
+ex4.ancestral.seq<-SeqGen(p.A, p.C, p.G, p.T, 100)
+Q<-matrix(c(0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0), nrow=4, byrow=TRUE)
+colnames(Q)<-rownames(Q)<-c("A", "C", "G", "T")
+
+
+generations<-1000
+
+ex4.seq.ancestral <- seq
+ex4.seq.lineage.1 <- substitutions.on.sequence(ex4.ancestral.seq, Q, generations)
+ex4.seq.lineage.2 <- substitutions.on.sequence(ex4.ancestral.seq, Q, generations)
+f<-file("simulated.fasta")
+writeLines(c(">Ancestral\n", ex4.seq.ancestral, "\n>S1\n", ex4.seq.lineage.1, "\n>S2\n", ex4.seq.lineage.2), sep="", f)
+close(f)
+```
+
+
+
+***
+
+   + Now you can use the function `modelTest()` from the package `phangorn` to find the best-fit substitution model underlying the simulated alignment. This program compares the probability of observing the data under different substitution models and estimates the matrix and the base frequencies for the best model.
+
+```{r desc tester}
+library(phangorn)
+
+data<-read.phyDat(file="simulated.fasta", format="fasta")
+test<-modelTest(data)
+best_model<- as.pml(test)
+best_model
+```
+
+***
+
+<div style="background-color:#FFDAA120">
+<div style="background-color:#FFDAA1">
+<h3>
+<i class="fa fa-cogs"></i> Questions
+</h3>
+</div>
+
+**7\. Is the HKY the best model?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("No, if we look at the modelTest output the best model is Jukes-Cantor, this is because it has lower AIC and BIC values compared to the HKY model.")
+```
+
+**9\. Do you think it is possible that Model Test estimate a model different from the HKY despite having simulated our sequences under this model? Why?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("Yes, it can happen, it may be because the data would fit better with another model like JC.")
+```
+
+**10\. Are the parameters of the model (probabilities and frequencies) correctly estimated by Model Test (=are the values similar to those of matrix `Q.HKY`)?**
+
+#### <i class="fas fa-comment-dots"></i> Answer:
+
+```{r, echo=FALSE, comment=""}
+cat("No, because the Model Test (Jukes-Cantor) assumes the same frequency for all bases (0.25), and in the Q.HKY matrix we can see that the base frequecies are not equal, indicating a mismatch in the model estimation.")
+```
+
+</div>
+
+***
+
+<h1>Deliver info</h1>
+<p><i class="fa fa-upload"></i><strong> Deliver this document in <a href="https://aula.esci.upf.edu/mod/assign/view.php?id=242857">AULAESCI</a> with your answers</strong></p>
+<p><i class="fa fa-clock"></i> <strong>Deadline</strong>: June 28, 2024 - 23:59</p>
+<p><i class="fa fa-envelope"></i> <strong>Doubts?</strong> <a href="mailto:alejandro.sanchez@prof.esci.upf.edu" class="email">alejandro.sanchez@prof.esci.upf.edu</a></p>
+
+***
+
