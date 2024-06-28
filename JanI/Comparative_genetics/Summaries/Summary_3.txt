@@ -1,0 +1,47 @@
+Phylogenetic tree: Branching diagram showing inferred evolutionary relations based on similarities/differences in their characteristics
+	Important, as biological systems are the result of evolutionary processes, and trees represent this process
+	
+	External nodes: represent genes, popultions or species
+	INternal nodes: ancestral info about clustered species
+	Branch: Relationship between sequences
+	
+	Groups:
+	Monophyletic: Takes all descendants from an ancestor.
+	Paraphyletic: Doesen't take all descendants from ancestor
+	Polyphyletic: Nodes are from 2 different common ancestors
+
+How do we reconstruct trees: Molecular phylogenetics (DNA-based)
+	Exhaustive: Make all trees, later choose
+	Heuristic: Find optimal tree every time to avoid testing them all
+	
+	This approaches can use different methods:
+		Distance-based(NJ, UPGMA): No errors -> tree can be obtained in polynomial time
+		Maximum parsimony: Finds tree that implies minium nuber of changes across its branches
+		Probabilistic:
+			Max-lik: P of obtaining the data given a hypothesis P(D|H)
+				We keep the hypothesis of greatest P, we use heuristics to find it
+			Bayseisan analysis: the probability of the hypothesis being correct given the data
+			
+			Heterogenity rate: Different P for different sites (due to evolutionary constraints)
+	
+	AIC: Model selection-> estimates quality of 1 model with respect to the others (Min value is best)
+		better likelihood with the least number of parameters
+	
+	Reconciliation algorithms: 
+		Hard: resolve incongruences between gene and species trees (reduce number of dupl and losses)
+		Soft: Allow incongruences below a given support value
+	
+	Species overlap: explained in previous
+
+Inferring relative timing of spec and dupl:
+	Molecular clock: substitutions acumulate linearly with time
+		Nonsyn: Aminoacid is affected -> orthologs have this ^^
+		Syn: Aminoacid is not affected
+		
+		Radical: Change in aminoacid charge
+		Conservative: No change in aminoacid charge
+	
+	dN/dS(=w) can be used to compute natural selection effect on genes -> best way to look at this changes is through aln or trees
+	
+	
+

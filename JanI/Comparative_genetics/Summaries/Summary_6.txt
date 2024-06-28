@@ -1,0 +1,59 @@
+Phylogenetic profiling and co-evolution
+
+Assign comparative functions by comparing genome analysis: Phylogenetic profiles
+	2 genomes: One we have known genes one we don't, but we can know unknown genes through comparison -> we compare ortholog and homolog genes
+
+Comparison matrix
+		Sp1	Sp2	Sp3		
+	G1	1	0	1		Species 1 has gene 1 in common with species 3
+	G2	1	1	0		Species 1 has gene 2 in common with species 2
+	G3	0	1	0		
+
+Use this comparison for distance matrix (Jaccard index, hamming distance, etc)
+	Hamming: count difference (how many time 1 gene appears that the other does not)
+	Mutual intersection: In how many species these genes are present together
+	Jaccard: Calculates overlap (more overlap= more similarity between profiles)
+
+Systematically present together/absent genes tend to be involved in the same biological processes
+
+Phylogenetic use:
+	
+	Gene	Species   Target
+	A 	P P N P P P
+	B	P P N P P P
+	C	P P N P P P
+	X	P P N P P P Unknowun gene
+
+	Gene X probably is in the same pathways/complexes than ABC
+
+Complimentary profiles tend to have same biogenetic function (same function)
+	1	0	1	1	0	1
+	0	1	0	0	1	0
+
+
+Convergence: can happen in genomes and phenomes
+	Drift
+	Natural selection
+	Constraints
+
+	Can be used to predict genes and pathways
+
+	Coevolution at sequence level
+		Compensatory mutation:  A-]}B
+					B-]}A 
+				A gets mutated into B and B into A, so nothing is lost, they are differents seqs but with the same function
+				
+				Can also happen to proteins
+	
+Parallel/convergent evolution
+	Convergent substitution: A>A>G>T
+				   |		T comes from A and G
+				   T	   
+	Parallel substitution:   A>A>A>A>T
+				   |		T comes from A and A
+				   T
+	Divergent substitution:   A>A>C>A>T
+				   |		No the same base
+				   G
+
+
