@@ -1,4 +1,4 @@
-# Bioinfo_share
+# Bioinfo_share 3d Term
 
 This repository is to be used for sharing and working in community in projects and assignments
 
